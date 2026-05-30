@@ -1,259 +1,600 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avista — Private Villas · Vourvourou, Halkidiki</title>
-<meta name="description" content="Avista — two private luxury villas where the pine forest meets the Aegean, in Vourvourou, Sithonia.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Marcellus&family=Mulish:wght@300;400;500&family=Tenor+Sans&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="avista.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Avista | Private Villas · Vourvourou, Halkidiki</title>
+    <meta
+      name="description"
+      content="Compare Avista Villa and Avista Private Resort, two private villas in Vourvourou, Sithonia, with pools, sea views, garden space and personal enquiry."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Marcellus&family=Mulish:wght@300;400;500&family=Tenor+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="avista.css" />
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+        @media (max-width: 880px) {
+          .nav {
+            position: absolute;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            color: #fff;
+          }
+          .nav-links,
+          .nav-links.right {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+          .brand {
+            order: -1;
+            width: 100%;
+          }
+          .nav-menu-btn {
+            display: none;
+          }
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- ============ NAV ============ -->
-<header class="nav" id="nav">
-  <nav class="nav-links left">
-    <a class="nav-link" href="#villas">The Villas</a>
-    <a class="nav-link" href="#gallery">Gallery</a>
-    <a class="nav-link" href="#experience">Experience</a>
-  </nav>
-  <a class="brand" href="#top">Avista</a>
-  <nav class="nav-links right">
-    <a class="nav-link" href="#location">Location</a>
-    <a class="nav-link" href="#enquire">Enquire</a>
-  </nav>
-  <div class="nav-menu-btn">Menu</div>
-</header>
+    <!-- ============ NAV ============ -->
+    <header class="nav" id="nav">
+      <nav class="nav-links left" aria-label="Primary navigation">
+        <a class="nav-link" href="#villas">Villas</a>
+        <a class="nav-link" href="#gallery">Photos</a>
+        <a class="nav-link" href="#experience">Stay</a>
+      </nav>
+      <a class="brand" href="#top">Avista</a>
+      <nav class="nav-links right" aria-label="Secondary navigation">
+        <a class="nav-link" href="#location">Location</a>
+        <a class="nav-link" href="#enquire">Enquire</a>
+      </nav>
+      <button
+        class="nav-menu-btn"
+        type="button"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+        data-nav-toggle
+      >
+        Menu
+      </button>
+    </header>
+    <nav
+      class="mobile-panel"
+      id="mobile-nav"
+      aria-label="Mobile navigation"
+      hidden
+    >
+      <a class="mobile-nav-link" href="#villas">Villas</a>
+      <a class="mobile-nav-link" href="#gallery">Photos</a>
+      <a class="mobile-nav-link" href="#experience">Stay</a>
+      <a class="mobile-nav-link" href="#location">Location</a>
+      <a class="mobile-nav-link" href="#enquire">Enquire</a>
+    </nav>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="top" data-layout="bottom">
-  <div class="hero-media">
-    <img src="https://drive.google.com/thumbnail?id=1C1ivZyEUIdx_6ZUqoaO581xCytFIIePR&sz=w1600" alt="Avista at golden hour above the bay">
-  </div>
-  <div class="hero-meta">
-    <span>Vourvourou · Sithonia</span>
-    <span>Halkidiki · Greece</span>
-  </div>
-  <div class="hero-inner">
-    <div>
-      <span class="eyebrow">Two private villas by the Aegean</span>
-      <h1 class="hero-title">Where the pine forest <em>meets</em> the sea.</h1>
-    </div>
-    <div>
-      <p class="hero-sub">A pair of architect-designed villas above the quiet bays of Vourvourou — barefoot luxury, total privacy, and the slow rhythm of Sithonia.</p>
-      <div class="hero-actions">
-        <button class="play" data-film aria-label="Watch the film">
-          <span class="ring"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span>
-          Watch the film
-        </button>
-        <a class="btn on-img" href="#villas">Discover the villas <span class="ln"></span></a>
-      </div>
-    </div>
-  </div>
-  <div class="hero-scroll"><span>Scroll</span><span class="bar"></span></div>
-</section>
-
-<!-- ============ INTRO ============ -->
-<section class="section intro wrap">
-  <span class="eyebrow center reveal">The Collection</span>
-  <p class="lead reveal d1">Two distinct houses, one shoreline. Avista is a private retreat for those who want the whole place to themselves.</p>
-  <div class="rule reveal d1"></div>
-  <p class="statement reveal d2">Set among Aleppo pines on the Sithonia peninsula, the villas look out over the sheltered waters of Vourvourou and the scattered islets of Diaporos. Each is offered exclusively — your family, your guests, and no one else.</p>
-</section>
-
-<!-- ============ THE VILLAS ============ -->
-<section class="section bg-2" id="villas">
-  <div class="wrap">
-
-    <!-- Villa I -->
-    <div class="villa reveal">
-      <div class="villa-media">
-        <div class="villa-figure">
-          <img src="https://drive.google.com/thumbnail?id=1zxKG-EikLeeVgnQT7C3yDFCiWFbZWcFb&sz=w1600" alt="Avista Villa illuminated at dusk">
+    <main id="main" tabindex="-1">
+      <!-- ============ HERO ============ -->
+      <section class="hero" id="top" data-layout="bottom">
+        <div class="hero-media">
+          <img
+            src="https://drive.google.com/thumbnail?id=1C1ivZyEUIdx_6ZUqoaO581xCytFIIePR&sz=w1600"
+            alt="Avista villa terrace above Vourvourou bay at golden hour"
+          />
         </div>
-        <div class="villa-inset">
-          <img src="https://drive.google.com/thumbnail?id=1f2Hl6gE5ePQ8ORXA1f2vgKiuons3Y5Wt&sz=w1000" alt="Bedroom interior">
+        <div class="hero-meta">
+          <span>Vourvourou · Sithonia</span>
+          <span>Halkidiki · Greece</span>
+        </div>
+        <div class="hero-inner">
+          <div>
+            <p class="hero-kicker">Two private villas by the Aegean</p>
+            <h1 class="hero-title">
+              Where the pine forest <em>meets</em> the sea.
+            </h1>
+          </div>
+          <div>
+            <p class="hero-sub">
+              Choose between a sea-facing architectural villa and a garden
+              estate, each booked for one group at a time above Vourvourou's
+              quiet bays.
+            </p>
+            <div class="hero-actions">
+              <button
+                class="play"
+                type="button"
+                data-film
+                aria-label="View the estate film"
+              >
+                <span class="ring"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M5 3l16 9-16 9z" /></svg
+                ></span>
+                View the film
+              </button>
+              <a class="btn on-img" href="#villas"
+                >Compare the villas <span class="ln"></span
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-scroll">
+          <span>Scroll</span><span class="bar"></span>
+        </div>
+      </section>
+
+      <!-- ============ INTRO ============ -->
+      <section class="section intro wrap">
+        <p class="lead reveal d1">
+          Two distinct villas, one private estate. Avista is for guests who want
+          the whole place to themselves.
+        </p>
+        <div class="rule reveal d1"></div>
+        <p class="statement reveal d2">
+          Set among Aleppo pines on the Sithonia peninsula, the villas look out
+          over the sheltered waters of Vourvourou and the islets of Diaporos.
+          Each villa is booked for one group, so the pool, terrace, garden and
+          view are yours for the stay.
+        </p>
+      </section>
+
+      <!-- ============ THE VILLAS ============ -->
+      <section class="section bg-2" id="villas">
+        <div class="wrap">
+          <!-- Villa I -->
+          <div class="villa reveal">
+            <div class="villa-media">
+              <div class="villa-figure">
+                <img
+                  src="https://drive.google.com/thumbnail?id=1zxKG-EikLeeVgnQT7C3yDFCiWFbZWcFb&sz=w1600"
+                  alt="Avista Villa terrace and pool illuminated at dusk"
+                />
+              </div>
+              <div class="villa-inset">
+                <img
+                  src="https://drive.google.com/thumbnail?id=1f2Hl6gE5ePQ8ORXA1f2vgKiuons3Y5Wt&sz=w1000"
+                  alt="Avista Villa bedroom with warm evening light"
+                />
+              </div>
+            </div>
+            <div class="villa-body">
+              <span class="villa-num">I</span>
+              <span class="villa-tag">Sea-facing architectural villa</span>
+              <h2 class="h-villa">Avista Villa</h2>
+              <p class="villa-desc">
+                For groups who want a contemporary layout, wide sea views
+                and a pool that sits level with the horizon. Living, kitchen and
+                terraces stay open to the water throughout the day.
+              </p>
+              <div class="villa-stats">
+                <div class="stat">
+                  <div class="n">5</div>
+                  <div class="l">Bedrooms</div>
+                </div>
+                <div class="stat">
+                  <div class="n">10</div>
+                  <div class="l">Guests</div>
+                </div>
+                <div class="stat">
+                  <div class="n">∞</div>
+                  <div class="l">Infinity pool</div>
+                </div>
+                <div class="stat">
+                  <div class="n">Wide</div>
+                  <div class="l">Sea views</div>
+                </div>
+              </div>
+              <a class="btn" href="avista-villa.html"
+                >View Avista Villa <span class="ln"></span
+              ></a>
+            </div>
+          </div>
+
+          <div
+            class="rule h reveal"
+            style="margin-block: clamp(56px, 8vw, 120px)"
+          ></div>
+
+          <!-- Villa II -->
+          <div class="villa flip reveal">
+            <div class="villa-media">
+              <div class="villa-figure">
+                <img
+                  src="https://drive.google.com/thumbnail?id=1XhtkDphyEiVtFLS1lwY00UjYFZ_rHXzz&sz=w1600"
+                  alt="Avista Private Resort garden and pool from the air"
+                />
+              </div>
+              <div class="villa-inset">
+                <img
+                  src="https://drive.google.com/thumbnail?id=1g0V5m8RdBQK5Dsd4SthN0HAgoMU_TdE-&sz=w1000"
+                  alt="Mature garden planting at Avista Private Resort"
+                />
+              </div>
+            </div>
+            <div class="villa-body">
+              <span class="villa-num">II</span>
+              <span class="villa-tag">Garden estate for larger groups</span>
+              <h2 class="h-villa">Avista Private Resort</h2>
+              <p class="villa-desc">
+                For larger families or two-household stays that need more
+                bedrooms, garden space and shaded places to gather. The pool,
+                BBQ terrace and walled garden keep the day centered outside.
+              </p>
+              <div class="villa-stats">
+                <div class="stat">
+                  <div class="n">6</div>
+                  <div class="l">Bedrooms</div>
+                </div>
+                <div class="stat">
+                  <div class="n">12</div>
+                  <div class="l">Guests</div>
+                </div>
+                <div class="stat">
+                  <div class="n">1,200</div>
+                  <div class="l">m² garden</div>
+                </div>
+                <div class="stat">
+                  <div class="n">BBQ</div>
+                  <div class="l">Terrace</div>
+                </div>
+              </div>
+              <a class="btn" href="avista-private-resort.html"
+                >View Avista Private Resort <span class="ln"></span
+              ></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ GALLERY ============ -->
+      <section class="section deep" id="gallery">
+        <div class="gallery-head">
+          <div class="reveal">
+            <h2 class="h-section">Photos from<br />both villas.</h2>
+          </div>
+          <p class="body-muted reveal d1">
+            Pool terraces, garden shade, sea-facing rooms and evening light
+            across both properties. Drag to browse. Tap any photo to open it
+            full screen.
+          </p>
+        </div>
+        <div class="carousel-wrap reveal d1">
+          <div class="carousel" id="carousel">
+            <button
+              class="card l h1"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1eZYXwFVMugoaMpkgQryMHJuT_jhw4zIu&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1eZYXwFVMugoaMpkgQryMHJuT_jhw4zIu&sz=w1200"
+                alt="Villa terrace lit at twilight"
+              />
+            </button>
+            <button
+              class="card p h2"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1xNNYkMD-AOt10v5bKM8oY9iNpvEVJjzZ&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1xNNYkMD-AOt10v5bKM8oY9iNpvEVJjzZ&sz=w1200"
+                alt="Living room with sea-facing glass doors"
+              />
+            </button>
+            <button
+              class="card s h3"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1oaPnkWAxBx8OCCyG3HEF-_UabIuomfZp&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1oaPnkWAxBx8OCCyG3HEF-_UabIuomfZp&sz=w1200"
+                alt="Pool terrace with loungers"
+              />
+            </button>
+            <button
+              class="card p h4"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1VOvgkhsh08gOuYJJZ4wCOYZK8zSxvYUd&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1VOvgkhsh08gOuYJJZ4wCOYZK8zSxvYUd&sz=w1200"
+                alt="Shaded garden beside the villa"
+              />
+            </button>
+            <button
+              class="card l h1"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1lFayHlO_qKNhK4-1hTGJiOHajwQt01dq&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1lFayHlO_qKNhK4-1hTGJiOHajwQt01dq&sz=w1200"
+                alt="Bedroom prepared for guests"
+              />
+            </button>
+            <button
+              class="card s h2"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1X7xcdN45zk2EE54czezdF6Z6X9uW9a2C&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1X7xcdN45zk2EE54czezdF6Z6X9uW9a2C&sz=w1200"
+                alt="Aerial view of the estate and coastline"
+              />
+            </button>
+            <button
+              class="card p h3"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1X37XXEFj-5cn0vCMWBJFFWmQQikozw_6&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1X37XXEFj-5cn0vCMWBJFFWmQQikozw_6&sz=w1200"
+                alt="Kitchen and dining area for private meals"
+              />
+            </button>
+            <button
+              class="card l h5"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=1E48ynxIG1lHqwbbKgX8iIxSM6O9nyCK_&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=1E48ynxIG1lHqwbbKgX8iIxSM6O9nyCK_&sz=w1200"
+                alt="Private Resort pool and terrace"
+              />
+            </button>
+            <button
+              class="card p h4"
+              type="button"
+              data-full="https://drive.google.com/thumbnail?id=10KniJ82vbBVA-Wnip3BBlUyU_IbHwqy-&sz=w2000"
+            >
+              <img
+                src="https://drive.google.com/thumbnail?id=10KniJ82vbBVA-Wnip3BBlUyU_IbHwqy-&sz=w1200"
+                alt="Interior hallway leading to bedrooms"
+              />
+            </button>
+          </div>
+        </div>
+        <div class="carousel-ctrl reveal">
+          <span class="car-hint">Drag to browse · tap to open</span>
+        </div>
+      </section>
+
+      <!-- ============ EXPERIENCE ============ -->
+      <section class="section bg-2" id="experience">
+        <div class="wrap exp">
+          <div class="exp-figure reveal">
+            <img
+              src="https://drive.google.com/thumbnail?id=1PO1bNhPKVr1VXKB_sDR4IU7GvWs8BrMX&sz=w1200"
+              alt="Guest suite with living area and bedroom"
+            />
+          </div>
+          <div class="reveal d1">
+            <p class="section-note">
+              Services are arranged by request, before or during your stay.
+            </p>
+            <h2 class="h-section" style="margin-top: 1.1rem">
+              What can be<br />arranged.
+            </h2>
+            <ol class="exp-list">
+              <li>
+                <span class="ix">Pool</span>
+                <div>
+                  <div class="et">Pool setup &amp; sun terrace</div>
+                  <div class="ed">
+                    Loungers, shaded daybeds and outdoor showers set for pool
+                    days.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <span class="ix">Table</span>
+                <div>
+                  <div class="et">Private chef &amp; in-villa dining</div>
+                  <div class="ed">
+                    Greek breakfast, casual lunches or a longer evening table,
+                    arranged by request.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <span class="ix">Care</span>
+                <div>
+                  <div class="et">Concierge &amp; daily housekeeping</div>
+                  <div class="ed">
+                    Transfers, boat days to Diaporos and discreet daily care for
+                    the house.
+                  </div>
+                </div>
+              </li>
+              <li>
+                <span class="ix">Suite</span>
+                <div>
+                  <div class="et">Accessible ground-floor suite</div>
+                  <div class="ed">
+                    A step-free bedroom and wet room for guests who need easier
+                    access.
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ LOCATION ============ -->
+      <section class="section deep" id="location">
+        <div class="wrap loc">
+          <div class="reveal">
+            <h2 class="h-section">Vourvourou,<br />Sithonia.</h2>
+            <p class="body-muted" style="margin-top: 1.6rem">
+              Vourvourou sits on Sithonia's eastern coast, where pine trees meet
+              sheltered water and the islets of Diaporos sit just offshore. It
+              is quiet, shallow and easy for families, with tavernas and small
+              beaches close by.
+            </p>
+            <div class="loc-facts">
+              <div class="loc-fact">
+                <div class="n">90 min</div>
+                <div class="l">From Thessaloniki airport</div>
+              </div>
+              <div class="loc-fact">
+                <div class="n">200 m</div>
+                <div class="l">To nearest beach</div>
+              </div>
+              <div class="loc-fact">
+                <div class="n">9</div>
+                <div class="l">Bays of Vourvourou</div>
+              </div>
+              <div class="loc-fact">
+                <div class="n">Diaporos</div>
+                <div class="l">Island offshore</div>
+              </div>
+            </div>
+          </div>
+          <div class="loc-figure reveal d1">
+            <img
+              src="https://drive.google.com/thumbnail?id=1E2SlxZVtFpLs6WUHuLBv0pmZXolmTdRm&sz=w1200"
+              alt="Aerial view of Vourvourou bay and Diaporos islets"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CTA ============ -->
+      <section class="cta" id="enquire">
+        <div class="cta-media">
+          <img
+            src="https://drive.google.com/thumbnail?id=1q811rBV_QDjA0reduxxDbzAddoYyviVW&sz=w1600"
+            alt="Avista terrace and pool lighting at night"
+          />
+        </div>
+        <div class="cta-inner reveal">
+          <h2
+            class="display"
+            style="color: #fff; font-size: clamp(2.6rem, 6vw, 5rem)"
+          >
+            Ask about availability<br />at Avista.
+          </h2>
+          <p
+            class="hero-sub"
+            style="text-align: center; color: rgba(255, 255, 255, 0.85)"
+          >
+            Send your preferred dates, group size and which villa you are
+            considering. We will reply with availability, rates and the details
+            that matter for your stay.
+          </p>
+          <a class="btn on-img solid" href="mailto:stay@avista.gr"
+            >Send an enquiry</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="foot">
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="brand-lg">Avista</div>
+            <p class="foot-col" style="margin-top: 1.2rem; max-width: 34ch">
+              Two private villas in Vourvourou, where pine shade meets the
+              Aegean. Sithonia, Halkidiki, Greece.
+            </p>
+          </div>
+          <div class="foot-col">
+            <h4>Explore</h4>
+            <a href="#villas">Villas</a>
+            <a href="#gallery">Photos</a>
+            <a href="#experience">Stay</a>
+            <a href="#location">Location</a>
+          </div>
+          <div class="foot-col">
+            <h4>Contact</h4>
+            <a href="mailto:stay@avista.gr">stay@avista.gr</a>
+            <p>Include dates, group size and preferred villa.</p>
+            <p>Vourvourou 630 78<br />Halkidiki, Greece</p>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© 2026 Avista Villas</span>
+          <span>Vourvourou · Sithonia · Halkidiki</span>
         </div>
       </div>
-      <div class="villa-body">
-        <span class="villa-num">I</span>
-        <span class="villa-tag">The architect's villa</span>
-        <h2 class="h-villa">Avista Villa</h2>
-        <p class="villa-desc">Clean lines, walls of glass and a horizon-edge pool that dissolves into the bay. A contemporary house built for light — open living that flows from kitchen to terrace to water.</p>
-        <div class="villa-stats">
-          <div class="stat"><div class="n">5</div><div class="l">Bedrooms</div></div>
-          <div class="stat"><div class="n">10</div><div class="l">Guests</div></div>
-          <div class="stat"><div class="n">∞</div><div class="l">Edge pool</div></div>
-          <div class="stat"><div class="n">360°</div><div class="l">Sea views</div></div>
-        </div>
-        <a class="btn" href="avista-villa.html">Explore Avista Villa <span class="ln"></span></a>
+    </footer>
+
+    <!-- ============ LIGHTBOX ============ -->
+    <div
+      class="lb"
+      id="lb"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Avista photo gallery"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <button
+        class="x"
+        type="button"
+        data-close-lightbox
+        aria-label="Close photo gallery"
+      >
+        Close
+      </button>
+      <button class="nav-arrow prev" type="button" aria-label="Previous image">
+        ‹
+      </button>
+      <img
+        src="https://drive.google.com/thumbnail?id=1eZYXwFVMugoaMpkgQryMHJuT_jhw4zIu&sz=w1200"
+        alt="Selected Avista photo"
+      />
+      <button class="nav-arrow next" type="button" aria-label="Next image">
+        ›
+      </button>
+    </div>
+
+    <!-- ============ VIDEO MODAL ============ -->
+    <div
+      class="modal"
+      id="film"
+      data-src="https://drive.google.com/file/d/1K1lpUHufT-ImoCSl2V4z7R1Sx9nqoH1t/preview"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Avista estate film"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <button
+        class="x"
+        type="button"
+        data-close-film
+        aria-label="Close estate film"
+      >
+        Close
+      </button>
+      <div class="frame">
+        <iframe
+          title="Avista estate film"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          src=""
+        ></iframe>
       </div>
     </div>
 
-    <div class="rule h reveal" style="margin-block:clamp(56px,8vw,120px)"></div>
-
-    <!-- Villa II -->
-    <div class="villa flip reveal">
-      <div class="villa-media">
-        <div class="villa-figure">
-          <img src="https://drive.google.com/thumbnail?id=1XhtkDphyEiVtFLS1lwY00UjYFZ_rHXzz&sz=w1600" alt="Avista Private Resort from the air">
-        </div>
-        <div class="villa-inset">
-          <img src="https://drive.google.com/thumbnail?id=1g0V5m8RdBQK5Dsd4SthN0HAgoMU_TdE-&sz=w1000" alt="Mature gardens">
-        </div>
-      </div>
-      <div class="villa-body">
-        <span class="villa-num">II</span>
-        <span class="villa-tag">The garden estate</span>
-        <h2 class="h-villa">Avista Private Resort</h2>
-        <p class="villa-desc">A mature, walled garden wrapping a generous pool, shaded patios and a built-in BBQ. The softer, greener sister — made for long lunches, family summers and golden evenings under the olive trees.</p>
-        <div class="villa-stats">
-          <div class="stat"><div class="n">6</div><div class="l">Bedrooms</div></div>
-          <div class="stat"><div class="n">12</div><div class="l">Guests</div></div>
-          <div class="stat"><div class="n">1.2k</div><div class="l">m² gardens</div></div>
-          <div class="stat"><div class="n">2</div><div class="l">Terraces</div></div>
-        </div>
-        <a class="btn" href="avista-private-resort.html">Explore the Resort <span class="ln"></span></a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ============ GALLERY — peek carousel ============ -->
-<section class="section deep" id="gallery">
-  <div class="gallery-head">
-    <div class="reveal">
-      <span class="eyebrow">Gallery</span>
-      <h2 class="h-section" style="margin-top:1.1rem">A closer look<br>at both houses.</h2>
-    </div>
-    <p class="body-muted reveal d1">From horizon pools to pine-shaded gardens — a glimpse of life at Avista. Drag, or tap any image to view it full screen.</p>
-  </div>
-  <div class="carousel-wrap reveal d1">
-    <div class="carousel" id="carousel">
-      <div class="card l h1" data-full="https://drive.google.com/thumbnail?id=1eZYXwFVMugoaMpkgQryMHJuT_jhw4zIu&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1eZYXwFVMugoaMpkgQryMHJuT_jhw4zIu&sz=w1200" alt="Villa at twilight"></div>
-      <div class="card p h2" data-full="https://drive.google.com/thumbnail?id=1xNNYkMD-AOt10v5bKM8oY9iNpvEVJjzZ&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1xNNYkMD-AOt10v5bKM8oY9iNpvEVJjzZ&sz=w1200" alt="Living room"></div>
-      <div class="card s h3" data-full="https://drive.google.com/thumbnail?id=1oaPnkWAxBx8OCCyG3HEF-_UabIuomfZp&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1oaPnkWAxBx8OCCyG3HEF-_UabIuomfZp&sz=w1200" alt="Pool area"></div>
-      <div class="card p h4" data-full="https://drive.google.com/thumbnail?id=1VOvgkhsh08gOuYJJZ4wCOYZK8zSxvYUd&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1VOvgkhsh08gOuYJJZ4wCOYZK8zSxvYUd&sz=w1200" alt="Garden"></div>
-      <div class="card l h1" data-full="https://drive.google.com/thumbnail?id=1lFayHlO_qKNhK4-1hTGJiOHajwQt01dq&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1lFayHlO_qKNhK4-1hTGJiOHajwQt01dq&sz=w1200" alt="Bedroom"></div>
-      <div class="card s h2" data-full="https://drive.google.com/thumbnail?id=1X7xcdN45zk2EE54czezdF6Z6X9uW9a2C&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1X7xcdN45zk2EE54czezdF6Z6X9uW9a2C&sz=w1200" alt="Aerial view"></div>
-      <div class="card p h3" data-full="https://drive.google.com/thumbnail?id=1X37XXEFj-5cn0vCMWBJFFWmQQikozw_6&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1X37XXEFj-5cn0vCMWBJFFWmQQikozw_6&sz=w1200" alt="Kitchen"></div>
-      <div class="card l h5" data-full="https://drive.google.com/thumbnail?id=1E48ynxIG1lHqwbbKgX8iIxSM6O9nyCK_&sz=w2000"><img src="https://drive.google.com/thumbnail?id=1E48ynxIG1lHqwbbKgX8iIxSM6O9nyCK_&sz=w1200" alt="Resort pool"></div>
-      <div class="card p h4" data-full="https://drive.google.com/thumbnail?id=10KniJ82vbBVA-Wnip3BBlUyU_IbHwqy-&sz=w2000"><img src="https://drive.google.com/thumbnail?id=10KniJ82vbBVA-Wnip3BBlUyU_IbHwqy-&sz=w1200" alt="Hallway"></div>
-    </div>
-  </div>
-  <div class="carousel-ctrl reveal">
-    <span class="car-hint">Drag to explore · hover to pause</span>
-  </div>
-</section>
-
-<!-- ============ EXPERIENCE ============ -->
-<section class="section bg-2" id="experience">
-  <div class="wrap exp">
-    <div class="exp-figure reveal">
-      <img src="https://drive.google.com/thumbnail?id=1PO1bNhPKVr1VXKB_sDR4IU7GvWs8BrMX&sz=w1200" alt="Living and bedroom suite">
-    </div>
-    <div class="reveal d1">
-      <span class="eyebrow">The Experience</span>
-      <h2 class="h-section" style="margin-top:1.1rem">Everything taken<br>care of.</h2>
-      <ol class="exp-list">
-        <li><span class="ix">01</span><div><div class="et">Infinity pool &amp; sun terrace</div><div class="ed">Heated pools with loungers, shaded daybeds and an outdoor shower.</div></div></li>
-        <li><span class="ix">02</span><div><div class="et">Private chef &amp; in-villa dining</div><div class="ed">From a Greek breakfast to a long evening table, arranged on request.</div></div></li>
-        <li><span class="ix">03</span><div><div class="et">Concierge &amp; daily housekeeping</div><div class="ed">Transfers, boat days to Diaporos, and a team that stays out of sight.</div></div></li>
-        <li><span class="ix">04</span><div><div class="et">Step-free, accessible suite</div><div class="ed">A ground-floor room and wet-room designed for easy, equal access.</div></div></li>
-      </ol>
-    </div>
-  </div>
-</section>
-
-<!-- ============ LOCATION ============ -->
-<section class="section deep" id="location">
-  <div class="wrap loc">
-    <div class="reveal">
-      <span class="eyebrow">The Setting</span>
-      <h2 class="h-section" style="margin-top:1.1rem">Vourvourou,<br>Sithonia.</h2>
-      <p class="body-muted" style="margin-top:1.6rem">A string of nine small bays on the middle finger of Halkidiki, edged with pine and looking out to the green islets of Diaporos. Calm, shallow water; a handful of tavernas; and some of the clearest sea in the Aegean.</p>
-      <div class="loc-facts">
-        <div class="loc-fact"><div class="n">90'</div><div class="l">From Thessaloniki airport</div></div>
-        <div class="loc-fact"><div class="n">200m</div><div class="l">To the nearest beach</div></div>
-        <div class="loc-fact"><div class="n">9</div><div class="l">Bays of Vourvourou</div></div>
-        <div class="loc-fact"><div class="n">Diaporos</div><div class="l">Island, just offshore</div></div>
-      </div>
-    </div>
-    <div class="loc-figure reveal d1">
-      <img src="https://drive.google.com/thumbnail?id=1E2SlxZVtFpLs6WUHuLBv0pmZXolmTdRm&sz=w1200" alt="Aerial view of the bay">
-    </div>
-  </div>
-</section>
-
-<!-- ============ CTA ============ -->
-<section class="cta" id="enquire">
-  <div class="cta-media">
-    <img src="https://drive.google.com/thumbnail?id=1q811rBV_QDjA0reduxxDbzAddoYyviVW&sz=w1600" alt="Avista at night">
-  </div>
-  <div class="cta-inner reveal">
-    <span class="eyebrow center">Stay with us</span>
-    <h2 class="display" style="color:#fff;font-size:clamp(2.6rem,6vw,5rem)">Reserve your<br>season at Avista.</h2>
-    <p class="hero-sub" style="text-align:center;color:rgba(255,255,255,.85)">Now taking enquiries for summer. Tell us your dates and which house calls to you.</p>
-    <a class="btn on-img solid" href="/cdn-cgi/l/email-protection#c5b6b1a4bc85a4b3acb6b1a4eba2b7">Enquire now</a>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="brand-lg">Avista</div>
-        <p class="foot-col" style="margin-top:1.2rem;max-width:34ch">Two private villas where the pines meet the Aegean. Vourvourou, Sithonia · Halkidiki, Greece.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Explore</h4>
-        <a href="#villas">The Villas</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#experience">Experience</a>
-        <a href="#location">Location</a>
-      </div>
-      <div class="foot-col">
-        <h4>Contact</h4>
-        <a href="/cdn-cgi/l/email-protection#b9cacdd8c0f9d8cfd0cacdd897decb"><span class="__cf_email__" data-cfemail="e59691849ca584938c969184cb8297">[email&#160;protected]</span></a>
-        <a href="tel:+30000000000">+30 000 000 000</a>
-        <p>Vourvourou 630 78<br>Halkidiki, Greece</p>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 Avista Villas</span>
-      <span>Vourvourou · Sithonia · Halkidiki</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ============ LIGHTBOX ============ -->
-<div class="lb" id="lb">
-  <div class="x">Close ✕</div>
-  <div class="nav-arrow prev">‹</div>
-  <img alt="">
-  <div class="nav-arrow next">›</div>
-</div>
-
-<!-- ============ VIDEO MODAL ============ -->
-<div class="modal" id="film" data-src="https://drive.google.com/file/d/1K1lpUHufT-ImoCSl2V4z7R1Sx9nqoH1t/preview">
-  <div class="x">Close ✕</div>
-  <div class="frame"><iframe allow="autoplay; fullscreen" allowfullscreen src=""></iframe></div>
-</div>
-
-<div id="tweaks-root"></div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="avista.js"></script>
-
-<!-- Tweaks -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="avista-tweaks.jsx"></script>
-
-</body>
+    <script src="avista.js"></script>
+  </body>
 </html>
