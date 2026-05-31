@@ -14,18 +14,23 @@
 
 <!-- NAV -->
 <header class="nav" id="nav">
-  <nav class="nav-links left">
-    <a class="nav-link" href="index.html#villas">The Villas</a>
-    <a class="nav-link" href="#gallery">Gallery</a>
-    <a class="nav-link" href="#experience">Experience</a>
+  <nav class="nav-links left" aria-label="Primary navigation">
+    <a class="nav-link" href="avista-villa.html">Avista Villa</a>
+    <a class="nav-link" href="avista-private-resort.html">Private Resort</a>
   </nav>
   <a class="brand" href="index.html">Avista</a>
-  <nav class="nav-links right">
-    <a class="nav-link" href="#location">Location</a>
-    <a class="nav-link" href="#enquire">Enquire</a>
+  <nav class="nav-links right" aria-label="Secondary navigation">
+    <a class="nav-link" href="location.html">Location</a>
+    <a class="nav-link" href="/cdn-cgi/l/email-protection#3b484f5a427b5a4d52484f5a155c49">Enquire</a>
   </nav>
-  <div class="nav-menu-btn">Menu</div>
+  <button class="nav-menu-btn" type="button" aria-controls="mobile-nav" aria-expanded="false" data-nav-toggle>Menu</button>
 </header>
+<nav class="mobile-panel" id="mobile-nav" aria-label="Mobile navigation" hidden>
+  <a class="mobile-nav-link" href="avista-villa.html">Avista Villa</a>
+  <a class="mobile-nav-link" href="avista-private-resort.html">Private Resort</a>
+  <a class="mobile-nav-link" href="location.html">Location</a>
+  <a class="mobile-nav-link" href="/cdn-cgi/l/email-protection#f78483968eb796819e848396d99085">Enquire</a>
+</nav>
 
 <!-- HERO -->
 <section class="hero page" id="top" data-layout="bottom">
