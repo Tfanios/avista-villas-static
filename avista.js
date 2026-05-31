@@ -145,17 +145,9 @@
     });
   });
 
-  var carousel = document.getElementById("carousel");
-  var origCards = carousel ? [].slice.call(carousel.querySelectorAll(".card")) : [];
-  var galleryItems = origCards.map(function(c, i){
-    var img = c.querySelector("img");
-    var alt = img && img.alt ? img.alt : "Avista gallery image";
-    c.dataset.idx = i;
-    c.setAttribute("aria-label", "Open gallery image: " + alt);
-    return {src:c.getAttribute("data-full") || (img ? img.src : ""), alt:alt};
-  });
   var lb = document.getElementById("lb");
   var lbImg = lb ? lb.querySelector("img") : null;
+  var galleryItems = [];
   var cur = 0;
 
   function show(i){
@@ -183,15 +175,13 @@
     if(restoreFocus !== false && lastDialogFocus && document.contains(lastDialogFocus)) lastDialogFocus.focus();
   }
 
-  var down = false;
-  var moved = false;
-  var startX = 0;
-  var startScroll = 0;
-  var locked = false;
-  var setW = 0;
-  var suppressClick = false;
+  // Shared infinite drag-to-scroll carousel. Used by the gallery (cards open the
+  // lightbox) and the reviews slider (onCardActivate omitted, so cards do nothing).
+  function initCarousel(carousel, onCardActivate){
+    var origCards = [].slice.call(carousel.querySelectorAll(".card"));
+    if(!origCards.length) return;
+    var down = false, moved = false, startX = 0, startScroll = 0, locked = false, setW = 0, suppressClick = false;
 
-  if(carousel && origCards.length){
     var before = document.createDocumentFragment();
     var after = document.createDocumentFragment();
     function cloneCard(c){
@@ -263,9 +253,26 @@
         e.preventDefault();
         return;
       }
-      openLb(Number(card.dataset.idx) || 0);
+      if(onCardActivate) onCardActivate(card);
     });
   }
+
+  var gallery = document.getElementById("carousel");
+  if(gallery){
+    galleryItems = [].slice.call(gallery.querySelectorAll(".card")).map(function(c, i){
+      var img = c.querySelector("img");
+      var alt = img && img.alt ? img.alt : "Avista gallery image";
+      c.dataset.idx = i;
+      c.setAttribute("aria-label", "Open gallery image: " + alt);
+      return {src:c.getAttribute("data-full") || (img ? img.src : ""), alt:alt};
+    });
+    initCarousel(gallery, function(card){ openLb(Number(card.dataset.idx) || 0); });
+  }
+
+  [].slice.call(document.querySelectorAll(".carousel")).forEach(function(el){
+    if(el === gallery) return;
+    initCarousel(el, null);
+  });
 
   if(lb){
     var lbClose = lb.querySelector("[data-close-lightbox]");

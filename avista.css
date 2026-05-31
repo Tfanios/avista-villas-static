@@ -322,6 +322,36 @@ em,.it{font-style:italic}
   .card.h1,.card.h2,.card.h3,.card.h4,.card.h5{height:88%;align-self:center}
 }
 
+/* ---- reviews slider (reuses .carousel / .card mechanics) ---- */
+.carousel.reviews{height:auto;align-items:stretch;cursor:grab;padding-block:10px}
+.review-card{
+  width:clamp(290px,30vw,400px);height:auto;cursor:default;
+  background:#FBF8F1;border:1px solid var(--line-soft);
+  padding:clamp(28px,2.6vw,40px);
+  display:flex;flex-direction:column;gap:1.25rem;
+  box-shadow:0 22px 44px -34px rgba(20,18,14,.5)}
+.review-card:hover,.review-card:focus-visible{transform:translateY(-2px)}
+.review-card::after{content:none}
+.deep .review-card{background:color-mix(in oklab,var(--on-deep) 6%,var(--deep));border-color:color-mix(in oklab,var(--on-deep) 14%,transparent)}
+.rev-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.rev-logo{display:inline-flex;align-items:center;gap:.5em}
+.rev-logo svg{height:21px;width:auto;display:block;flex:0 0 auto}
+.rev-logo-text{font-family:var(--font-sans);font-weight:500;font-size:1.02rem;color:#5f6368}
+.deep .rev-logo-text{color:color-mix(in oklab,var(--on-deep) 80%,transparent)}
+.rev-stars{color:#f5a623;font-size:.95rem;letter-spacing:2px;white-space:nowrap}
+.rev-score{display:inline-flex;align-items:center;justify-content:center;
+  background:#003580;color:#fff;font-family:var(--font-sans);font-weight:600;
+  font-size:.92rem;border-radius:7px 7px 7px 0;padding:.4em .55em;min-width:2.5em}
+.rev-quote{font-family:var(--font-display);font-weight:360;
+  font-size:clamp(1.08rem,1.5vw,1.3rem);line-height:1.5;letter-spacing:-.003em;
+  color:var(--ink);margin:0;flex:1 0 auto}
+.deep .rev-quote{color:var(--on-deep)}
+.rev-by{display:flex;flex-direction:column;gap:.18rem;margin-top:auto}
+.rev-name{font-family:var(--font-sans);font-weight:500;font-size:.92rem;color:var(--ink)}
+.deep .rev-name{color:var(--on-deep)}
+.rev-meta{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.deep .rev-meta{color:color-mix(in oklab,var(--on-deep) 60%,transparent)}
+
 /* ============================================================ EXPERIENCE */
 .exp{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,110px);align-items:center}
 .exp-figure{overflow:hidden;aspect-ratio:3/4;background:var(--bg-2);border-radius:var(--radius)}
