@@ -21,7 +21,7 @@
   </nav>
   <a class="brand" href="index.html">Avista</a>
   <nav class="nav-links right" aria-label="Secondary navigation">
-    <a class="nav-link" href="location.html">Location</a>
+    <a class="nav-link" href="location.html">Location</a> <span class="nav-weather" data-weather hidden aria-label="Current weather in Vourvourou"><span class="nav-weather-ic" aria-hidden="true"></span><span class="nav-weather-temp"></span></span>
     <a class="nav-link" href="/cdn-cgi/l/email-protection#3b484f5a427b5a4d52484f5a155c49">Enquire</a>
   </nav>
   <button class="nav-menu-btn" type="button" aria-controls="mobile-nav" aria-expanded="false" data-nav-toggle>Menu</button>
@@ -29,7 +29,7 @@
 <nav class="mobile-panel" id="mobile-nav" aria-label="Mobile navigation" hidden>
   <a class="mobile-nav-link" href="avista-villa.html">Avista Villa</a>
   <a class="mobile-nav-link" href="avista-private-resort.html">Private Resort</a>
-  <a class="mobile-nav-link" href="location.html">Location</a>
+  <a class="mobile-nav-link" href="location.html">Location</a> <span class="nav-weather mobile" data-weather hidden aria-label="Current weather in Vourvourou"><span class="nav-weather-ic" aria-hidden="true"></span><span class="nav-weather-temp"></span></span>
   <a class="mobile-nav-link" href="/cdn-cgi/l/email-protection#f78483968eb796819e848396d99085">Enquire</a>
 </nav>
 
@@ -43,8 +43,7 @@
     <img src="assets/avista-villa/hero-aerial.jpg" alt="Avista Villa from the air">
   </div>
   <div class="hero-meta">
-    <span><a href="index.html" style="color:inherit">← Avista</a></span>
-    <span>Villa One</span>
+    <span>Avista Villa</span>
   </div>
   <div class="hero-inner">
     <div>
@@ -65,74 +64,54 @@
   <div class="hero-scroll"><span>Scroll</span><span class="bar"></span></div>
 </section>
 
-<!-- OVERVIEW -->
-<section class="section wrap">
-  <div class="overview">
-    <div class="reveal">
-      <p class="lead">A house built for light, and for long days by the water.</p>
-    </div>
-    <div class="reveal d1">
-      <p class="body-muted" style="max-width:52ch">Set into the hillside above Vourvourou, Avista Villa opens completely to the view. Living spaces flow without walls from the kitchen to the terrace to the edge of the pool, where the water meets the horizon. Five bedrooms, each with its own character; a ground-floor suite designed for easy, step-free access; and the quiet of the pines all around.</p>
-      <div class="pagestats">
-        <div class="stat"><div class="n">5</div><div class="l">Bedrooms</div></div>
-        <div class="stat"><div class="n">10</div><div class="l">Guests</div></div>
-        <div class="stat"><div class="n">∞</div><div class="l">Edge pool</div></div>
-        <div class="stat"><div class="n">360°</div><div class="l">Sea views</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SPACES -->
-<section class="section bg-2">
+<!-- THE HOUSE -->
+<section class="section bg-2" id="spaces">
   <div class="wrap">
-
-    <div class="villa reveal">
-      <div class="villa-media"><div class="villa-figure"><img src="assets/avista-villa/living-room.jpg" alt="Living room"></div></div>
-      <div class="villa-body">
-        <span class="villa-tag">The living spaces</span>
-        <h2 class="h-villa" style="font-size:clamp(1.9rem,3.6vw,3.1rem);margin:.7rem 0 0">Open to the view, wall to wall.</h2>
-        <p class="villa-desc">A single, flowing living level where glass slides away and the inside becomes the terrace. Soft, low furniture, natural materials, and the sea always in frame.</p>
-        <ul class="feature-points"><li>Floor-to-ceiling glass</li><li>Indoor–outdoor living</li><li>Sea-facing lounge</li><li>Dining for ten</li></ul>
+    <div class="loc">
+      <div class="reveal">
+        <span class="eyebrow no-rule">The house</span>
+        <h2 class="h-section" style="margin-top:1.1rem">A house built<br>for light.</h2>
+        <p class="body-muted" style="margin-top:1.6rem">Set into the hillside above Vourvourou, Avista Villa opens completely to the view. Living spaces flow without walls to the edge of the pool, where the water meets the horizon — and five bedrooms, including a step-free ground-floor suite, sit in the quiet of the pines.</p>
+      </div>
+      <div class="loc-figure reveal d1">
+        <img src="assets/avista-villa/pool-terrace.jpg" alt="Avista Villa pool and terrace at the horizon's edge">
       </div>
     </div>
 
-    <div class="rule h reveal" style="margin-block:clamp(48px,7vw,104px)"></div>
-
-    <div class="villa flip reveal">
-      <div class="villa-media"><div class="villa-figure"><img src="assets/avista-villa/bedroom.jpg" alt="Bedroom"></div></div>
-      <div class="villa-body">
-        <span class="villa-tag">The bedrooms</span>
-        <h2 class="h-villa" style="font-size:clamp(1.9rem,3.6vw,3.1rem);margin:.7rem 0 0">Five rooms, five moods.</h2>
-        <p class="villa-desc">Each bedroom is its own retreat, with calm palettes, generous beds and morning light off the water. A ground-floor suite and wet-room are designed for fully step-free access.</p>
-        <ul class="feature-points"><li>5 en-suite bedrooms</li><li>Accessible ground-floor suite</li><li>Sea & garden views</li><li>Blackout & climate control</li></ul>
+    <div class="amenity-grid reveal d1">
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 14h18M3 18v2M21 18v2"/><path d="M7 10V8a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/></svg></span>
+        <div><div class="amenity-t">5 bedrooms</div><div class="amenity-d">Each en-suite, including a step-free ground-floor suite.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3"/><path d="M22 19v-1a4 4 0 0 0-3-3.87"/><path d="M16 4.13A4 4 0 0 1 16 11.87"/></svg></span>
+        <div><div class="amenity-t">Sleeps 10</div><div class="amenity-d">Comfortable for a family or group of ten.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 6c2 0 2 1.4 4 1.4S8 6 10 6s2 1.4 4 1.4S16 6 18 6s2 1.4 4 1.4"/><path d="M2 12c2 0 2 1.4 4 1.4S8 12 10 12s2 1.4 4 1.4S16 12 18 12s2 1.4 4 1.4"/><path d="M2 18c2 0 2 1.4 4 1.4S8 18 10 18s2 1.4 4 1.4S16 18 18 18s2 1.4 4 1.4"/></svg></span>
+        <div><div class="amenity-t">Infinity edge pool</div><div class="amenity-d">A heated, horizon-edge pool the length of the terrace.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <div><div class="amenity-t">360° sea views</div><div class="amenity-d">The Aegean in frame from nearly every room.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></span>
+        <div><div class="amenity-t">Walls of glass</div><div class="amenity-d">Floor-to-ceiling glass; inside and terrace become one.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 2v7a2 2 0 0 0 4 0V2"/><path d="M5 9v13"/><path d="M19 2c-1.66 0-3 2.69-3 6 0 2.5.9 4.5 2 5v9h2V2z"/></svg></span>
+        <div><div class="amenity-t">Chef-ready kitchen</div><div class="amenity-d">A full kitchen and a long table for slow dinners.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></span>
+        <div><div class="amenity-t">Air-conditioned</div><div class="amenity-d">Blackout and climate control throughout.</div></div>
+      </div>
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span>
+        <div><div class="amenity-t">Fast Wi-Fi</div><div class="amenity-d">Reliable connection across the house.</div></div>
       </div>
     </div>
-
-    <div class="rule h reveal" style="margin-block:clamp(48px,7vw,104px)"></div>
-
-    <div class="villa reveal">
-      <div class="villa-media"><div class="villa-figure"><img src="assets/avista-villa/pool-terrace.jpg" alt="Pool and terrace"></div></div>
-      <div class="villa-body">
-        <span class="villa-tag">The outdoors</span>
-        <h2 class="h-villa" style="font-size:clamp(1.9rem,3.6vw,3.1rem);margin:.7rem 0 0">An edge that meets the sea.</h2>
-        <p class="villa-desc">The horizon-edge pool runs the length of the terrace, with loungers, shaded daybeds and an outdoor shower. Below, a private path leads down toward the bay.</p>
-        <ul class="feature-points"><li>Heated infinity pool</li><li>Sun terrace & daybeds</li><li>Outdoor shower</li><li>Path to the water</li></ul>
-      </div>
-    </div>
-
-    <div class="rule h reveal" style="margin-block:clamp(48px,7vw,104px)"></div>
-
-    <div class="villa flip reveal">
-      <div class="villa-media"><div class="villa-figure"><img src="assets/avista-villa/kitchen.jpg" alt="Kitchen"></div></div>
-      <div class="villa-body">
-        <span class="villa-tag">Kitchen &amp; dining</span>
-        <h2 class="h-villa" style="font-size:clamp(1.9rem,3.6vw,3.1rem);margin:.7rem 0 0">Made for the long table.</h2>
-        <p class="villa-desc">A fully equipped kitchen for the chef who joins you on request, and a long table that runs from indoors out to the terrace for late, slow dinners.</p>
-        <ul class="feature-points"><li>Chef-ready kitchen</li><li>Indoor & terrace dining</li><li>Wine fridge</li><li>Espresso bar</li></ul>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -229,22 +208,6 @@
     </div>
   </div>
   <div class="carousel-ctrl reveal"><span class="car-hint">Drag to explore · Booking.com &amp; Google</span></div>
-</section>
-
-<!-- EXPERIENCE -->
-<section class="section bg-2" id="experience">
-  <div class="wrap exp">
-    <div class="exp-figure reveal"><img src="assets/avista-villa/suite.jpg" alt="Suite"></div>
-    <div class="reveal d1">
-      <h2 class="h-section">Everything taken<br>care of.</h2>
-      <ol class="exp-list">
-        <li><span class="ix">01</span><div><div class="et">Private chef &amp; dining</div><div class="ed">From a Greek breakfast to a long evening table, on request.</div></div></li>
-        <li><span class="ix">02</span><div><div class="et">Daily housekeeping</div><div class="ed">A team that keeps the house perfect and stays out of sight.</div></div></li>
-        <li><span class="ix">03</span><div><div class="et">Concierge &amp; transfers</div><div class="ed">Airport transfers, boat days and reservations arranged for you.</div></div></li>
-        <li><span class="ix">04</span><div><div class="et">Step-free, accessible suite</div><div class="ed">A ground-floor room and wet-room designed for equal access.</div></div></li>
-      </ol>
-    </div>
-  </div>
 </section>
 
 <!-- LOCATION -->

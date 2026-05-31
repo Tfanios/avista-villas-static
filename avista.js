@@ -329,3 +329,48 @@
     }
   });
 })();
+
+/* ---- live weather widget (Vourvourou) ---- */
+(function(){
+  var nodes = document.querySelectorAll("[data-weather]");
+  if(!nodes.length || !window.fetch) return;
+
+  var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">';
+  var ICONS = {
+    sun:    S + '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+    part:   S + '<circle cx="8.5" cy="7.5" r="2.6"/><path d="M8.5 2.7v1.1M4.4 7.5H3.3M5.6 4.6l-.8-.8M12.2 4.6l-.8-.8"/><path d="M17 20H9.5A4.2 4.2 0 0 1 9 11.7 5 5 0 0 1 18.6 13 3.4 3.4 0 0 1 17 20z"/></svg>',
+    cloud:  S + '<path d="M17.5 19H8a4.5 4.5 0 0 1 .3-9A6 6 0 0 1 20 11.5a3.75 3.75 0 0 1-2.5 7.5z"/></svg>',
+    fog:    S + '<path d="M17.5 13H8a4.5 4.5 0 0 1 .3-9A6 6 0 0 1 20 5.5a3.75 3.75 0 0 1-2.5 7.5z"/><path d="M5 18h14M7 21h10"/></svg>',
+    rain:   S + '<path d="M17.5 15H8a4.5 4.5 0 0 1 .3-9A6 6 0 0 1 20 7.5a3.75 3.75 0 0 1-2.5 7.5z"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2"/></svg>',
+    snow:   S + '<path d="M17.5 14H8a4.5 4.5 0 0 1 .3-9A6 6 0 0 1 20 6.5a3.75 3.75 0 0 1-2.5 7.5z"/><path d="M8 19h.01M12 20h.01M16 19h.01M10 18h.01M14 18h.01"/></svg>',
+    storm:  S + '<path d="M17.5 13H8a4.5 4.5 0 0 1 .3-9A6 6 0 0 1 20 5.5a3.75 3.75 0 0 1-2.5 7.5z"/><path d="M12 13l-2 4h3l-2 4"/></svg>'
+  };
+
+  function pick(code){
+    if(code === 0) return ["sun","Clear"];
+    if(code === 1 || code === 2) return ["part","Partly cloudy"];
+    if(code === 3) return ["cloud","Overcast"];
+    if(code === 45 || code === 48) return ["fog","Fog"];
+    if(code >= 51 && code <= 67) return ["rain","Rain"];
+    if(code >= 71 && code <= 77) return ["snow","Snow"];
+    if(code >= 80 && code <= 82) return ["rain","Showers"];
+    if(code === 85 || code === 86) return ["snow","Snow showers"];
+    if(code >= 95) return ["storm","Thunderstorm"];
+    return ["cloud","Cloudy"];
+  }
+
+  var url = "https://api.open-meteo.com/v1/forecast?latitude=40.1969&longitude=23.7761&current=temperature_2m,weather_code&timezone=auto";
+  fetch(url).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    if(!d || !d.current || typeof d.current.temperature_2m !== "number") return;
+    var t = Math.round(d.current.temperature_2m);
+    var info = pick(d.current.weather_code);
+    nodes.forEach(function(n){
+      var ic = n.querySelector(".nav-weather-ic");
+      var tm = n.querySelector(".nav-weather-temp");
+      if(ic) ic.innerHTML = ICONS[info[0]] || ICONS.cloud;
+      if(tm) tm.textContent = t + "°";
+      n.setAttribute("aria-label", "Vourvourou: " + info[1] + ", " + t + "°C");
+      n.hidden = false;
+    });
+  }).catch(function(){ /* offline / blocked — leave widget hidden */ });
+})();
