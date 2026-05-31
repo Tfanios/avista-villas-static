@@ -7,6 +7,17 @@
   var scrollLocks = 0;
   var lastDialogFocus = null;
 
+  document.querySelectorAll("[data-hero-video]").forEach(function(video){
+    video.addEventListener("error", function(){
+      video.hidden = true;
+    }, true);
+
+    if(reduceMotion){
+      video.removeAttribute("autoplay");
+      try{ video.pause(); }catch(err){}
+    }
+  });
+
   function lockScroll(){
     scrollLocks += 1;
     document.body.style.overflow = "hidden";

@@ -9,3 +9,6 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# local media
+AVR.mp4
