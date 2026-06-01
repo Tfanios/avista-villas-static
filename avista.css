@@ -220,6 +220,7 @@ em,.it{font-style:italic}
   display:flex;justify-content:space-between;gap:20px;
   padding:clamp(96px,12vh,140px) var(--gut) 0;
   font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.hero-meta .hero-weather{margin-left:auto}
 .hero-scroll{position:absolute;left:50%;bottom:26px;z-index:3;transform:translateX(-50%);
   font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.7);
   display:flex;flex-direction:column;align-items:center;gap:10px}
