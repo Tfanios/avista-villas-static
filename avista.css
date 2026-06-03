@@ -496,3 +496,51 @@ em,.it{font-style:italic}
 .crosslink:hover .crosslink-figure img{transform:scale(1.018)}
 .crosslink.flip .crosslink-figure{order:2}
 @media(max-width:760px){.crosslink,.crosslink.flip .crosslink-figure{grid-template-columns:1fr;order:0}.crosslink-figure{aspect-ratio:16/10}}
+
+/* ============================================================ ENQUIRY FORM
+   Estate-cream layering: page (--bg) > form panel (--bg-2) > input wells (#FBF8F1).
+   1px soft rules, rounded fields, visible brass focus ring. See DESIGN.md §5. */
+.enquiry{align-items:start}
+.enquiry-contacts{margin-top:clamp(28px,4vw,46px);display:grid;gap:1.5rem;
+  padding-top:clamp(26px,3vw,38px);border-top:1px solid var(--line)}
+.enquiry-contact dt{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:500;margin-bottom:.35rem}
+.enquiry-contact dd{margin:0;font-family:var(--font-display);font-size:1.32rem;
+  font-weight:360;line-height:1.32;color:var(--ink)}
+.enquiry-contact a{transition:color .3s var(--ease)}
+.enquiry-contact a:hover,.enquiry-contact a:focus-visible{color:var(--accent)}
+
+.enquiry-form{display:grid;gap:1.15rem;background:var(--bg-2);
+  border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:clamp(24px,3vw,40px)}
+.field{display:grid;gap:.5rem;min-width:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem}
+.enquiry-form label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:500}
+.enquiry-form label .opt{text-transform:none;letter-spacing:0;font-weight:400;opacity:.7}
+.control{width:100%;font:inherit;font-size:1rem;color:var(--ink);
+  background:#FBF8F1;border:1px solid var(--line);border-radius:11px;
+  padding:.85em 1em;line-height:1.4;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
+.control::placeholder{color:var(--ink-soft);opacity:.85}
+.control:hover{border-color:color-mix(in oklab,var(--ink) 30%,transparent)}
+.control:focus{outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 26%,transparent)}
+textarea.control{resize:vertical;min-height:128px}
+select.control{-webkit-appearance:none;appearance:none;cursor:pointer;padding-right:2.6em;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%235C5347' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 1.05em center;background-size:.72em}
+.form-note{font-size:.78rem;color:var(--ink-soft);line-height:1.5;margin:.1rem 0 0;max-width:46ch}
+.enquiry-form .btn.solid{justify-self:start;margin-top:.4rem}
+.form-status{margin:.3rem 0 0;font-size:.92rem;line-height:1.5;color:var(--ink);
+  background:color-mix(in oklab,var(--accent) 12%,var(--bg));
+  border:1px solid color-mix(in oklab,var(--accent) 40%,transparent);
+  border-radius:11px;padding:.85em 1em}
+.form-status[hidden]{display:none}
+.form-status:focus{outline:none}
+/* honeypot: off-screen, never shown to people */
+.hp{position:absolute!important;left:-9999px!important;top:auto;width:1px;height:1px;overflow:hidden}
+@media(max-width:520px){
+  .field-row{grid-template-columns:1fr}
+  .enquiry-form .btn.solid{justify-self:stretch;justify-content:center}
+}

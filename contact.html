@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Avista | Enquire · Vourvourou, Halkidiki</title>
+    <meta
+      name="description"
+      content="Enquire about a private stay at Avista — two villas above the bays of Vourvourou, Sithonia. Share your dates and group size and we will reply personally."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Marcellus&family=Mulish:wght@300;400;500&family=Tenor+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="avista.css" />
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- NAV -->
+    <header class="nav" id="nav">
+      <nav class="nav-links left" aria-label="Primary navigation">
+        <a class="nav-link" href="avista-villa.html">Avista Villa</a>
+        <a class="nav-link" href="avista-private-resort.html">Private Resort</a>
+      </nav>
+      <a class="brand" href="index.html">Avista</a>
+      <nav class="nav-links right" aria-label="Secondary navigation">
+        <a class="nav-link" href="location.html">Location</a>
+        <a class="nav-link" href="contact.html" aria-current="page">Enquire</a>
+      </nav>
+      <button
+        class="nav-menu-btn"
+        type="button"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+        data-nav-toggle
+      >
+        Menu
+      </button>
+    </header>
+    <nav
+      class="mobile-panel"
+      id="mobile-nav"
+      aria-label="Mobile navigation"
+      hidden
+    >
+      <a class="mobile-nav-link" href="avista-villa.html">Avista Villa</a>
+      <a class="mobile-nav-link" href="avista-private-resort.html"
+        >Private Resort</a
+      >
+      <a class="mobile-nav-link" href="location.html">Location</a>
+      <a class="mobile-nav-link" href="contact.html" aria-current="page"
+        >Enquire</a
+      >
+    </nav>
+
+    <main id="main" tabindex="-1">
+      <!-- HERO -->
+      <section class="hero page" id="top" data-layout="bottom">
+        <div class="hero-media">
+          <img
+            src="assets/avista-villa/terrace-dusk.jpg"
+            alt="Avista Villa terrace and pool at dusk above Vourvourou bay"
+          />
+        </div>
+        <div class="hero-meta">
+          <span
+            class="nav-weather hero-weather"
+            data-weather
+            hidden
+            aria-label="Current weather in Vourvourou"
+            ><span class="nav-weather-ic" aria-hidden="true"></span
+            ><span class="nav-weather-temp"></span
+          ></span>
+        </div>
+        <div class="hero-inner">
+          <div>
+            <p class="hero-kicker">Enquiries · Vourvourou</p>
+            <h1 class="hero-title">
+              Begin the <em>conversation</em>.
+            </h1>
+          </div>
+          <div>
+            <p class="hero-sub">
+              Tell us your dates, your group and which villa draws you. We reply
+              personally with availability, rates and the details that matter
+              for your stay.
+            </p>
+          </div>
+        </div>
+        <div class="hero-scroll">
+          <span>Scroll</span><span class="bar"></span>
+        </div>
+      </section>
+
+      <!-- ENQUIRY -->
+      <section class="section wrap">
+        <div class="loc enquiry">
+          <!-- Left: invitation + contact details -->
+          <div class="reveal">
+            <h2 class="h-section">Send an<br />enquiry.</h2>
+            <p class="body-muted" style="margin-top: 1.6rem">
+              Avista is booked one group at a time, so every stay begins with a
+              short conversation. Share a few details below and we will come back
+              to you by email, usually within a day.
+            </p>
+
+            <dl class="enquiry-contacts">
+              <div class="enquiry-contact">
+                <dt>Email</dt>
+                <dd><a href="mailto:stay@avista.gr">stay@avista.gr</a></dd>
+              </div>
+              <div class="enquiry-contact">
+                <dt>Phone</dt>
+                <dd><a href="tel:+30000000000">+30 000 000 000</a></dd>
+              </div>
+              <div class="enquiry-contact">
+                <dt>Estate</dt>
+                <dd>Vourvourou 630 78<br />Sithonia · Halkidiki, Greece</dd>
+              </div>
+            </dl>
+          </div>
+
+          <!-- Right: enquiry form -->
+          <div class="reveal d1">
+            <!--
+              MIGRATION NOTE (Astro + Payload):
+              This form posts to the future `/api/enquiry` endpoint backed by the
+              Payload `enquiries` collection. On the current static site there is
+              no backend, so the inline script at the foot of this page intercepts
+              the submit and shows a local confirmation. See ASTRO-PAYLOAD-MIGRATION.md.
+            -->
+            <form
+              class="enquiry-form"
+              action="/api/enquiry"
+              method="post"
+              data-enquiry-form
+              novalidate
+            >
+              <!-- Honeypot: hidden from people, tempting to bots. Leave empty. -->
+              <div class="hp" aria-hidden="true">
+                <label for="company">Company</label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="field">
+                <label for="name">Full name</label>
+                <input
+                  class="control"
+                  type="text"
+                  id="name"
+                  name="name"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input
+                    class="control"
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="phone">Phone <span class="opt">(optional)</span></label>
+                  <input
+                    class="control"
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    autocomplete="tel"
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="property">Preferred villa</label>
+                <select class="control" id="property" name="property">
+                  <option value="either">Either villa / not sure yet</option>
+                  <option value="avista-villa">Avista Villa</option>
+                  <option value="avista-private-resort">
+                    Avista Private Resort
+                  </option>
+                </select>
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="arrival">Arrival</label>
+                  <input
+                    class="control"
+                    type="date"
+                    id="arrival"
+                    name="arrival"
+                  />
+                </div>
+                <div class="field">
+                  <label for="departure">Departure</label>
+                  <input
+                    class="control"
+                    type="date"
+                    id="departure"
+                    name="departure"
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="guests">Group size</label>
+                <input
+                  class="control"
+                  type="number"
+                  id="guests"
+                  name="guests"
+                  min="1"
+                  max="16"
+                  inputmode="numeric"
+                  placeholder="e.g. 8"
+                />
+              </div>
+
+              <div class="field">
+                <label for="message">Your stay</label>
+                <textarea
+                  class="control"
+                  id="message"
+                  name="message"
+                  rows="5"
+                  placeholder="Tell us a little about your group and what you are looking for."
+                  required
+                ></textarea>
+              </div>
+
+              <p class="form-note">
+                We use your details only to reply to this enquiry. No marketing,
+                no sharing.
+              </p>
+
+              <button class="btn solid" type="submit">Send enquiry</button>
+
+              <p
+                class="form-status"
+                role="status"
+                aria-live="polite"
+                tabindex="-1"
+                hidden
+              >
+                Thank you — your enquiry is on its way. We will reply by email
+                shortly.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHERE WE ARE -->
+      <section class="section bg-2" id="map">
+        <div class="wrap">
+          <div
+            class="gallery-head"
+            style="margin-bottom: clamp(28px, 4vw, 52px); padding-inline: 0"
+          >
+            <div class="reveal">
+              <h2 class="h-section">Where we<br />are.</h2>
+            </div>
+            <p class="body-muted reveal d1">
+              The villas sit above the bays of Vourvourou on the middle finger of
+              Halkidiki, about ninety minutes by road from Thessaloniki airport,
+              with the islets of Diaporos just offshore.
+            </p>
+          </div>
+          <div
+            class="reveal d1"
+            style="
+              overflow: hidden;
+              border-radius: var(--radius);
+              aspect-ratio: 16/9;
+              background: var(--bg);
+              box-shadow: 0 18px 36px -30px rgba(20, 18, 14, 0.45);
+            "
+          >
+            <iframe
+              title="Map of Vourvourou, Sithonia, Halkidiki"
+              src="https://www.google.com/maps?q=Vourvourou,%20Sithonia,%20Halkidiki,%20Greece&z=12&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              style="
+                width: 100%;
+                height: 100%;
+                border: 0;
+                display: block;
+                filter: grayscale(0.18) contrast(1.02);
+              "
+            ></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="foot">
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="brand-lg">Avista</div>
+            <p class="foot-col" style="margin-top: 1.2rem; max-width: 34ch">
+              Two private villas in Vourvourou, where pine shade meets the
+              Aegean. Sithonia, Halkidiki, Greece.
+            </p>
+          </div>
+          <div class="foot-col">
+            <h4>Explore</h4>
+            <a href="avista-villa.html">Avista Villa</a>
+            <a href="avista-private-resort.html">Private Resort</a>
+            <a href="location.html">Location</a>
+            <a href="contact.html">Enquire</a>
+          </div>
+          <div class="foot-col">
+            <h4>Contact</h4>
+            <a href="mailto:stay@avista.gr">stay@avista.gr</a>
+            <a href="tel:+30000000000">+30 000 000 000</a>
+            <p>Vourvourou 630 78<br />Halkidiki, Greece</p>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© 2026 Avista Villas</span>
+          <span>Vourvourou · Sithonia · Halkidiki</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="avista.js"></script>
+    <script>
+      /* Placeholder enquiry submit — static site has no backend yet.
+         MIGRATION: replace the marked block with a real POST to Payload/Astro. */
+      (function () {
+        var form = document.querySelector("[data-enquiry-form]");
+        if (!form) return;
+        var status = form.querySelector(".form-status");
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Honeypot filled → silently drop (likely a bot).
+          var hp = form.querySelector("[name='company']");
+          if (hp && hp.value) return;
+
+          // Native validation for required / email / number fields.
+          if (!form.reportValidity()) return;
+
+          // ----- MIGRATION: swap the block below for the real submit -----
+          // var data = new FormData(form);
+          // fetch(form.action, { method: "POST", body: data })
+          //   .then(function (r) { if (!r.ok) throw new Error(r.status); })
+          //   .then(function () { /* show success */ })
+          //   .catch(function () { /* show error */ });
+          // ---------------------------------------------------------------
+
+          if (status) {
+            status.hidden = false;
+            status.focus();
+          }
+          form.reset();
+        });
+      })();
+    </script>
+  </body>
+</html>
