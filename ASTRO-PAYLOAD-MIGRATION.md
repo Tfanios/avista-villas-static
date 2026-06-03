@@ -55,21 +55,32 @@
         └─────────── POST /api/enquiry ◀───────────┘
 ```
 
-Recommended shape (Payload **3.x**, which runs on Next.js):
+**Chosen shape (everything on Cloudflare):** Astro **SSG** front end on Cloudflare Pages +
+**Payload 3.x hosted on Cloudflare Workers**.
 
-- **Payload** = headless content backend + admin. Hosted where Node + a database can run
-  (Payload Cloud, Railway, Render, Fly, or a VPS). **Cloudflare static assets cannot run Payload.**
-- **Astro** front end consumes Payload over its REST API (`/api/<collection>`) or GraphQL.
-  Two valid modes:
-  - **SSG** (recommended first): Astro fetches at build time and outputs static HTML to
-    Cloudflare Pages. Re-deploy on publish via a Payload `afterChange` webhook → Cloudflare deploy hook.
-    Keeps the fast static hosting you have today.
-  - **SSR**: add `@astrojs/node` or `@astrojs/cloudflare` and fetch per request (needed only if
-    you want instant content updates without a rebuild).
-- **Enquiry form** posts to an Astro API route (`src/pages/api/enquiry.ts`) that forwards to
-  Payload's `enquiries` collection (REST `POST /api/enquiries` or the Local API in SSR/monorepo).
+- **Payload** runs as a Cloudflare **Worker**. Payload 3 is a Next.js app, deployed to Workers via
+  the **OpenNext** Cloudflare adapter (`@opennextjs/cloudflare`). It serves the admin UI and the
+  REST/GraphQL content API.
+  - **Database:** Cloudflare **D1** (SQLite) via `@payloadcms/db-sqlite` — the Cloudflare-native
+    choice, bound to the Worker. (Outgrow it? Postgres via Cloudflare **Hyperdrive** or Neon's HTTP
+    driver. **MongoDB is not a fit on Workers.**)
+  - **Media:** Cloudflare **R2** via `@payloadcms/storage-s3` (R2 is S3-compatible). You already use
+    R2 for the hero video, so this keeps every asset in one place.
+  - **Email (optional · undecided):** the enquiry *notification* needs an **HTTP email adapter**
+    (Resend/Postmark/SendGrid) — Workers can't send SMTP. **Not a blocker:** every enquiry is saved
+    to the `enquiries` collection and readable in the admin regardless; email is just a heads-up you
+    can switch on later.
+- **Astro** front end is **static** (`output: 'static'`), built on Cloudflare **Pages**. It fetches
+  Payload over REST (`/api/<collection>`) or GraphQL **at build time** and emits plain HTML — the
+  same fast static hosting you have today. Rebuild on content publish via a Payload `afterChange`
+  webhook → Cloudflare Pages **deploy hook**.
+- **Enquiry form** (no SSR server in pure SSG): post to a small **Cloudflare Pages Function**
+  (`functions/api/enquiry.ts`) that forwards to Payload's public `enquiries` create endpoint — keeps
+  the call same-origin and runs the honeypot/spam check server-side. (Simplest alternative: POST the
+  form **directly** to the Payload Worker's `POST /api/enquiries` with CORS enabled, since
+  enquiry-create is public.)
 
-> Decisions to confirm before coding are collected in [§10](#10-open-decisions).
+> Remaining content/config decisions are in [§10](#10-open-decisions).
 
 ## 4. Content model → Payload collections & globals
 
@@ -193,17 +204,17 @@ export type IconKey =
 
 ## 5. Enquiry submissions (closing the contact-form loop)
 
-The contact form already targets `POST /api/enquiry`. Implement that route in Astro to forward to Payload:
+The contact form already targets `POST /api/enquiry`. Because the front end is **static SSG**,
+implement that route as a **Cloudflare Pages Function** on the Astro deployment, which forwards to
+the Payload Worker (`PAYLOAD_URL` is a Pages env var):
 
 ```ts
-// src/pages/api/enquiry.ts  (Astro endpoint)
-import type { APIRoute } from 'astro';
-
-export const POST: APIRoute = async ({ request }) => {
+// functions/api/enquiry.ts  (Cloudflare Pages Function — Worker runtime)
+export const onRequestPost: PagesFunction<{ PAYLOAD_URL: string }> = async ({ request, env }) => {
   const form = await request.formData();
   if (form.get('company')) return new Response(null, { status: 204 }); // honeypot → drop
 
-  const payload = {
+  const body = {
     name: form.get('name'),
     email: form.get('email'),
     phone: form.get('phone') || undefined,
@@ -214,23 +225,23 @@ export const POST: APIRoute = async ({ request }) => {
     message: form.get('message'),
   };
 
-  const res = await fetch(`${import.meta.env.PAYLOAD_URL}/api/enquiries`, {
+  const res = await fetch(`${env.PAYLOAD_URL}/api/enquiries`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
 
-  return new Response(JSON.stringify({ ok: res.ok }), {
-    status: res.ok ? 200 : 502,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return Response.json({ ok: res.ok }, { status: res.ok ? 200 : 502 });
 };
 ```
 
-Then swap the contact page's placeholder block for a real `fetch` (the inline script in
-`contact.html` is marked with a `MIGRATION:` comment showing exactly where).
+Then swap the contact page's placeholder block for a real
+`fetch('/api/enquiry', { method: 'POST', body: new FormData(form) })` (the inline script in
+`contact.html` is marked with a `MIGRATION:` comment showing exactly where). *Pure-static alternative
+(no function):* POST straight to `${PAYLOAD_URL}/api/enquiries` with CORS enabled on Payload.
 
-Email notification via a Payload collection hook:
+Email notification via a Payload collection hook (configure an **HTTP email adapter** first — Workers
+can't send SMTP):
 
 ```ts
 // inside the `enquiries` collection config
@@ -314,7 +325,8 @@ map query on each page/property, weather coords on `siteSettings`).
 
 ## 9. Suggested migration order
 
-1. **Scaffold Payload** (`npx create-payload-app`), choose DB (§10), add the collections/globals above.
+1. **Scaffold Payload** (`npx create-payload-app`) with the **SQLite/D1** adapter and **R2** storage,
+   add the collections/globals above, and target Workers via `@opennextjs/cloudflare`.
 2. **Seed content** from the current HTML (2 properties, ~12 reviews, amenities, galleries, facts,
    services, globals). A one-off seed script that reads the existing pages can speed this up.
 3. **Upload media** to the `media` collection (or keep `assets/**` static for v1), preserving `alt` text.
@@ -324,30 +336,32 @@ map query on each page/property, weather coords on `siteSettings`).
    placeholder block in the form script.
 7. **Parity pass:** diff each Astro page against its HTML counterpart (layout, copy, focus states,
    reduced-motion, WCAG AA — see `PRODUCT.md` accessibility targets).
-8. **Deploy:** Payload to its Node host; Astro to Cloudflare Pages (SSG) with a Payload→Cloudflare
-   deploy-hook on publish, or SSR if chosen.
-9. **Retire** the static `.html` files and `wrangler.jsonc` static-assets config.
+8. **Deploy:** Payload → Cloudflare **Workers** (D1 + R2) via OpenNext; Astro **SSG** → Cloudflare
+   **Pages**, with a Payload `afterChange` → Pages **deploy-hook** to rebuild on publish.
+9. **Retire** the static `.html` files and the current static-assets `wrangler.jsonc`.
 
 ## 10. Open decisions
 
-Confirm these with the owner before/while building:
+**Decided:** front end = Astro **SSG** on Cloudflare Pages · Payload = **Cloudflare Workers** (Next
+via OpenNext) · **D1** as the main database · **R2** media. (Future fallback only: Postgres via
+**Hyperdrive**/Neon if the data ever outgrows D1.) Remaining:
 
-1. **Payload database:** Postgres (`@payloadcms/db-postgres`) vs. MongoDB (`@payloadcms/db-mongodb`)
-   vs. SQLite (simplest for small sites). Recommendation: Postgres or SQLite.
-2. **Payload hosting:** Payload Cloud vs. Railway/Render/Fly/VPS (Cloudflare can't host it).
-3. **Front-end rendering:** SSG + rebuild webhook (recommended, keeps Cloudflare static speed) vs. SSR.
-4. **Image storage:** Payload `media` uploads (+ a storage adapter like S3/R2) vs. keep `assets/**` static for v1.
-5. **Real contact phone number** (current `+30 000 000 000` is a placeholder).
-6. **Reviews source of truth:** manual entries (current) vs. a future Booking.com/Google import.
+1. **Email provider — undecided:** which HTTP service sends the enquiry notification (Resend,
+   Postmark, SendGrid…) — Workers can't do SMTP. Not blocking: enquiries land in the admin without it.
+2. **Migrate images to R2 now**, or keep `assets/**` static for v1 and move them later.
+3. **Real contact phone number** (current `+30 000 000 000` is a placeholder).
+4. **Reviews source of truth:** manual entries (current) vs. a future Booking.com/Google import.
 
 ---
 
 ### Quick reference — Payload config skeleton
 
 ```ts
-// payload.config.ts (Payload 3.x)
+// payload.config.ts (Payload 3.x — deployed to Cloudflare Workers via @opennextjs/cloudflare)
 import { buildConfig } from 'payload';
-import { postgresAdapter } from '@payloadcms/db-postgres'; // or db-mongodb / db-sqlite
+import { sqliteAdapter } from '@payloadcms/db-sqlite';      // Cloudflare D1
+import { s3Storage } from '@payloadcms/storage-s3';         // Cloudflare R2 (S3-compatible)
+import { resendAdapter } from '@payloadcms/email-resend';   // HTTP email (no SMTP on Workers)
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
 import { Properties } from './collections/Properties';
@@ -363,9 +377,29 @@ import { ContactPage } from './globals/ContactPage';
 
 export default buildConfig({
   editor: lexicalEditor(),
-  db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URL } }),
+  // Dev: a local libSQL file. Prod: Cloudflare D1 — wire the adapter to the Worker's D1
+  // binding (env.DB) per Payload's SQLite/D1 docs.
+  db: sqliteAdapter({ client: { url: process.env.DATABASE_URL ?? 'file:./avista.db' } }),
   collections: [Properties, Reviews, Enquiries, Media],
   globals: [SiteSettings, Navigation, Footer, Home, LocationPage, ContactPage],
+  // Email provider undecided — Resend shown as a placeholder. Omit this whole block (and the import)
+  // until you pick an HTTP provider; enquiries still save to D1 and show in the admin without it.
+  email: resendAdapter({
+    defaultFromAddress: 'stay@avista.gr',
+    defaultFromName: 'Avista',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
+  plugins: [
+    s3Storage({
+      collections: { media: true },
+      bucket: process.env.R2_BUCKET || 'avista',
+      config: {
+        endpoint: process.env.R2_ENDPOINT,            // https://<account>.r2.cloudflarestorage.com
+        region: 'auto',
+        credentials: { accessKeyId: process.env.R2_KEY!, secretAccessKey: process.env.R2_SECRET! },
+      },
+    }),
+  ],
 });
 ```
 
