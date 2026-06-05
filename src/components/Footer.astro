@@ -1,0 +1,32 @@
+---
+import { footer, siteSettings } from "../data/placeholder";
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand-lg">Avista</div>
+        <p class="foot-col" style="margin-top: 1.2rem; max-width: 34ch">
+          {footer.text}
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        {footer.explore.map((item) => <a href={item.href}>{item.label}</a>)}
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href={`mailto:${siteSettings.contactEmail}`}>{siteSettings.contactEmail}</a>
+        <a href={`tel:${siteSettings.contactPhone.replace(/\s/g, "")}`}>
+          {siteSettings.contactPhone}
+        </a>
+        <p set:html={siteSettings.addressHtml} />
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; {footer.bottomLeft}</span>
+      <span>{footer.bottomRight}</span>
+    </div>
+  </div>
+</footer>

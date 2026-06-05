@@ -1,0 +1,37 @@
+---
+import { locationFacts } from "../data/placeholder";
+
+interface Props {
+  titleHtml: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  deep?: boolean;
+  wrapClass?: string;
+}
+
+const { titleHtml, body, image, imageAlt, deep = false, wrapClass = "wrap loc" } =
+  Astro.props;
+---
+
+<section class={`section${deep ? " deep" : ""}`} id={deep ? "location" : undefined}>
+  <div class={wrapClass}>
+    <div class="reveal">
+      <h2 class="h-section" set:html={titleHtml} />
+      <p class="body-muted" style="margin-top: 1.6rem">{body}</p>
+      <div class="loc-facts">
+        {
+          locationFacts.map((fact) => (
+            <div class="loc-fact">
+              <div class="n">{fact.value}</div>
+              <div class="l">{fact.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="loc-figure reveal d1">
+      <img src={image} alt={imageAlt} />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  currentPath?: string;
+}
+
+const { title, description, currentPath = "" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Marcellus&family=Mulish:wght@300;400;500&family=Tenor+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/avista.css" />
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+        @media (max-width: 880px) {
+          .nav {
+            position: absolute;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            color: #fff;
+          }
+          .nav-links,
+          .nav-links.right {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+          .brand {
+            order: -1;
+            width: 100%;
+          }
+          .nav-menu-btn {
+            display: none;
+          }
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <Nav currentPath={currentPath} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <slot name="overlays" />
+    <script is:inline src="/avista.js"></script>
+    <slot name="after-scripts" />
+  </body>
+</html>

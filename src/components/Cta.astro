@@ -1,0 +1,24 @@
+---
+interface Props {
+  cta: any;
+}
+
+const { cta } = Astro.props;
+---
+
+<section class="cta" id="enquire">
+  <div class="cta-media">
+    <img src={cta.image} alt={cta.imageAlt} />
+  </div>
+  <div class="cta-inner reveal">
+    <h2
+      class="display"
+      style="color: #fff; font-size: clamp(2.6rem, 6vw, 5rem)"
+      set:html={cta.titleHtml}
+    />
+    <p class="hero-sub" style="text-align: center; color: rgba(255, 255, 255, 0.85)">
+      {cta.text}
+    </p>
+    <a class="btn on-img solid" href={cta.href}>{cta.buttonLabel}</a>
+  </div>
+</section>

@@ -10,6 +10,11 @@
 .env*
 !.env.example
 
+# astro / node
+.astro/
+dist/
+node_modules/
+
 # local media
 AVR.mp4
 .ASTRO-PAYLOAD-MIGRATION.md

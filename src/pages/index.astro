@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Cta from "../components/Cta.astro";
+import Gallery from "../components/Gallery.astro";
+import Hero from "../components/Hero.astro";
+import Lightbox from "../components/Lightbox.astro";
+import LocationBlock from "../components/LocationBlock.astro";
+import VideoModal from "../components/VideoModal.astro";
+import VillaFeature from "../components/VillaFeature.astro";
+import { homePage, properties, siteSettings } from "../data/placeholder";
+---
+
+<BaseLayout title={homePage.seo.title} description={homePage.seo.description} currentPath="home">
+  <Hero hero={homePage.hero} />
+
+  <section class="section intro wrap">
+    <p class="lead reveal d1">{homePage.intro.lead}</p>
+    <div class="rule reveal d1"></div>
+    <p class="statement reveal d2">{homePage.intro.statement}</p>
+  </section>
+
+  <section class="section bg-2" id="villas">
+    <div class="wrap">
+      <VillaFeature property={properties[0]} />
+      <div class="rule h reveal" style="margin-block: clamp(56px, 8vw, 120px)"></div>
+      <VillaFeature property={properties[1]} flip />
+    </div>
+  </section>
+
+  <Gallery
+    titleHtml={homePage.galleryTitleHtml}
+    note={homePage.galleryNote}
+    hint={homePage.galleryHint}
+    items={homePage.gallery}
+  />
+
+  <section class="section bg-2" id="experience">
+    <div class="wrap exp">
+      <div class="exp-figure reveal">
+        <img src={homePage.services.image} alt={homePage.services.imageAlt} />
+      </div>
+      <div class="reveal d1">
+        <p class="section-note">{homePage.services.note}</p>
+        <h2 class="h-section" style="margin-top: 1.1rem" set:html={homePage.services.titleHtml} />
+        <ol class="exp-list">
+          {
+            homePage.services.items.map((item) => (
+              <li>
+                <span class="ix">{item.label}</span>
+                <div>
+                  <div class="et">{item.title}</div>
+                  <div class="ed">{item.description}</div>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <LocationBlock
+    titleHtml={homePage.location.titleHtml}
+    body={homePage.location.body}
+    image={homePage.location.image}
+    imageAlt={homePage.location.imageAlt}
+    deep
+  />
+
+  <Cta cta={homePage.cta} />
+
+  <Fragment slot="overlays">
+    <Lightbox label="Avista photo gallery" />
+    <VideoModal src={siteSettings.estateFilmUrl} label="Avista estate film" />
+  </Fragment>
+</BaseLayout>

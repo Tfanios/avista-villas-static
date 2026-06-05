@@ -1,0 +1,26 @@
+---
+interface Props {
+  src: string;
+  label?: string;
+}
+
+const { src, label = "Avista estate film" } = Astro.props;
+---
+
+<div
+  class="modal"
+  id="film"
+  data-src={src}
+  role="dialog"
+  aria-modal="true"
+  aria-label={label}
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <button class="x" type="button" data-close-film aria-label={`Close ${label}`}>
+    Close
+  </button>
+  <div class="frame">
+    <iframe title={label} allow="autoplay; fullscreen" allowfullscreen src=""></iframe>
+  </div>
+</div>

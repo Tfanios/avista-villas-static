@@ -1,0 +1,62 @@
+---
+import { navigation } from "../data/placeholder";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "" } = Astro.props;
+const allItems = [...navigation.left, ...navigation.right];
+---
+
+<header class="nav" id="nav">
+  <nav class="nav-links left" aria-label="Primary navigation">
+    {
+      navigation.left.map((item) => (
+        <a
+          class="nav-link"
+          href={item.href}
+          aria-current={currentPath === item.key ? "page" : undefined}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+  <a class="brand" href="/">Avista</a>
+  <nav class="nav-links right" aria-label="Secondary navigation">
+    {
+      navigation.right.map((item) => (
+        <a
+          class="nav-link"
+          href={item.href}
+          aria-current={currentPath === item.key ? "page" : undefined}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+  <button
+    class="nav-menu-btn"
+    type="button"
+    aria-controls="mobile-nav"
+    aria-expanded="false"
+    data-nav-toggle
+  >
+    Menu
+  </button>
+</header>
+<nav class="mobile-panel" id="mobile-nav" aria-label="Mobile navigation" hidden>
+  {
+    allItems.map((item) => (
+      <a
+        class="mobile-nav-link"
+        href={item.href}
+        aria-current={currentPath === item.key ? "page" : undefined}
+      >
+        {item.label}
+      </a>
+    ))
+  }
+</nav>

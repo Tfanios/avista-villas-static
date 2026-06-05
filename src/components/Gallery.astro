@@ -1,0 +1,37 @@
+---
+interface Props {
+  titleHtml: string;
+  note: string;
+  hint: string;
+  items: any[];
+}
+
+const { titleHtml, note, hint, items } = Astro.props;
+---
+
+<section class="section deep" id="gallery">
+  <div class="gallery-head">
+    <div class="reveal">
+      <h2 class="h-section" set:html={titleHtml} />
+    </div>
+    <p class="body-muted reveal d1">{note}</p>
+  </div>
+  <div class="carousel-wrap reveal d1">
+    <div class="carousel" id="carousel">
+      {
+        items.map((item) => (
+          <button
+            class={`card ${item.size} ${item.height}`}
+            type="button"
+            data-full={item.full ?? item.src}
+          >
+            <img src={item.src} alt={item.alt} />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+  <div class="carousel-ctrl reveal">
+    <span class="car-hint">{hint}</span>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+---
+interface Props {
+  link: any;
+  flip?: boolean;
+}
+
+const { link, flip = false } = Astro.props;
+---
+
+<a class={`crosslink${flip ? " flip" : ""} reveal`} href={link.href}>
+  <div class="crosslink-figure">
+    <img src={link.image} alt={link.imageAlt} />
+  </div>
+  <div>
+    <h2
+      class="h-section"
+      style="margin: 0 0 1.2rem; font-size: clamp(1.9rem, 4vw, 3.2rem)"
+    >
+      {link.title}
+    </h2>
+    <p class="body-muted">{link.description}</p>
+    <span class="btn" style="margin-top: 1.8rem">
+      {link.buttonLabel} <span class="ln"></span>
+    </span>
+  </div>
+</a>

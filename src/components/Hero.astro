@@ -1,0 +1,62 @@
+---
+interface Props {
+  hero: {
+    page?: boolean;
+    layout?: string;
+    kicker: string;
+    titleHtml: string;
+    sub: string;
+    image: string;
+    imageAlt: string;
+    poster?: string;
+    videoUrl?: string;
+  };
+}
+
+const { hero } = Astro.props;
+const heroClass = hero.page === false ? "hero" : "hero page";
+---
+
+<section class={heroClass} id="top" data-layout={hero.layout ?? "bottom"}>
+  <div class="hero-media">
+    {
+      hero.videoUrl && (
+        <video
+          data-hero-video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster={hero.poster ?? hero.image}
+          aria-hidden="true"
+        >
+          <source src={hero.videoUrl} type="video/mp4" />
+        </video>
+      )
+    }
+    <img src={hero.image} alt={hero.imageAlt} />
+  </div>
+  <div class="hero-meta">
+    <span
+      class="nav-weather hero-weather"
+      data-weather
+      hidden
+      aria-label="Current weather in Vourvourou"
+      ><span class="nav-weather-ic" aria-hidden="true"></span><span
+        class="nav-weather-temp"></span></span
+    >
+  </div>
+  <div class="hero-inner">
+    <div>
+      <p class="hero-kicker">{hero.kicker}</p>
+      <h1 class="hero-title" set:html={hero.titleHtml} />
+    </div>
+    <div>
+      <p class="hero-sub">{hero.sub}</p>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span><span class="bar"></span>
+  </div>
+</section>

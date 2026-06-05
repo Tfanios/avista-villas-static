@@ -1,0 +1,25 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  amenities: any[];
+}
+
+const { amenities } = Astro.props;
+---
+
+<div class="amenity-grid reveal d1">
+  {
+    amenities.map((amenity) => (
+      <div class="amenity">
+        <span class="amenity-ic" aria-hidden="true">
+          <Icon icon={amenity.icon} />
+        </span>
+        <div>
+          <div class="amenity-t">{amenity.title}</div>
+          <div class="amenity-d">{amenity.description}</div>
+        </div>
+      </div>
+    ))
+  }
+</div>

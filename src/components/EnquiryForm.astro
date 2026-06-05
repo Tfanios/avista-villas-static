@@ -1,0 +1,124 @@
+---
+import { properties, siteSettings } from "../data/placeholder";
+---
+
+<form class="enquiry-form" action="/api/enquiry" method="post" data-enquiry-form novalidate>
+  <div class="hp" aria-hidden="true">
+    <label for="company">Company</label>
+    <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="field">
+    <label for="name">Full name</label>
+    <input class="control" type="text" id="name" name="name" autocomplete="name" required />
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="email">Email</label>
+      <input class="control" type="email" id="email" name="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="phone">Phone <span class="opt">(optional)</span></label>
+      <input class="control" type="tel" id="phone" name="phone" autocomplete="tel" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="property">Preferred villa</label>
+    <select class="control" id="property" name="property">
+      <option value="either">Either villa / not sure yet</option>
+      {properties.map((property) => <option value={property.slug}>{property.name}</option>)}
+    </select>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label for="arrival">Arrival</label>
+      <input class="control" type="date" id="arrival" name="arrival" />
+    </div>
+    <div class="field">
+      <label for="departure">Departure</label>
+      <input class="control" type="date" id="departure" name="departure" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="guests">Group size</label>
+    <input
+      class="control"
+      type="number"
+      id="guests"
+      name="guests"
+      min="1"
+      max="16"
+      inputmode="numeric"
+      placeholder="e.g. 8"
+    />
+  </div>
+
+  <div class="field">
+    <label for="message">Your stay</label>
+    <textarea
+      class="control"
+      id="message"
+      name="message"
+      rows="5"
+      placeholder="Tell us a little about your group and what you are looking for."
+      required
+    ></textarea>
+  </div>
+
+  <p class="form-note">
+    We use your details only to reply to this enquiry. No marketing, no sharing.
+  </p>
+
+  <button class="btn solid" type="submit">Send enquiry</button>
+
+  <p class="form-status" role="status" aria-live="polite" tabindex="-1" hidden>
+    Thank you, your enquiry is on its way. We will reply by email shortly.
+  </p>
+</form>
+
+<script define:vars={{ contactEmail: siteSettings.contactEmail }}>
+  (function () {
+    var form = document.querySelector("[data-enquiry-form]");
+    if (!form) return;
+    var status = form.querySelector(".form-status");
+    var button = form.querySelector("[type='submit']");
+
+    function setStatus(message) {
+      if (!status) return;
+      status.textContent = message;
+      status.hidden = false;
+      status.focus();
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var hp = form.querySelector("[name='company']");
+      if (hp && hp.value) return;
+      if (!form.reportValidity()) return;
+
+      if (button) button.disabled = true;
+      fetch(form.getAttribute("action") || "/api/enquiry", {
+        method: "POST",
+        body: new FormData(form)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error(String(response.status));
+          setStatus("Thank you, your enquiry is on its way. We will reply by email shortly.");
+          form.reset();
+        })
+        .catch(function () {
+          setStatus(
+            "We could not send the form. Please email " + contactEmail + " with your dates."
+          );
+        })
+        .finally(function () {
+          if (button) button.disabled = false;
+        });
+    });
+  })();
+</script>

@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CrossLink from "../components/CrossLink.astro";
+import Cta from "../components/Cta.astro";
+import Hero from "../components/Hero.astro";
+import LocationBlock from "../components/LocationBlock.astro";
+import MapEmbed from "../components/MapEmbed.astro";
+import VideoModal from "../components/VideoModal.astro";
+import { homePage, locationPage, properties, siteSettings } from "../data/placeholder";
+
+const villaLinks = [
+  {
+    href: properties[0].route,
+    title: properties[0].name,
+    image: properties[0].hero.image,
+    imageAlt: properties[0].name,
+    description:
+      "The contemporary, light-filled house with a horizon-edge pool that dissolves into the bay.",
+    buttonLabel: "View Avista Villa"
+  },
+  {
+    href: properties[1].route,
+    title: properties[1].name,
+    image: properties[1].hero.image,
+    imageAlt: properties[1].name,
+    description:
+      "The softer, greener sister, a walled garden estate made for long family summers under the olive trees.",
+    buttonLabel: "View Avista Private Resort"
+  }
+];
+---
+
+<BaseLayout
+  title={locationPage.seo.title}
+  description={locationPage.seo.description}
+  currentPath="location"
+>
+  <Hero hero={locationPage.hero} />
+
+  <LocationBlock
+    titleHtml={locationPage.overview.titleHtml}
+    body={locationPage.overview.body}
+    image={locationPage.overview.image}
+    imageAlt={locationPage.overview.imageAlt}
+  />
+
+  <MapEmbed
+    titleHtml={locationPage.map.titleHtml}
+    body={locationPage.map.body}
+    query={locationPage.map.query}
+    title={locationPage.map.title}
+  />
+
+  <section class="section wrap">
+    <div
+      class="reveal"
+      style="text-align: center; max-width: 46ch; margin: 0 auto clamp(48px, 7vw, 96px);"
+    >
+      <p class="lead">{homePage.intro.lead}</p>
+    </div>
+
+    <CrossLink link={villaLinks[0]} />
+    <div class="rule h reveal" style="margin-block: clamp(48px, 7vw, 104px)"></div>
+    <CrossLink link={villaLinks[1]} flip />
+  </section>
+
+  <Cta cta={locationPage.cta} />
+
+  <Fragment slot="overlays">
+    <VideoModal src={siteSettings.estateFilmUrl} label="Avista estate film" />
+  </Fragment>
+</BaseLayout>
