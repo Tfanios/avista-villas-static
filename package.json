@@ -12,6 +12,7 @@
     "astro": "^6.4.4"
   },
   "devDependencies": {
+    "playwright-core": "^1.60.0",
     "typescript": "^5.8.0"
   }
 }

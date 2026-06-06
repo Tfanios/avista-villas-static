@@ -10,7 +10,11 @@ import VillaFeature from "../components/VillaFeature.astro";
 import { homePage, properties, siteSettings } from "../data/placeholder";
 ---
 
-<BaseLayout title={homePage.seo.title} description={homePage.seo.description} currentPath="home">
+<BaseLayout
+  title={homePage.seo.title}
+  description={homePage.seo.description}
+  currentPath="home"
+>
   <Hero hero={homePage.hero} />
 
   <section class="section intro wrap">
@@ -22,7 +26,8 @@ import { homePage, properties, siteSettings } from "../data/placeholder";
   <section class="section bg-2" id="villas">
     <div class="wrap">
       <VillaFeature property={properties[0]} />
-      <div class="rule h reveal" style="margin-block: clamp(56px, 8vw, 120px)"></div>
+      <div class="rule h reveal" style="margin-block: clamp(56px, 8vw, 120px)">
+      </div>
       <VillaFeature property={properties[1]} flip />
     </div>
   </section>
@@ -34,7 +39,7 @@ import { homePage, properties, siteSettings } from "../data/placeholder";
     items={homePage.gallery}
   />
 
-  <section class="section bg-2" id="experience">
+  <!-- <section class="section bg-2" id="experience">
     <div class="wrap exp">
       <div class="exp-figure reveal">
         <img src={homePage.services.image} alt={homePage.services.imageAlt} />
@@ -57,7 +62,7 @@ import { homePage, properties, siteSettings } from "../data/placeholder";
         </ol>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <LocationBlock
     titleHtml={homePage.location.titleHtml}

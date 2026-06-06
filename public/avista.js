@@ -146,33 +146,136 @@
   });
 
   var lb = document.getElementById("lb");
-  var lbImg = lb ? lb.querySelector("img") : null;
+  var lbScroll = lb ? lb.querySelector("[data-lb-scroll]") : null;
+  var lbCur = lb ? lb.querySelector("[data-lb-cur]") : null;
+  var lbTotal = lb ? lb.querySelector("[data-lb-total]") : null;
   var galleryItems = [];
+  var figureEls = [];
   var cur = 0;
+  var builtScroll = false;
 
-  function show(i){
-    if(!galleryItems.length || !lbImg) return;
-    cur = (i + galleryItems.length) % galleryItems.length;
-    lbImg.src = galleryItems[cur].src;
-    lbImg.alt = galleryItems[cur].alt;
+  function setCur(i){
+    cur = Math.max(0, Math.min(figureEls.length - 1, i));
+    if(lbCur) lbCur.textContent = String(cur + 1);
+  }
+
+  // Build the scrollable photo column on first open, so the large images only
+  // start loading once the viewer is actually used.
+  function buildScroll(){
+    if(builtScroll || !lbScroll) return;
+    builtScroll = true;
+    figureEls = [];
+    var frag = document.createDocumentFragment();
+    galleryItems.forEach(function(item, i){
+      var fig = document.createElement("figure");
+      fig.className = "lb-figure";
+      fig.dataset.idx = i;
+      var im = document.createElement("img");
+      im.src = item.src;
+      im.alt = item.alt;
+      im.loading = i < 2 ? "eager" : "lazy";
+      im.decoding = "async";
+      fig.appendChild(im);
+      if(item.alt){
+        var cap = document.createElement("figcaption");
+        cap.className = "lb-cap";
+        cap.textContent = item.alt;
+        fig.appendChild(cap);
+      }
+      frag.appendChild(fig);
+      figureEls.push(fig);
+    });
+    lbScroll.appendChild(frag);
+    if(lbTotal) lbTotal.textContent = String(galleryItems.length);
+
+    // Keep the counter in sync with whichever photo fills the viewport.
+    if("IntersectionObserver" in window){
+      var ratios = [];
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ ratios[Number(en.target.dataset.idx)] = en.intersectionRatio; });
+        var best = -1, bi = cur;
+        for(var i = 0; i < figureEls.length; i++){
+          var r = ratios[i] || 0;
+          if(r > best){ best = r; bi = i; }
+        }
+        if(bi !== cur) setCur(bi);
+      }, {root: lbScroll, threshold:[.25,.5,.75,1]});
+      figureEls.forEach(function(f){ io.observe(f); });
+    }
+  }
+
+  function goTo(i, smooth){
+    if(!figureEls.length) return;
+    setCur(i);
+    figureEls[cur].scrollIntoView({behavior: (smooth && !reduceMotion) ? "smooth" : "auto", block:"start"});
   }
 
   function openLb(i){
     if(!lb || !galleryItems.length) return;
     closeMenu(false);
+    buildScroll();
     lastDialogFocus = document.activeElement;
-    show(i);
     setDialogState(lb, true);
     lockScroll();
-    focusFirst(lb);
+    setCur(i || 0);
+    // Jump to the chosen photo before the modal paints, then hand focus to the
+    // scroll region so keyboard scrolling works immediately.
+    requestAnimationFrame(function(){
+      if(figureEls[cur]) figureEls[cur].scrollIntoView({behavior:"auto", block:"start"});
+      if(lbScroll) lbScroll.focus(); else focusFirst(lb);
+    });
   }
 
   function closeLb(restoreFocus){
     if(!isOpen(lb)) return;
     setDialogState(lb, false);
-    if(lbImg) lbImg.removeAttribute("src");
     unlockScroll();
     if(restoreFocus !== false && lastDialogFocus && document.contains(lastDialogFocus)) lastDialogFocus.focus();
+  }
+
+  // ---- All-photos grid modal (Airbnb-style), shown before the scroll viewer ----
+  var gm = document.getElementById("gallery-modal");
+  var gmGrid = gm ? gm.querySelector("[data-gm-grid]") : null;
+  var gmReturnFocus = null;
+  var builtGrid = false;
+
+  function buildGrid(){
+    if(builtGrid || !gmGrid) return;
+    builtGrid = true;
+    var frag = document.createDocumentFragment();
+    galleryItems.forEach(function(item, i){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "gm-item";
+      b.setAttribute("aria-label", "Open photo " + (i + 1) + (item.alt ? ": " + item.alt : ""));
+      var im = document.createElement("img");
+      im.src = item.thumb || item.src;
+      im.alt = item.alt;
+      im.loading = "lazy";
+      im.decoding = "async";
+      b.appendChild(im);
+      b.addEventListener("click", function(){ openLb(i); });
+      frag.appendChild(b);
+    });
+    gmGrid.appendChild(frag);
+  }
+
+  function openGallery(){
+    if(!gm || !galleryItems.length) return;
+    closeMenu(false);
+    buildGrid();
+    gmReturnFocus = document.activeElement;
+    setDialogState(gm, true);
+    lockScroll();
+    gm.scrollTop = 0;
+    requestAnimationFrame(function(){ focusFirst(gm); });
+  }
+
+  function closeGallery(restoreFocus){
+    if(!isOpen(gm)) return;
+    setDialogState(gm, false);
+    unlockScroll();
+    if(restoreFocus !== false && gmReturnFocus && document.contains(gmReturnFocus)) gmReturnFocus.focus();
   }
 
   // Shared infinite drag-to-scroll carousel. Used by the gallery (cards open the
@@ -180,7 +283,7 @@
   function initCarousel(carousel, onCardActivate){
     var origCards = [].slice.call(carousel.querySelectorAll(".card"));
     if(!origCards.length) return;
-    var down = false, moved = false, startX = 0, startScroll = 0, locked = false, setW = 0, suppressClick = false;
+    var down = false, moved = false, startX = 0, startScroll = 0, locked = false, setW = 0, suppressClick = false, pressCard = null;
 
     var before = document.createDocumentFragment();
     var after = document.createDocumentFragment();
@@ -221,6 +324,9 @@
       locked = true;
       startX = e.clientX;
       startScroll = carousel.scrollLeft;
+      // Capture the pressed card now: setPointerCapture redirects the mouse's
+      // compatibility click to the carousel, so we can't rely on the click target.
+      pressCard = e.target.closest ? e.target.closest(".card") : null;
       if(carousel.setPointerCapture) carousel.setPointerCapture(e.pointerId);
     });
     carousel.addEventListener("pointermove", function(e){
@@ -243,16 +349,25 @@
         carousel.classList.remove("dragging");
       }, 40);
     }
-    carousel.addEventListener("pointerup", endDrag);
-    carousel.addEventListener("pointercancel", endDrag);
+    carousel.addEventListener("pointerup", function(e){
+      var wasDrag = moved;
+      var card = pressCard;
+      endDrag();
+      // Activate on pointerup (not click): pointer capture sends the click to the
+      // carousel, so the click target can't be trusted for mouse/touch.
+      if(!wasDrag && onCardActivate && card && !card.classList.contains("clone")){
+        onCardActivate(card);
+      }
+      pressCard = null;
+    });
+    carousel.addEventListener("pointercancel", function(){ pressCard = null; endDrag(); });
     carousel.addEventListener("pointerleave", endDrag);
+    // Keyboard only: Enter/Space on a focused card fires a click with detail 0 and
+    // no pointer sequence. Mouse/touch are handled in pointerup above.
     carousel.addEventListener("click", function(e){
+      if(e.detail !== 0) return;
       var card = e.target.closest(".card");
       if(!card || card.classList.contains("clone")) return;
-      if(suppressClick){
-        e.preventDefault();
-        return;
-      }
       if(onCardActivate) onCardActivate(card);
     });
   }
@@ -264,9 +379,15 @@
       var alt = img && img.alt ? img.alt : "Avista gallery image";
       c.dataset.idx = i;
       c.setAttribute("aria-label", "Open gallery image: " + alt);
-      return {src:c.getAttribute("data-full") || (img ? img.src : ""), alt:alt};
+      return {src:c.getAttribute("data-full") || (img ? img.src : ""), thumb: img ? img.src : "", alt:alt};
     });
-    initCarousel(gallery, function(card){ openLb(Number(card.dataset.idx) || 0); });
+    initCarousel(gallery, function(card){
+      var i = Number(card.dataset.idx) || 0;
+      // Desktop: open the all-photos grid first (Airbnb style). Narrow screens
+      // jump straight into the scrollable viewer.
+      if(gm && window.matchMedia("(min-width: 768px)").matches) openGallery();
+      else openLb(i);
+    });
   }
 
   [].slice.call(document.querySelectorAll(".carousel")).forEach(function(el){
@@ -276,12 +397,18 @@
 
   if(lb){
     var lbClose = lb.querySelector("[data-close-lightbox]");
-    var lbPrev = lb.querySelector(".prev");
-    var lbNext = lb.querySelector(".next");
     if(lbClose) lbClose.addEventListener("click", function(){ closeLb(true); });
-    if(lbPrev) lbPrev.addEventListener("click", function(e){ e.stopPropagation(); show(cur - 1); });
-    if(lbNext) lbNext.addEventListener("click", function(e){ e.stopPropagation(); show(cur + 1); });
-    lb.addEventListener("click", function(e){ if(e.target === lb) closeLb(true); });
+    // Click the empty area beside a photo (not the photo, caption, or bar) to close.
+    lb.addEventListener("click", function(e){
+      if(e.target.tagName === "IMG") return;
+      if(e.target.closest(".lb-bar") || e.target.closest(".lb-cap")) return;
+      closeLb(true);
+    });
+  }
+
+  if(gm){
+    var gmClose = gm.querySelector("[data-close-gallery]");
+    if(gmClose) gmClose.addEventListener("click", function(){ closeGallery(true); });
   }
 
   var modal = document.getElementById("film");
@@ -315,17 +442,21 @@
   }
 
   document.addEventListener("keydown", function(e){
-    var activeDialog = isOpen(modal) ? modal : (isOpen(lb) ? lb : null);
+    // Topmost dialog first: video modal > scroll viewer > all-photos grid.
+    var activeDialog = isOpen(modal) ? modal : (isOpen(lb) ? lb : (isOpen(gm) ? gm : null));
     if(e.key === "Escape"){
       if(activeDialog === modal) closeFilm(true);
       else if(activeDialog === lb) closeLb(true);
+      else if(activeDialog === gm) closeGallery(true);
       else if(isOpen(mobileNav)) closeMenu(true);
       return;
     }
     if(activeDialog) trapFocus(e, activeDialog);
     if(isOpen(lb)){
-      if(e.key === "ArrowLeft") show(cur - 1);
-      if(e.key === "ArrowRight") show(cur + 1);
+      if(e.key === "ArrowRight" || e.key === "ArrowDown"){ e.preventDefault(); goTo(cur + 1, true); }
+      else if(e.key === "ArrowLeft" || e.key === "ArrowUp"){ e.preventDefault(); goTo(cur - 1, true); }
+      else if(e.key === "Home"){ e.preventDefault(); goTo(0, false); }
+      else if(e.key === "End"){ e.preventDefault(); goTo(figureEls.length - 1, false); }
     }
   });
 })();
