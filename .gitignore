@@ -18,3 +18,5 @@ node_modules/
 # local media
 AVR.mp4
 .ASTRO-PAYLOAD-MIGRATION.md
+
+.DS_Store

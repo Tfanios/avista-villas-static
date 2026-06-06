@@ -6,9 +6,7 @@
     "enabled": true
   },
   "assets": {
-    "directory": "."
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+    // Astro builds the static site here. Must point at the build output, NOT the repo root.
+    "directory": "./dist"
+  }
 }
