@@ -1,5 +1,8 @@
 ---
-import { properties, siteSettings } from "../data/placeholder";
+import { getProperties, getSiteSettings } from "../lib/cms";
+
+const properties = await getProperties();
+const siteSettings = await getSiteSettings();
 ---
 
 <form class="enquiry-form" action="/api/enquiry" method="post" data-enquiry-form novalidate>
@@ -28,7 +31,7 @@ import { properties, siteSettings } from "../data/placeholder";
     <label for="property">Preferred villa</label>
     <select class="control" id="property" name="property">
       <option value="either">Either villa / not sure yet</option>
-      {properties.map((property) => <option value={property.slug}>{property.name}</option>)}
+      {properties.map((property: any) => <option value={property.slug}>{property.name}</option>)}
     </select>
   </div>
 

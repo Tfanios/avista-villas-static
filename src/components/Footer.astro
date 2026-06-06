@@ -1,5 +1,8 @@
 ---
-import { footer, siteSettings } from "../data/placeholder";
+import { getFooter, getSiteSettings } from "../lib/cms";
+
+const footer = await getFooter();
+const siteSettings = await getSiteSettings();
 ---
 
 <footer class="foot">
@@ -13,7 +16,7 @@ import { footer, siteSettings } from "../data/placeholder";
       </div>
       <div class="foot-col">
         <h4>Explore</h4>
-        {footer.explore.map((item) => <a href={item.href}>{item.label}</a>)}
+        {footer.explore.map((item: any) => <a href={item.href}>{item.label}</a>)}
       </div>
       <div class="foot-col">
         <h4>Contact</h4>

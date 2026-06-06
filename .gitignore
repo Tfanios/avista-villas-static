@@ -14,9 +14,11 @@
 .astro/
 dist/
 node_modules/
+seed/
 
 # local media
 AVR.mp4
 .ASTRO-PAYLOAD-MIGRATION.md
 
 .DS_Store
+.dist

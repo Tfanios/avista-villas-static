@@ -3,7 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import EnquiryForm from "../components/EnquiryForm.astro";
 import Hero from "../components/Hero.astro";
 import MapEmbed from "../components/MapEmbed.astro";
-import { contactPage, siteSettings } from "../data/placeholder";
+import { getContactPage, getSiteSettings } from "../lib/cms";
+
+const contactPage = await getContactPage();
+const siteSettings = await getSiteSettings();
 ---
 
 <BaseLayout

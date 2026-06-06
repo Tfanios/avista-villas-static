@@ -1,5 +1,5 @@
 ---
-import { locationFacts } from "../data/placeholder";
+import { getLocationFacts } from "../lib/cms";
 
 interface Props {
   titleHtml: string;
@@ -12,6 +12,7 @@ interface Props {
 
 const { titleHtml, body, image, imageAlt, deep = false, wrapClass = "wrap loc" } =
   Astro.props;
+const locationFacts = await getLocationFacts();
 ---
 
 <section class={`section${deep ? " deep" : ""}`} id={deep ? "location" : undefined}>
@@ -21,7 +22,7 @@ const { titleHtml, body, image, imageAlt, deep = false, wrapClass = "wrap loc" }
       <p class="body-muted" style="margin-top: 1.6rem">{body}</p>
       <div class="loc-facts">
         {
-          locationFacts.map((fact) => (
+          locationFacts.map((fact: any) => (
             <div class="loc-fact">
               <div class="n">{fact.value}</div>
               <div class="l">{fact.label}</div>

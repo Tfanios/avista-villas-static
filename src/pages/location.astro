@@ -6,28 +6,21 @@ import Hero from "../components/Hero.astro";
 import LocationBlock from "../components/LocationBlock.astro";
 import MapEmbed from "../components/MapEmbed.astro";
 import VideoModal from "../components/VideoModal.astro";
-import { homePage, locationPage, properties, siteSettings } from "../data/placeholder";
+import { getHomePage, getLocationPage, getProperties, getSiteSettings } from "../lib/cms";
 
-const villaLinks = [
-  {
-    href: properties[0].route,
-    title: properties[0].name,
-    image: properties[0].hero.image,
-    imageAlt: properties[0].name,
-    description:
-      "The contemporary, light-filled house with a horizon-edge pool that dissolves into the bay.",
-    buttonLabel: "View Avista Villa"
-  },
-  {
-    href: properties[1].route,
-    title: properties[1].name,
-    image: properties[1].hero.image,
-    imageAlt: properties[1].name,
-    description:
-      "The softer, greener sister, a walled garden estate made for long family summers under the olive trees.",
-    buttonLabel: "View Avista Private Resort"
-  }
-];
+const homePage = await getHomePage();
+const locationPage = await getLocationPage();
+const properties = await getProperties();
+const siteSettings = await getSiteSettings();
+
+const villaLinks = properties.map((property) => ({
+  href: property.route,
+  title: property.name,
+  image: property.comparison.image,
+  imageAlt: property.comparison.imageAlt,
+  description: property.comparison.description,
+  buttonLabel: property.comparison.buttonLabel
+}));
 ---
 
 <BaseLayout

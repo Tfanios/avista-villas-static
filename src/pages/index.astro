@@ -7,7 +7,11 @@ import Lightbox from "../components/Lightbox.astro";
 import LocationBlock from "../components/LocationBlock.astro";
 import VideoModal from "../components/VideoModal.astro";
 import VillaFeature from "../components/VillaFeature.astro";
-import { homePage, properties, siteSettings } from "../data/placeholder";
+import { getHomePage, getProperties, getSiteSettings } from "../lib/cms";
+
+const homePage = await getHomePage();
+const properties = await getProperties();
+const siteSettings = await getSiteSettings();
 ---
 
 <BaseLayout

@@ -9,9 +9,10 @@ import Lightbox from "../components/Lightbox.astro";
 import LocationBlock from "../components/LocationBlock.astro";
 import Reviews from "../components/Reviews.astro";
 import VideoModal from "../components/VideoModal.astro";
-import { properties } from "../data/placeholder";
+import { getProperties } from "../lib/cms";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const properties = await getProperties();
   return properties.map((property) => ({
     params: { slug: property.slug },
     props: { property }

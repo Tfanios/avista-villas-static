@@ -1,11 +1,11 @@
-// Media contract shared by the front end and the (soon) Payload CMS.
+// Media contract shared by the front end and the Payload CMS.
 //
-// Today the data layer (src/data/placeholder.ts) feeds plain string asset paths.
-// Payload will feed upload objects with `imageSizes`, intrinsic width/height and a
-// blur placeholder. `resolveImage` normalizes BOTH into the attributes an
-// <img>/<picture> needs, so the components are CMS-ready now: when the CMS starts
-// sending `sizes`, srcset/responsive loading light up automatically with no
-// component changes; today's strings degrade to a plain `src`.
+// The data layer (src/lib/cms.ts) feeds Payload upload objects — absolute `url`,
+// intrinsic width/height and (eventually) `imageSizes`/blur placeholder — while
+// some components still pass plain string asset paths. `resolveImage` normalizes
+// BOTH into the attributes an <img>/<picture> needs: when the CMS starts sending
+// `sizes`, srcset/responsive loading light up automatically with no component
+// changes; plain strings degrade to a simple `src`.
 
 export interface MediaSize {
   url?: string;

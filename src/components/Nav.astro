@@ -1,18 +1,19 @@
 ---
-import { navigation } from "../data/placeholder";
+import { getNavigation } from "../lib/cms";
 
 interface Props {
   currentPath?: string;
 }
 
 const { currentPath = "" } = Astro.props;
+const navigation = await getNavigation();
 const allItems = [...navigation.left, ...navigation.right];
 ---
 
 <header class="nav" id="nav">
   <nav class="nav-links left" aria-label="Primary navigation">
     {
-      navigation.left.map((item) => (
+      navigation.left.map((item: any) => (
         <a
           class="nav-link"
           href={item.href}
@@ -26,7 +27,7 @@ const allItems = [...navigation.left, ...navigation.right];
   <a class="brand" href="/">Avista</a>
   <nav class="nav-links right" aria-label="Secondary navigation">
     {
-      navigation.right.map((item) => (
+      navigation.right.map((item: any) => (
         <a
           class="nav-link"
           href={item.href}
@@ -49,7 +50,7 @@ const allItems = [...navigation.left, ...navigation.right];
 </header>
 <nav class="mobile-panel" id="mobile-nav" aria-label="Mobile navigation" hidden>
   {
-    allItems.map((item) => (
+    allItems.map((item: any) => (
       <a
         class="mobile-nav-link"
         href={item.href}
