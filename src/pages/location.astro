@@ -34,6 +34,7 @@ const villaLinks = [
   title={locationPage.seo.title}
   description={locationPage.seo.description}
   currentPath="location"
+  preloadImage={locationPage.hero.imageDesktop}
 >
   <Hero hero={locationPage.hero} />
 
@@ -47,7 +48,7 @@ const villaLinks = [
   <MapEmbed
     titleHtml={locationPage.map.titleHtml}
     body={locationPage.map.body}
-    query={locationPage.map.query}
+    location={locationPage.map.location}
     title={locationPage.map.title}
   />
 

@@ -1,4 +1,6 @@
 ---
+import { resolveImage, SIZES, type MediaInput } from "../lib/media";
+
 interface Props {
   hero: {
     page?: boolean;
@@ -6,36 +8,66 @@ interface Props {
     kicker: string;
     titleHtml: string;
     sub: string;
-    image: string;
-    imageAlt: string;
-    poster?: string;
-    videoUrl?: string;
+    imageDesktop: MediaInput;
+    imageMobile?: MediaInput;
+    imageAlt?: string;
+    poster?: MediaInput;
+    videoDesktop?: string;
+    videoMobile?: string;
+    playOnMobile?: boolean;
+    priority?: boolean;
   };
 }
 
 const { hero } = Astro.props;
 const heroClass = hero.page === false ? "hero" : "hero page";
+
+const desktop = resolveImage(hero.imageDesktop, hero.imageAlt ?? "");
+const mobile = resolveImage(hero.imageMobile, hero.imageAlt ?? "");
+const poster = resolveImage(hero.poster ?? hero.imageDesktop, hero.imageAlt ?? "");
+const alt = desktop?.alt || hero.imageAlt || "";
+const hasVideo = !!(hero.videoDesktop || hero.videoMobile);
+const priority = hero.priority !== false;
 ---
 
 <section class={heroClass} id="top" data-layout={hero.layout ?? "bottom"}>
   <div class="hero-media">
     {
-      hero.videoUrl && (
+      hasVideo && (
         <video
           data-hero-video
-          autoplay
+          data-video-desktop={hero.videoDesktop ?? ""}
+          data-video-mobile={hero.videoMobile ?? hero.videoDesktop ?? ""}
+          data-play-mobile={hero.playOnMobile ? "1" : "0"}
           muted
           loop
           playsinline
-          preload="metadata"
-          poster={hero.poster ?? hero.image}
+          preload="none"
+          poster={poster?.src}
           aria-hidden="true"
-        >
-          <source src={hero.videoUrl} type="video/mp4" />
-        </video>
+        />
       )
     }
-    <img src={hero.image} alt={hero.imageAlt} />
+    {
+      desktop && (
+        <picture>
+          {mobile && mobile.src !== desktop.src && (
+            <source media="(max-width: 767px)" srcset={mobile.srcset ?? mobile.src} />
+          )}
+          <img
+            src={desktop.src}
+            srcset={desktop.srcset}
+            sizes={desktop.srcset ? SIZES.hero : undefined}
+            alt={alt}
+            width={desktop.width}
+            height={desktop.height}
+            fetchpriority={priority ? "high" : undefined}
+            loading={priority ? "eager" : "lazy"}
+            decoding="async"
+          />
+        </picture>
+      )
+    }
   </div>
   <div class="hero-meta">
     <span

@@ -1,14 +1,18 @@
 ---
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
+import { resolveImage, type MediaInput } from "../lib/media";
 
 interface Props {
   title: string;
   description: string;
   currentPath?: string;
+  // The above-the-fold hero image (LCP) — preloaded so it paints sooner.
+  preloadImage?: MediaInput;
 }
 
-const { title, description, currentPath = "" } = Astro.props;
+const { title, description, currentPath = "", preloadImage } = Astro.props;
+const preload = resolveImage(preloadImage);
 ---
 
 <!doctype html>
@@ -20,6 +24,18 @@ const { title, description, currentPath = "" } = Astro.props;
     <meta name="description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {
+      preload && (
+        <link
+          rel="preload"
+          as="image"
+          href={preload.src}
+          imagesrcset={preload.srcset}
+          imagesizes={preload.srcset ? "100vw" : undefined}
+          fetchpriority="high"
+        />
+      )
+    }
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Marcellus&family=Mulish:wght@300;400;500&family=Tenor+Sans&display=swap"
       rel="stylesheet"

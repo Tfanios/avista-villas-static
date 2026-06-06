@@ -63,11 +63,13 @@ export const properties = [
       titleHtml: "Avista <em>Villa</em>",
       sub:
         "Clean lines, walls of glass and a horizon-edge pool that dissolves into the Aegean, a contemporary house built entirely around the light.",
-      image: asset("avista-villa/hero-aerial.jpg"),
+      imageDesktop: asset("avista-villa/hero-aerial.jpg"),
       imageAlt: "Avista Villa from the air",
       poster: asset("avista-villa/hero-aerial.jpg"),
-      videoUrl:
-        "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/avista-villa.mp4"
+      videoDesktop:
+        "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/avista-villa.mp4",
+      playOnMobile: false,
+      priority: true
     },
     comparison: {
       image: asset("avista-villa/terrace-dusk.jpg"),
@@ -286,11 +288,13 @@ export const properties = [
       titleHtml: "Avista <em>Private Resort</em>",
       sub:
         "A mature, walled garden wrapping a generous pool, shaded patios and a built-in BBQ, the softer, greener house made for long family summers under the olive trees.",
-      image: asset("private-resort/hero-aerial.jpg"),
+      imageDesktop: asset("private-resort/hero-aerial.jpg"),
       imageAlt: "Avista Private Resort from the air",
       poster: asset("private-resort/hero-aerial.jpg"),
-      videoUrl:
-        "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/private-resort.mp4"
+      videoDesktop:
+        "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/private-resort.mp4",
+      playOnMobile: false,
+      priority: true
     },
     comparison: {
       image: asset("private-resort/hero-aerial.jpg"),
@@ -510,11 +514,13 @@ export const homePage = {
     titleHtml: "Where the pine forest <em>meets</em> the sea.",
     sub:
       "Choose between a sea-facing architectural villa and a garden estate, each booked for one group at a time above Vourvourou's quiet bays.",
-    image: asset("avista-villa/terrace-sunset.jpg"),
+    imageDesktop: asset("avista-villa/terrace-sunset.jpg"),
     imageAlt: "Avista villa terrace above Vourvourou bay at golden hour",
     poster: asset("avista-villa/terrace-sunset.jpg"),
-    videoUrl:
-      "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/avista-villa.mp4"
+    videoDesktop:
+      "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/avista-villa.mp4",
+    playOnMobile: false,
+    priority: true
   },
   intro: {
     lead:
@@ -645,8 +651,9 @@ export const locationPage = {
     titleHtml: "Where the pine forest <em>meets</em> the sea.",
     sub:
       "Vourvourou sits on Sithonia's eastern coast, where pine trees meet sheltered water and the islets of Diaporos sit just offshore. It is quiet, shallow and easy for families, with tavernas and small beaches close by.",
-    image: asset("avista-villa/hero-aerial.jpg"),
-    imageAlt: "Avista hillside above Vourvourou and the Aegean"
+    imageDesktop: asset("avista-villa/hero-aerial.jpg"),
+    imageAlt: "Avista hillside above Vourvourou and the Aegean",
+    priority: true
   },
   overview: {
     titleHtml: "Vourvourou,<br />Sithonia.",
@@ -659,8 +666,14 @@ export const locationPage = {
     titleHtml: "Sithonia,<br />Halkidiki.",
     body:
       "On the middle finger of Halkidiki, about ninety minutes by road from Thessaloniki airport. The villas sit above the bays of Vourvourou, with the islets of Diaporos just offshore.",
-    query: siteSettings.mapQuery,
-    title: "Map of Vourvourou, Sithonia, Halkidiki"
+    title: "Map of Vourvourou, Sithonia, Halkidiki",
+    location: {
+      latitude: siteSettings.weather.latitude,
+      longitude: siteSettings.weather.longitude,
+      zoom: 13,
+      label: "Avista · Vourvourou",
+      directionsQuery: siteSettings.mapQuery
+    }
   },
   cta: homePage.cta
 };
@@ -678,8 +691,9 @@ export const contactPage = {
     titleHtml: "Begin the <em>conversation</em>.",
     sub:
       "Tell us your dates, your group and which villa draws you. We reply personally with availability, rates and the details that matter for your stay.",
-    image: asset("avista-villa/terrace-dusk.jpg"),
-    imageAlt: "Avista Villa terrace and pool at dusk above Vourvourou bay"
+    imageDesktop: asset("avista-villa/terrace-dusk.jpg"),
+    imageAlt: "Avista Villa terrace and pool at dusk above Vourvourou bay",
+    priority: true
   },
   intro: {
     titleHtml: "Send an<br />enquiry.",
@@ -690,7 +704,13 @@ export const contactPage = {
     titleHtml: "Where we<br />are.",
     body:
       "The villas sit above the bays of Vourvourou on the middle finger of Halkidiki, about ninety minutes by road from Thessaloniki airport, with the islets of Diaporos just offshore.",
-    query: siteSettings.mapQuery,
-    title: "Map of Vourvourou, Sithonia, Halkidiki"
+    title: "Map of Vourvourou, Sithonia, Halkidiki",
+    location: {
+      latitude: siteSettings.weather.latitude,
+      longitude: siteSettings.weather.longitude,
+      zoom: 13,
+      label: "Avista · Vourvourou",
+      directionsQuery: siteSettings.mapQuery
+    }
   }
 };

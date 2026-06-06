@@ -25,6 +25,7 @@ const { property } = Astro.props;
   title={property.seo.title}
   description={property.seo.description}
   currentPath={property.slug}
+  preloadImage={property.hero.imageDesktop}
 >
   <Hero hero={property.hero} />
 

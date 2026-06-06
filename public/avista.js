@@ -8,14 +8,41 @@
   var lastDialogFocus = null;
 
   document.querySelectorAll("[data-hero-video]").forEach(function(video){
-    video.addEventListener("error", function(){
-      video.hidden = true;
-    }, true);
+    video.addEventListener("error", function(){ video.hidden = true; }, true);
 
-    if(reduceMotion){
-      video.removeAttribute("autoplay");
-      try{ video.pause(); }catch(err){}
-    }
+    var isMobile = window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
+    var playMobile = video.getAttribute("data-play-mobile") === "1";
+    var saveData = navigator.connection && navigator.connection.saveData;
+    // The poster image is already the LCP. Only load/play the video when it's worth it:
+    // never on reduced-motion or data-saver, and on phones only if playOnMobile is set.
+    if(reduceMotion || saveData) return;
+    if(isMobile && !playMobile) return;
+
+    var src = isMobile
+      ? (video.getAttribute("data-video-mobile") || video.getAttribute("data-video-desktop"))
+      : (video.getAttribute("data-video-desktop") || video.getAttribute("data-video-mobile"));
+    if(!src) return;
+    video.preload = "auto";
+    video.src = src;
+    var p = video.play();
+    if(p && p.catch) p.catch(function(){ /* autoplay blocked: poster stays */ });
+  });
+
+  // Map facade: swap the static preview for the real Google Maps iframe on click,
+  // so the heavy third-party embed never loads until the visitor asks for it.
+  document.querySelectorAll("[data-map-facade]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var src = btn.getAttribute("data-embed");
+      if(!src) return;
+      var iframe = document.createElement("iframe");
+      iframe.src = src;
+      iframe.title = btn.getAttribute("data-title") || "Map";
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.className = "map-iframe";
+      iframe.setAttribute("allowfullscreen", "");
+      btn.replaceWith(iframe);
+    });
   });
 
   function lockScroll(){
@@ -379,7 +406,7 @@
       var alt = img && img.alt ? img.alt : "Avista gallery image";
       c.dataset.idx = i;
       c.setAttribute("aria-label", "Open gallery image: " + alt);
-      return {src:c.getAttribute("data-full") || (img ? img.src : ""), thumb: img ? img.src : "", alt:alt};
+      return {src:c.getAttribute("data-full") || (img ? img.src : ""), thumb: c.getAttribute("data-thumb") || (img ? img.src : ""), alt:alt};
     });
     initCarousel(gallery, function(card){
       var i = Number(card.dataset.idx) || 0;

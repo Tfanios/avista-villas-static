@@ -46,13 +46,13 @@ Source: `avista-villa.html`, `avista-private-resort.html`, plus the comparison b
 | `order` | number | 1, 2 — controls comparison order |
 | `tag` | text | "Sea-facing architectural villa" / "Garden estate for larger groups" |
 | `numeral` | text | "I" / "II" |
-| `hero` | group | `{ image: upload, videoUrl: text (optional, R2), poster: upload, kicker: text, title: text, sub: textarea }` |
+| `hero` | group | `{ ...heroMedia, kicker: text, title: text, sub: textarea }` — **`heroMedia`** = responsive desktop **and** mobile image + video (+ posters, LCP/data-saver flags). Defined once in **§3.5**, reused everywhere a hero appears. |
 | `summary` | textarea | comparison-card description |
 | `overview` | richText | detail-page lead + body copy |
 | `stats` | array | `{ value: text, label: text }` — e.g. `5 / Bedrooms`, `10 / Guests`, `∞ / Infinity pool`, `Wide / Sea views` |
 | `amenities` | array | `{ iconKey: select, title: text, description: textarea }` — 8–9 per villa |
-| `gallery` | array | `{ image: upload, alt: text, layout: select(l\|p\|s), height: select(h1..h5) }` |
-| `mapQuery` | text | Google Maps query string for this villa |
+| `gallery` | array | `{ image: upload, alt: text, layout: select(l\|p\|s), height: select(h1..h5) }` — `image` carries width/height + a blur placeholder for zero-CLS lazy loading (see **§3.5**) |
+| `map` | group | **`mapLocation`** (see **§3.5**): pin `{ latitude, longitude, zoom, label, directionsQuery, staticPreview: upload }`. Real pin coordinates + a static preview image so the heavy interactive embed is **click-to-load** (big mobile-perf win). Replaces the old `mapQuery`. |
 | `seo` | group | `{ title: text, description: textarea, ogImage: upload }` |
 
 Reviews attach via the `reviews` relationship (below). The "other villa" cross-link is derived in
@@ -92,10 +92,22 @@ This is what the contact form's `POST /api/enquiry` ultimately writes to. See §
   non-empty submissions (don't store it).
 - **Access:** `create: () => true` (public submit), `read/update/delete: admin only`.
 
-#### `media` (upload collection)
+#### `media` (upload collection) — the performance backbone
 Replaces the static `assets/**` images. `upload: true` with a **required `alt`** field (the current
-markup already has descriptive `alt` on every image — preserve it). Store on **R2** (§5). *(If you
-prefer to keep images static for v1, skip this and store image paths as `text` instead of `upload`.)*
+markup already has descriptive `alt` on every image — preserve it). Store on **R2** (§5).
+
+This collection is where mobile performance is won or lost, so it is configured for it (full config in
+**§3.5** / **§5**):
+- **Pre-generated responsive sizes** (`imageSizes`) + modern format output (**WebP/AVIF**), so the
+  front end ships a `srcset` and the phone downloads a ~30–80 KB image instead of a 2 MB original.
+- **Intrinsic `width`/`height`** are stored automatically by Payload on every upload → the front end
+  sets them on `<img>` so **CLS = 0**.
+- **`focalPoint: true`** so art-directed crops (square gallery tiles, 16:9 hero) keep the subject.
+- A tiny **`blurDataURL`** LQIP placeholder generated on upload (hook in §5) for smooth loading with no
+  layout jump.
+
+*(If you prefer to keep images static for v1, skip this and store image paths as `text` — but you lose
+the responsive sizes and the 100-score is much harder. Recommended: use the collection.)*
 
 ### Globals (singletons)
 
@@ -122,12 +134,15 @@ Current columns: **Explore** (Avista Villa / Private Resort / Location / Enquire
 (email, phone, address).
 
 #### Page singletons: `home`, `locationPage`, `contactPage`
-- `home`: hero `{ image/video, kicker, title, sub }`, intro `lead`/`statement`, gallery selection,
+- `home`: hero `{ ...heroMedia, kicker, title, sub }`, intro `lead`/`statement`, gallery selection,
   `services` array `{ iconKey: select, title: text, description: textarea }` ("What can be arranged",
   4 items), location summary, `locationFacts` array `{ value, label }`, CTA `{ title, body, buttonLabel }`.
-- `locationPage`: hero, overview copy, `locationFacts`, `mapQuery`, the two cross-links.
-- `contactPage`: hero `{ kicker, title, sub }`, invitation copy, `mapQuery`. (The form fields are
+- `locationPage`: `{ ...heroMedia }` hero, overview copy, `locationFacts`, `map` (**`mapLocation`**), the two cross-links.
+- `contactPage`: hero `{ ...heroMedia, kicker, title, sub }`, invitation copy, `map` (**`mapLocation`**). (The form fields are
   code, in the Astro front end — not content.)
+
+> Hero on the home page can be lighter than the villa heroes (it is the very first paint): consider
+> setting `playOnMobile = false` so phones show the poster image and the desktop video never downloads.
 
 > `locationFacts` appears on both `home` and `locationPage`. Duplicate the array on each (simplest),
 > or promote it to a small `facts` collection for a single edit point.
@@ -141,6 +156,86 @@ an Astro component (see `ASTRO-MIGRATION.md`); the CMS stores only the **key**. 
 amenities/services: bed | bath | pool | view | kitchen | garden | wifi | parking | accessible | bbq | concierge | chef
 weather (set by code, from avista.js pick()): sun | part | cloud | fog | rain | snow | storm
 ```
+
+## 3.5 Responsive media & map (mobile-first, target ~100 Lighthouse)
+
+Three things decide the mobile score on an image-led site like this: the **hero** (it is the LCP), the
+**map** (a Google Maps iframe is ~hundreds of KB of third-party JS), and **every other image** (size +
+CLS). The schema is shaped so the front end can do the right thing for each. Define these two reusable
+field groups once and import them wherever a hero or a map appears.
+
+### `heroMedia` — responsive hero (desktop **and** mobile, image **and** video)
+
+```ts
+// fields/heroMedia.ts — spread into any hero group: { ...heroMedia, kicker, title, sub }
+import type { Field } from 'payload';
+
+export const heroMedia: Field[] = [
+  // --- Image (the LCP element; always required so there is a fast, light first paint) ---
+  { name: 'imageDesktop', type: 'upload', relationTo: 'media', required: true,
+    admin: { description: 'Shown ≥768px and as the video poster/fallback. LCP image.' } },
+  { name: 'imageMobile', type: 'upload', relationTo: 'media',
+    admin: { description: 'Portrait-friendly crop shown <768px. Falls back to imageDesktop if empty.' } },
+
+  // --- Optional video, with a lighter mobile encode (R2 URLs, matching today's setup) ---
+  { name: 'videoDesktop', type: 'text',
+    admin: { description: 'R2 URL, MP4 (H.264) + ideally a WebM. Optional. Plays muted/looped.' } },
+  { name: 'videoMobile', type: 'text',
+    admin: { description: 'Lighter/shorter encode for phones (≤~1.5 MB). Optional.' } },
+
+  // --- Data-saver + LCP controls ---
+  { name: 'playOnMobile', type: 'checkbox', defaultValue: false,
+    admin: { description: 'OFF = phones show the poster image only and never download the video (recommended for the home hero).' } },
+  { name: 'priority', type: 'checkbox', defaultValue: true,
+    admin: { description: 'Above-the-fold hero: front end preloads it + sets fetchpriority="high". Turn OFF for heroes below the fold.' } },
+];
+```
+
+Why this shape:
+- **Separate mobile/desktop images** let you ship a 900px-wide portrait crop to phones instead of a
+  2400px landscape one. The front end renders a `<picture>` with `media` queries; Payload's
+  `imageSizes` produce the actual `srcset` per source.
+- **Separate mobile video** (or none) avoids autoplaying a multi-MB desktop video over cellular. With
+  `playOnMobile = false` the phone loads **zero** video bytes — just the poster image.
+- **`priority`** tells the front end which hero is the LCP so it can `<link rel="preload">` it and set
+  `fetchpriority="high"`; every other image stays lazy.
+
+### `mapLocation` — pin + click-to-load facade
+
+```ts
+// fields/mapLocation.ts — spread into any map group: { ...mapLocation }
+import type { Field } from 'payload';
+
+export const mapLocation: Field[] = [
+  { name: 'latitude',  type: 'number', required: true, admin: { description: 'Pin latitude, e.g. 40.1969' } },
+  { name: 'longitude', type: 'number', required: true, admin: { description: 'Pin longitude, e.g. 23.7761' } },
+  { name: 'zoom',      type: 'number', defaultValue: 14, min: 1, max: 20 },
+  { name: 'label',     type: 'text',   admin: { description: 'Pin tooltip / place name, e.g. "Avista Villa, Vourvourou"' } },
+  { name: 'directionsQuery', type: 'text',
+    admin: { description: 'Optional. "Get directions" link target; falls back to "lat,lng".' } },
+  { name: 'staticPreview', type: 'upload', relationTo: 'media',
+    admin: { description: 'Static map image (with the pin baked in) shown as the facade. The interactive iframe only loads on click — keeps the map off the critical path.' } },
+];
+```
+
+The interactive Google/OSM embed is **never** in the initial HTML. The front end paints
+`staticPreview` (a normal optimized `<img>`) with a play/expand affordance, and only injects the iframe
+when the visitor clicks it. Coordinates also drive a precise pin (instead of a fuzzy text search) and
+the "Get directions" deep link.
+
+> If you'd rather not maintain static map screenshots, the front end can synthesize the facade from the
+> coordinates (a styled static-tile image or a CSS pin over a muted tile). `staticPreview` is the
+> highest-quality option; the coordinates are the required part.
+
+### Performance rules the schema enforces (hand these to the front end)
+
+| Lever | Schema gives you | Front end must |
+|---|---|---|
+| **LCP** | `heroMedia.priority`, `imageDesktop`/`imageMobile`, posters | preload the chosen hero image, `fetchpriority="high"`, **not** lazy; defer/omit video on mobile per `playOnMobile` |
+| **CLS** | stored `width`/`height` on every upload + `blurDataURL` | always set `width`/`height` (or `aspect-ratio`) and a blur placeholder background |
+| **Image weight** | `imageSizes` (WebP/AVIF) → `srcset` | ship `srcset` + correct `sizes`; gallery grid uses small sizes, the viewer uses large |
+| **Third-party JS** | `mapLocation.staticPreview` + coords | facade the map; load the iframe only on click |
+| **Lazy work** | everything below the hero | `loading="lazy"` + `decoding="async"` on all non-LCP images; the scroll viewer eager-loads only the opened photo |
 
 ## 4. Enquiries — closing the contact-form loop
 
@@ -219,6 +314,8 @@ export default buildConfig({
 ```ts
 // collections/Properties.ts
 import type { CollectionConfig } from 'payload';
+import { heroMedia } from '../fields/heroMedia';     // §3.5
+import { mapLocation } from '../fields/mapLocation';  // §3.5
 
 export const Properties: CollectionConfig = {
   slug: 'properties',
@@ -232,9 +329,7 @@ export const Properties: CollectionConfig = {
     { name: 'numeral', type: 'text' },
     {
       name: 'hero', type: 'group', fields: [
-        { name: 'image', type: 'upload', relationTo: 'media' },
-        { name: 'videoUrl', type: 'text' },
-        { name: 'poster', type: 'upload', relationTo: 'media' },
+        ...heroMedia,                       // responsive desktop+mobile image & video (fields/heroMedia.ts, §3.5)
         { name: 'kicker', type: 'text' },
         { name: 'title', type: 'text' },
         { name: 'sub', type: 'textarea' },
@@ -263,7 +358,7 @@ export const Properties: CollectionConfig = {
         { name: 'height', type: 'select', options: ['h1','h2','h3','h4','h5'], defaultValue: 'h2' },
       ],
     },
-    { name: 'mapQuery', type: 'text' },
+    { name: 'map', type: 'group', fields: [ ...mapLocation ] },   // pin + facade (fields/mapLocation.ts, §3.5)
     {
       name: 'seo', type: 'group', fields: [
         { name: 'title', type: 'text' },
@@ -358,8 +453,66 @@ export const SiteSettings: GlobalConfig = {
 };
 ```
 
-`Media`, `Navigation`, `Footer`, `Home`, `LocationPage`, and `ContactPage` follow the same
-`CollectionConfig` / `GlobalConfig` shape using the fields listed in §3 — one file each.
+```ts
+// collections/Media.ts — responsive, modern-format, zero-CLS uploads on R2
+import type { CollectionConfig } from 'payload';
+import sharp from 'sharp';
+
+export const Media: CollectionConfig = {
+  slug: 'media',
+  access: { read: () => true },
+  upload: {
+    // Payload also stores width/height/filesize/mimeType automatically → use them for <img> dims (CLS=0).
+    focalPoint: true,
+    // Pre-generate the widths the front end will reference in srcset. Crops where it matters.
+    imageSizes: [
+      { name: 'thumbnail', width: 480 },                                   // gallery grid tiles, cards
+      { name: 'card',      width: 800 },
+      { name: 'mobile',    width: 1080 },                                   // hero/full-bleed on phones
+      { name: 'tablet',    width: 1600 },                                   // gallery scroll viewer
+      { name: 'desktop',   width: 2000 },
+      { name: 'hero',      width: 2400 },                                   // desktop full-bleed hero
+      { name: 'og',        width: 1200, height: 630, position: 'centre' },  // social card
+    ],
+    // Emit modern formats. AVIF is smallest; WebP is the safe default. (Per-size formatOptions also allowed.)
+    formatOptions: { format: 'webp', options: { quality: 72 } },
+    // Strip metadata for smaller files.
+    withMetadata: false,
+  },
+  fields: [
+    { name: 'alt', type: 'text', required: true },
+    { name: 'caption', type: 'text' },
+    // Tiny LQIP placeholder (~0.5–1 KB) generated on upload; front end uses it as a blurred background.
+    { name: 'blurDataURL', type: 'text', admin: { readOnly: true, hidden: true } },
+  ],
+  hooks: {
+    afterChange: [
+      async ({ doc, req, operation }) => {
+        if (operation !== 'create' || doc.blurDataURL) return doc;
+        try {
+          const file = req.file?.data;                    // original upload buffer
+          if (!file) return doc;
+          const buf = await sharp(file).resize(16).webp({ quality: 40 }).toBuffer();
+          doc.blurDataURL = `data:image/webp;base64,${buf.toString('base64')}`;
+          await req.payload.update({ collection: 'media', id: doc.id, data: { blurDataURL: doc.blurDataURL } });
+        } catch { /* non-fatal: image still works without the placeholder */ }
+        return doc;
+      },
+    ],
+  },
+};
+```
+
+> **Even better on Cloudflare:** instead of (or alongside) pre-generating `imageSizes`, store the
+> original on R2 and transform at the edge with **Cloudflare Image Resizing** (`/cdn-cgi/image/
+> width=NNN,format=auto,quality=72/<r2-url>`). `format=auto` serves AVIF/WebP per the browser, and you
+> resize per request with no extra storage. The schema is identical either way — only the front-end
+> URL builder changes (see §8).
+
+`Navigation`, `Footer`, `Home`, `LocationPage`, and `ContactPage` follow the same
+`CollectionConfig` / `GlobalConfig` shape using the fields listed in §3 — one file each. `Home`,
+`LocationPage`, and `ContactPage` spread `...heroMedia` / `...mapLocation` the same way `Properties`
+does.
 
 ## 6. Build order
 
@@ -368,7 +521,8 @@ export const SiteSettings: GlobalConfig = {
 2. **Add collections & globals** from §3 / §5.
 3. **Seed content** from the current HTML (2 properties, ~12 reviews, amenities, galleries, facts,
    services, globals). A one-off seed script that reads the existing pages speeds this up.
-4. **Upload media** to the `media` collection on R2, preserving every `alt`.
+4. **Upload media** to the `media` collection on R2, preserving every `alt`. Confirm `imageSizes`
+   generate and `blurDataURL` populates (§3.5 / §5) — this is what the mobile score rides on.
 5. **Expose the API** the Astro build will read (`GET /api/properties?depth=2`, etc.); confirm public
    `read` access on `properties`/`reviews` and public `create` on `enquiries`.
 6. **(Optional) Email:** add an HTTP email adapter + the `afterChange` hook when you pick a provider.
@@ -380,3 +534,52 @@ export const SiteSettings: GlobalConfig = {
 1. **Email provider — undecided:** Resend / Postmark / SendGrid (HTTP; no SMTP). Non-blocking.
 2. **Real contact phone number** (current `+30 000 000 000` is a placeholder).
 3. **Reviews source of truth:** manual entries (current) vs. a future Booking.com/Google import.
+4. **Image transform strategy:** Payload `imageSizes` (portable) vs. Cloudflare Image Resizing at the
+   edge (`format=auto`, no extra storage). Either works with this schema; pick one before wiring §8.
+
+## 8. Astro front-end changes (yes — required)
+
+The schema changes above don't render themselves; the Astro side has to consume them. None of it is
+large, and most of it is "pass the new fields through + add the right attributes." Hand this list to
+whoever builds the front end (it pairs with `ASTRO-MIGRATION.md`).
+
+**1. A media URL helper — `src/lib/media.ts`.** One function that turns a Payload `media` upload into
+`{ src, srcset, sizes, width, height, blurDataURL, alt }`. It reads `imageSizes` URLs (or builds
+`/cdn-cgi/image/width=…,format=auto,quality=72/<r2-url>` if you chose Cloudflare Resizing) and the
+stored `width`/`height`/`blurDataURL`. Every image on the site goes through it.
+
+**2. `Hero.astro` — responsive image + video.** Today it takes a single `image`/`videoUrl`. Change it to
+take `heroMedia` and render:
+- a `<picture>`: `<source media="(max-width:767px)" srcset={imageMobile…}>` then a desktop
+  `<img srcset sizes width height>`. The hero `<img>` is **eager** + `fetchpriority="high"` +
+  `decoding="async"`.
+- the `<video>` only when a video exists **and** (`!isMobile || playOnMobile`): `<source>` for
+  `videoMobile`/`videoDesktop` (WebM then MP4), `poster`, `muted loop playsinline preload="metadata"`.
+  When `playOnMobile` is false, phones render just the poster `<img>` and download no video.
+- in the page `<head>`, when `priority` is set: `<link rel="preload" as="image" imagesrcset=… imagesizes=…>`
+  for the hero, and `<link rel="preconnect">` to the R2 / image origin.
+
+**3. `MapEmbed.astro` — facade instead of an eager iframe.** Today it renders a Google Maps `<iframe>`
+on load (the single biggest mobile-perf hit). Change it to take `mapLocation` and render the
+`staticPreview` image (via the media helper) inside a `<button>` with a "View map" affordance; on click,
+swap in the `<iframe>` (built from `latitude`/`longitude`/`zoom`). Add a plain "Get directions" link to
+`https://www.google.com/maps/dir/?api=1&destination=${directionsQuery ?? `${lat},${lng}`}`. Result: the
+map costs ~one image on load and only pulls Google's JS if the visitor asks for it.
+
+**4. Gallery (carousel + the grid/scroll viewer we built) — responsive `srcset`.** The components
+already split a small "thumb" from the full image; wire those to the media helper so the carousel and
+the grid tiles use `thumbnail`/`card` sizes and the scroll viewer uses `tablet`/`desktop`. Keep grid &
+carousel images `loading="lazy"`; the scroll viewer already eager-loads only the opened photo.
+
+**5. Every `<img>` gets dimensions + a blur placeholder.** Set `width`/`height` (or a wrapper
+`aspect-ratio`) from the stored values and use `blurDataURL` as a blurred `background-image` that the
+image fades over. This is what takes CLS to 0.
+
+**6. Astro config / fonts (perf housekeeping).** If you use `astro:assets`, add the R2 host (and the
+Cloudflare image endpoint) to `image.domains`/`remotePatterns`; otherwise the media helper emits plain
+`<img>` and you skip that. Also self-host or `preconnect` the Cormorant/Jost fonts with
+`font-display: swap` and preload the hero display weight — render-blocking font CSS is a common reason an
+otherwise-fast page misses 100.
+
+**What does _not_ change:** the contact-form flow, the weather widget, reviews, nav/footer — those just
+swap hard-coded values for CMS fields (per `ASTRO-MIGRATION.md`) and need no perf work.

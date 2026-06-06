@@ -1,12 +1,26 @@
 ---
+import { resolveImage, SIZES, type MediaInput } from "../lib/media";
+
+interface GalleryItem {
+  image?: MediaInput; // CMS upload object
+  src?: string; // legacy / local asset path
+  alt: string;
+  layout?: string; // CMS: l | p | s
+  size?: string; // legacy alias for layout
+  height?: string; // h1..h5
+}
+
 interface Props {
   titleHtml: string;
   note: string;
   hint: string;
-  items: any[];
+  items: GalleryItem[];
 }
 
 const { titleHtml, note, hint, items } = Astro.props;
+const resolved = items
+  .map((item) => ({ item, img: resolveImage(item.image ?? item.src, item.alt) }))
+  .filter((r) => r.img);
 ---
 
 <section class="section deep" id="gallery">
@@ -19,13 +33,23 @@ const { titleHtml, note, hint, items } = Astro.props;
   <div class="carousel-wrap reveal d1">
     <div class="carousel" id="carousel">
       {
-        items.map((item) => (
+        resolved.map(({ item, img }) => (
           <button
-            class={`card ${item.size} ${item.height}`}
+            class={`card ${item.layout ?? item.size ?? "l"} ${item.height ?? "h2"}`}
             type="button"
-            data-full={item.full ?? item.src}
+            data-full={img!.src}
+            data-thumb={img!.thumbnail}
           >
-            <img src={item.src} alt={item.alt} />
+            <img
+              src={img!.thumbnail}
+              srcset={img!.srcset}
+              sizes={img!.srcset ? SIZES.galleryGrid : undefined}
+              alt={item.alt}
+              width={img!.width}
+              height={img!.height}
+              loading="lazy"
+              decoding="async"
+            />
           </button>
         ))
       }
