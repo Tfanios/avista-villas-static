@@ -145,8 +145,11 @@ em,.it{font-style:italic}
   transition:filter .5s var(--ease)}
 .nav.solid .brand-logo,.nav.menu-open .brand-logo{filter:brightness(0)}
 .nav-menu-btn{
-  display:none;background:none;border:0;color:inherit;padding:.45rem 0;
-  min-height:44px;align-items:center;justify-content:flex-end;
+  display:none;background:none;border:0;color:inherit;
+  padding:.7rem .2rem .7rem 1.4rem;min-height:44px;min-width:44px;
+  align-items:center;justify-content:flex-end;
+  position:relative;z-index:3;cursor:pointer;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 .mobile-panel{display:none}
 /* live weather widget (inherits nav font colour via currentColor) */
