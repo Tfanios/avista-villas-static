@@ -24,7 +24,9 @@ const allItems = [...navigation.left, ...navigation.right];
       ))
     }
   </nav>
-  <a class="brand" href="/">Avista</a>
+  <a class="brand" href="/" aria-label="Avista — home">
+    <img class="brand-logo" src="/assets/logo/logo.svg" alt="Avista" width="3188" height="2298" />
+  </a>
   <nav class="nav-links right" aria-label="Secondary navigation">
     {
       navigation.right.map((item: any) => (

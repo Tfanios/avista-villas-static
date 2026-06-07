@@ -140,6 +140,10 @@ em,.it{font-style:italic}
   text-align:center;padding-left:.42em;white-space:nowrap;
 }
 .brand .dot{color:var(--accent)}
+.brand-logo{display:block;height:clamp(3.6rem,5vw,4.4rem);width:auto;
+  filter:brightness(0) invert(1) drop-shadow(0 1px 6px rgba(0,0,0,.35));
+  transition:filter .5s var(--ease)}
+.nav.solid .brand-logo{filter:brightness(0)}
 .nav-menu-btn{
   display:none;background:none;border:0;color:inherit;padding:.45rem 0;
   min-height:44px;align-items:center;justify-content:flex-end;
@@ -442,6 +446,8 @@ em,.it{font-style:italic}
 .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:clamp(30px,5vw,70px)}
 .foot .brand-lg{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:340;letter-spacing:.12em;text-transform:uppercase}
 .foot .brand-lg .dot{color:var(--accent)}
+.foot .brand-lg img{display:block;height:clamp(3rem,6vw,4.4rem);width:auto;
+  filter:brightness(0) invert(1)}
 .foot-col h4{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-family:var(--font-sans);font-weight:600;
   color:color-mix(in oklab,var(--on-deep) 60%,transparent);margin:0 0 1.1rem}
 .foot-col a,.foot-col p{display:block;color:color-mix(in oklab,var(--on-deep) 86%,transparent);
