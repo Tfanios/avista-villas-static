@@ -146,8 +146,8 @@ em,.it{font-style:italic}
 .nav.solid .brand-logo,.nav.menu-open .brand-logo{filter:brightness(0)}
 .nav-menu-btn{
   display:none;background:none;border:0;color:inherit;
-  padding:.7rem .2rem .7rem 1.4rem;min-height:44px;min-width:44px;
-  align-items:center;justify-content:flex-end;
+  padding:.75rem .9rem;min-height:48px;min-width:48px;
+  align-items:center;justify-content:center;
   position:relative;z-index:3;cursor:pointer;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
@@ -162,8 +162,9 @@ em,.it{font-style:italic}
 @media(max-width:880px){
   .nav-links{display:none}
   .nav{grid-template-columns:1fr auto 1fr}
-  .nav-menu-btn{display:flex;justify-content:flex-end;font-size:.72rem;letter-spacing:.2em;
-    text-transform:uppercase;grid-column:3;cursor:pointer}
+  .nav-menu-btn{display:flex;justify-self:end;font-size:.76rem;font-weight:500;line-height:1;
+    letter-spacing:.16em;text-transform:uppercase;grid-column:3;cursor:pointer}
+  .nav-menu-btn:active{background:color-mix(in oklab,currentColor 10%,transparent);border-radius:999px}
   .nav.menu-open,.nav.menu-open.solid{
     background:var(--bg);color:var(--ink);box-shadow:0 1px 0 var(--line-soft);
     -webkit-backdrop-filter:none;backdrop-filter:none;
@@ -478,7 +479,8 @@ em,.it{font-style:italic}
   justify-content:space-between;gap:18px;color:#fff;pointer-events:none;
   padding:clamp(14px,2.2vw,24px) clamp(16px,3vw,38px);
   background:linear-gradient(rgba(15,16,13,.9),rgba(15,16,13,0))}
-.lb-bar > *{pointer-events:auto}
+.lb-bar > *{pointer-events:none}
+.lb.open .lb-bar > *{pointer-events:auto}
 .lb-count{font-family:var(--font-sans);font-size:.74rem;font-weight:330;letter-spacing:.22em;
   text-transform:uppercase;color:rgba(255,255,255,.62);font-variant-numeric:tabular-nums}
 .lb-count b{color:#fff;font-weight:500}
