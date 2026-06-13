@@ -1,26 +1,90 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CrossLink from "../components/CrossLink.astro";
 import Cta from "../components/Cta.astro";
 import Hero from "../components/Hero.astro";
+import LocalGuide from "../components/LocalGuide.astro";
 import LocationBlock from "../components/LocationBlock.astro";
 import MapEmbed from "../components/MapEmbed.astro";
 import VideoModal from "../components/VideoModal.astro";
-import { getHomePage, getLocationPage, getProperties, getSiteSettings } from "../lib/cms";
+import { getLocationPage, getSiteSettings } from "../lib/cms";
 
-const homePage = await getHomePage();
 const locationPage = await getLocationPage();
-const properties = await getProperties();
 const siteSettings = await getSiteSettings();
 
-const villaLinks = properties.map((property) => ({
-  href: property.route,
-  title: property.name,
-  image: property.comparison.image,
-  imageAlt: property.comparison.imageAlt,
-  description: property.comparison.description,
-  buttonLabel: property.comparison.buttonLabel
-}));
+const localGuide = [
+  {
+    title: "Beaches",
+    description: "Sheltered bays and clear, shallow water close to Vourvourou.",
+    places: [
+      {
+        name: "Karidi Beach",
+        description: "Pale sand, pines and calm shallows",
+        area: "Vourvourou",
+        href: "https://www.google.com/maps/search/?api=1&query=Karidi+Beach+Vourvourou"
+      },
+      {
+        name: "Fava Beach",
+        description: "A quieter string of small coves",
+        area: "Vourvourou",
+        href: "https://www.google.com/maps/search/?api=1&query=Fava+Beach+Vourvourou"
+      },
+      {
+        name: "Livari Beach",
+        description: "Long shallows facing Diaporos",
+        area: "Vourvourou",
+        href: "https://www.google.com/maps/search/?api=1&query=Livari+Beach+Vourvourou"
+      }
+    ]
+  },
+  {
+    title: "Restaurants",
+    description: "Local cooking, fresh fish and tables worth lingering over.",
+    places: [
+      {
+        name: "Paris Restaurant",
+        description: "Greek cooking and grilled seafood",
+        area: "Vourvourou",
+        href: "https://www.google.com/maps/search/?api=1&query=Paris+Restaurant+Vourvourou"
+      },
+      {
+        name: "Melia",
+        description: "Dinner beneath the trees",
+        area: "Vourvourou",
+        href: "https://www.google.com/maps/search/?api=1&query=Melia+Restaurant+Vourvourou"
+      },
+      {
+        name: "Aristos Fish Restaurant",
+        description: "Seafood beside the harbour",
+        area: "Ormos Panagias",
+        href: "https://www.google.com/maps/search/?api=1&query=Aristos+Fish+Restaurant+Ormos+Panagias"
+      }
+    ]
+  },
+  {
+    title: "Bars by the water",
+    description: "For a slower afternoon or a drink after the last swim.",
+    places: [
+      {
+        name: "Talgo Beach Bar",
+        description: "Sunbeds and a long sandy bay",
+        area: "Trani Ammouda",
+        href: "https://www.google.com/maps/search/?api=1&query=Talgo+Beach+Bar+Halkidiki"
+      },
+      {
+        name: "Manassu Beach Bar",
+        description: "All-day drinks beneath the pines",
+        area: "Akti Oneirou",
+        href: "https://www.google.com/maps/search/?api=1&query=Manassu+Beach+Bar+Sithonia"
+      },
+      {
+        name: "Ethnik Beach Bar",
+        description: "A relaxed stop on the western coast",
+        area: "Tristinika",
+        href: "https://www.google.com/maps/search/?api=1&query=Ethnik+Beach+Bar+Tristinika"
+      }
+    ]
+  }
+];
 ---
 
 <BaseLayout
@@ -45,18 +109,7 @@ const villaLinks = properties.map((property) => ({
     title={locationPage.map.title}
   />
 
-  <section class="section wrap">
-    <div
-      class="reveal"
-      style="text-align: center; max-width: 46ch; margin: 0 auto clamp(48px, 7vw, 96px);"
-    >
-      <p class="lead">{homePage.intro.lead}</p>
-    </div>
-
-    <CrossLink link={villaLinks[0]} />
-    <div class="rule h reveal" style="margin-block: clamp(48px, 7vw, 104px)"></div>
-    <CrossLink link={villaLinks[1]} flip />
-  </section>
+  <LocalGuide categories={localGuide} />
 
   <Cta cta={locationPage.cta} />
 
