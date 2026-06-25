@@ -403,7 +403,7 @@
   if(gallery){
     galleryItems = [].slice.call(gallery.querySelectorAll(".card")).map(function(c, i){
       var img = c.querySelector("img");
-      var alt = img && img.alt ? img.alt : "Avista gallery image";
+      var alt = img && img.alt ? img.alt : "";
       c.dataset.idx = i;
       c.setAttribute("aria-label", "Open gallery image: " + alt);
       return {src:c.getAttribute("data-full") || (img ? img.src : ""), thumb: c.getAttribute("data-thumb") || (img ? img.src : ""), alt:alt};
@@ -488,10 +488,15 @@
   });
 })();
 
-/* ---- live weather widget (Vourvourou) ---- */
+/* ---- live weather widget ---- */
 (function(){
   var nodes = document.querySelectorAll("[data-weather]");
   if(!nodes.length || !window.fetch) return;
+  var root = document.body;
+  var latitude = root.getAttribute("data-weather-latitude");
+  var longitude = root.getAttribute("data-weather-longitude");
+  var locationLabel = root.getAttribute("data-weather-label") || "";
+  if(!latitude || !longitude) return;
 
   var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">';
   var ICONS = {
@@ -517,7 +522,9 @@
     return ["cloud","Cloudy"];
   }
 
-  var url = "https://api.open-meteo.com/v1/forecast?latitude=40.1969&longitude=23.7761&current=temperature_2m,weather_code&timezone=auto";
+  var url = "https://api.open-meteo.com/v1/forecast?latitude=" +
+    encodeURIComponent(latitude) + "&longitude=" + encodeURIComponent(longitude) +
+    "&current=temperature_2m,weather_code&timezone=auto";
   fetch(url).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
     if(!d || !d.current || typeof d.current.temperature_2m !== "number") return;
     var t = Math.round(d.current.temperature_2m);
@@ -527,7 +534,10 @@
       var tm = n.querySelector(".nav-weather-temp");
       if(ic) ic.innerHTML = ICONS[info[0]] || ICONS.cloud;
       if(tm) tm.textContent = t + "°";
-      n.setAttribute("aria-label", "Vourvourou: " + info[1] + ", " + t + "°C");
+      n.setAttribute(
+        "aria-label",
+        (locationLabel ? locationLabel + ": " : "") + info[1] + ", " + t + "°C"
+      );
       n.hidden = false;
     });
   }).catch(function(){ /* offline / blocked — leave widget hidden */ });

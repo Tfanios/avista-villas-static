@@ -139,9 +139,6 @@ function iconFor(key?: string | null): string {
   return (key && ICON_KEY_MAP[key]) || "frame";
 }
 
-const GALLERY_NOTE = "Drag to explore, or tap any image to view it full screen.";
-const GALLERY_HINT = "Drag to explore · hover to pause";
-
 function mapHero(hero: any, { page }: { page: boolean }) {
   return {
     page,
@@ -188,7 +185,6 @@ interface Content {
   siteSettings: any;
   navigation: any;
   footer: any;
-  locationFacts: any[];
   properties: any[];
   homePage: any;
   locationPage: any;
@@ -217,17 +213,25 @@ async function buildContent(): Promise<Content> {
   // Shared location copy (authored once on the locationPage global, reused on
   // the per-property location blocks the CMS doesn't model separately).
   const locOverview = richTextParagraphs(locRaw?.overview);
-  const locTitleHtml = brHtml(locOverview[0] ?? "Vourvourou,\nSithonia.");
+  const locTitleHtml = brHtml(locOverview[0] ?? "");
   const locBody = locOverview[1] ?? "";
 
   const estateFilmUrl = propsRaw[0]?.hero?.videoDesktop ?? undefined;
 
+  const navigationLinks = [
+    ...(Array.isArray(navRaw?.leftLinks) ? navRaw.leftLinks : []),
+    ...(Array.isArray(navRaw?.rightLinks) ? navRaw.rightLinks : [])
+  ];
+
+  const navigationLabel = (href: string, fallback = "") =>
+    navigationLinks.find((link: any) => link?.href === href)?.label ?? fallback;
+
   const homeCta = {
     image: mediaSrc(propsRaw[0]?.hero?.imageDesktop),
-    imageAlt: homeRaw?.hero?.imageDesktop?.alt ?? "Avista",
+    imageAlt: propsRaw[0]?.hero?.imageDesktop?.alt ?? "",
     titleHtml: brHtml(homeRaw?.cta?.title),
     text: homeRaw?.cta?.body ?? "",
-    buttonLabel: homeRaw?.cta?.buttonLabel ?? "Send an enquiry",
+    buttonLabel: homeRaw?.cta?.buttonLabel ?? "",
     href: "/contact/"
   };
 
@@ -252,21 +256,20 @@ async function buildContent(): Promise<Content> {
       hero: mapHero(raw.hero, { page: true }),
       comparison: {
         image: mediaSrc(raw.hero?.imageDesktop),
-        imageAlt: raw.hero?.imageDesktop?.alt ?? raw.name,
+        imageAlt: raw.hero?.imageDesktop?.alt ?? "",
         inset: mediaSrc(gallery[1]?.image),
-        insetAlt: gallery[1]?.alt ?? raw.name,
+        insetAlt: gallery[1]?.alt ?? "",
         description: raw.summary ?? "",
-        buttonLabel: `View ${raw.name}`
+        buttonLabel: navigationLabel(route, raw.name)
       },
       stats: Array.isArray(raw.stats)
         ? raw.stats.map((s: any) => ({ value: s.value, label: s.label }))
         : [],
       detail: {
-        eyebrow: "The house",
         titleHtml: brHtml(overview[0] ?? ""),
         body: overview[1] ?? "",
         image: mediaSrc(gallery[2]?.image ?? raw.hero?.imageDesktop),
-        imageAlt: gallery[2]?.alt ?? raw.name
+        imageAlt: gallery[2]?.alt ?? raw.hero?.imageDesktop?.alt ?? ""
       },
       amenities: Array.isArray(raw.amenities)
         ? raw.amenities.map((a: any) => ({
@@ -275,52 +278,61 @@ async function buildContent(): Promise<Content> {
             description: a.description ?? ""
           }))
         : [],
-      galleryTitleHtml: `Inside ${raw.name}.`,
-      galleryNote: GALLERY_NOTE,
-      galleryHint: GALLERY_HINT,
+      galleryTitleHtml: brHtml(raw.name),
+      galleryNote: "",
+      galleryHint: "",
       gallery: gallery.map(mapGalleryItem),
       reviews: reviewsByProperty[index].map((r: any) => ({
         authorName: r.authorName,
         authorLocation: r.authorLocation ?? "",
         date: r.date ?? "",
         score: r.score,
-        quote: r.quote ?? ""
+        quote: r.quote ?? "",
+        source: r.source ?? ""
       })),
       location: {
         titleHtml: locTitleHtml,
         body: locBody,
         image: mediaSrc(raw.hero?.imageDesktop),
-        imageAlt: raw.hero?.imageDesktop?.alt ?? raw.name
+        imageAlt: raw.hero?.imageDesktop?.alt ?? "",
+        facts: (Array.isArray(locRaw?.locationFacts) ? locRaw.locationFacts : []).map((f: any) => ({
+          value: f.value,
+          label: f.label
+        }))
       },
-      crossLink: {
-        href: `/${other.slug}/`,
-        title: other.name,
-        image: mediaSrc(other.hero?.imageDesktop),
-        imageAlt: other.hero?.imageDesktop?.alt ?? other.name,
-        description: other.summary ?? "",
-        buttonLabel: `Discover ${other.name}`
-      },
+      crossLink:
+        other && other.id !== raw.id
+          ? {
+              href: `/${other.slug}/`,
+              title: other.name,
+              image: mediaSrc(other.hero?.imageDesktop),
+              imageAlt: other.hero?.imageDesktop?.alt ?? "",
+              description: other.summary ?? "",
+              buttonLabel: navigationLabel(`/${other.slug}/`, other.name)
+            }
+          : null,
       cta: {
         image: mediaSrc(gallery[gallery.length - 1]?.image ?? raw.hero?.imageDesktop),
-        imageAlt: raw.hero?.imageDesktop?.alt ?? raw.name,
-        titleHtml: `Reserve ${raw.name}.`,
+        imageAlt:
+          gallery[gallery.length - 1]?.alt ?? raw.hero?.imageDesktop?.alt ?? "",
+        titleHtml: brHtml(homeRaw?.cta?.title),
         text: homeCta.text,
-        buttonLabel: "Enquire now",
+        buttonLabel: homeCta.buttonLabel,
         href: "/contact/"
       },
-      filmUrl: raw.hero?.videoDesktop ?? estateFilmUrl
+      filmUrl: raw.hero?.videoDesktop ?? undefined
     };
   });
 
   const siteSettings = {
-    brand: siteRaw?.brandName ?? "Avista",
+    brand: siteRaw?.brandName ?? "",
     contactEmail: siteRaw?.contactEmail ?? "",
     contactPhone: siteRaw?.phone ?? "",
     addressHtml: brHtml(siteRaw?.address),
     weather: {
       latitude: siteRaw?.weather?.latitude,
       longitude: siteRaw?.weather?.longitude,
-      label: siteRaw?.tagline ?? "Vourvourou"
+      label: siteRaw?.tagline ?? ""
     },
     estateFilmUrl,
     mapQuery: locRaw?.map?.directionsQuery ?? contactRaw?.map?.directionsQuery ?? ""
@@ -338,16 +350,19 @@ async function buildContent(): Promise<Content> {
     right: mapLinks(navRaw?.rightLinks)
   };
 
-  const exploreColumn =
-    (Array.isArray(footRaw?.columns) ? footRaw.columns : []).find(
-      (col: any) => col?.heading === "Explore"
-    ) ?? footRaw?.columns?.[0];
-
   const footer = {
     text: footRaw?.brandBlurb ?? "",
-    explore: (Array.isArray(exploreColumn?.links) ? exploreColumn.links : []).map((l: any) => ({
-      label: l.label,
-      href: l.href
+    columns: (Array.isArray(footRaw?.columns) ? footRaw.columns : []).map((column: any) => ({
+      heading: column.heading ?? "",
+      links: (Array.isArray(column.links) ? column.links : []).map((link: any) => ({
+        label: link.label ?? "",
+        href: link.href ?? ""
+      })),
+      addressHtml: (Array.isArray(column.links) ? column.links : []).some(
+        (link: any) => /^mailto:|^tel:/.test(link?.href ?? "")
+      )
+        ? brHtml(siteRaw?.address)
+        : ""
     })),
     bottomLeft: siteRaw?.copyright ?? "",
     bottomRight: siteRaw?.locationSlogan ?? ""
@@ -359,24 +374,34 @@ async function buildContent(): Promise<Content> {
 
   const homePage = {
     seo: {
-      title: homeRaw?.seo?.title ?? "Avista",
-      description: homeRaw?.seo?.description ?? ""
+      title: homeRaw?.seo?.title ?? siteRaw?.brandName ?? "",
+      description: homeRaw?.seo?.description ?? siteRaw?.defaultSeo?.description ?? ""
     },
     hero: mapHero(homeRaw?.hero, { page: false }),
     intro: {
       lead: homeRaw?.intro?.lead ?? "",
       statement: richTextParagraphs(homeRaw?.intro?.statement).join("\n\n")
     },
-    galleryTitleHtml: "Photos from<br />both villas.",
-    galleryNote:
-      "Pool terraces, garden shade, sea-facing rooms and evening light across both properties. Drag to browse. Tap any photo to open it full screen.",
-    galleryHint: "Drag to browse · tap to open",
+    villas: {
+      kicker: homeRaw?.villas?.kicker ?? "",
+      titleHtml: brHtml(homeRaw?.villas?.title),
+      body: homeRaw?.villas?.body ?? "",
+      // `featured` is a hasMany relationship; with depth=2 it resolves to property
+      // objects. Expose the slugs so the page can order/filter the rich property
+      // list it already has. Empty → the page falls back to all properties.
+      featuredSlugs: (Array.isArray(homeRaw?.villas?.featured) ? homeRaw.villas.featured : [])
+        .map((p: any) => (p && typeof p === "object" ? p.slug : null))
+        .filter((slug: any): slug is string => typeof slug === "string" && slug.length > 0)
+    },
+    galleryTitleHtml: "",
+    galleryNote: "",
+    galleryHint: "",
     gallery: (Array.isArray(homeRaw?.gallery) ? homeRaw.gallery : []).map(mapGalleryItem),
     services: {
       image: mediaSrc(homeRaw?.hero?.imageDesktop),
       imageAlt: homeRaw?.hero?.imageDesktop?.alt ?? "",
-      note: "Services are arranged by request, before or during your stay.",
-      titleHtml: "What can be<br />arranged.",
+      note: "",
+      titleHtml: "",
       items: (Array.isArray(homeRaw?.services) ? homeRaw.services : []).map((s: any) => ({
         label: s.iconKey ?? "",
         title: s.title,
@@ -387,15 +412,16 @@ async function buildContent(): Promise<Content> {
       titleHtml: locTitleHtml,
       body: homeRaw?.locationSummary ?? "",
       image: mediaSrc(propsRaw[0]?.hero?.imageDesktop),
-      imageAlt: propsRaw[0]?.hero?.imageDesktop?.alt ?? "Vourvourou"
+      imageAlt: propsRaw[0]?.hero?.imageDesktop?.alt ?? "",
+      facts: locationFacts
     },
     cta: homeCta
   };
 
   const locationPage = {
     seo: {
-      title: locRaw?.seo?.title ?? "Avista",
-      description: locRaw?.seo?.description ?? ""
+      title: locRaw?.seo?.title ?? siteRaw?.brandName ?? "",
+      description: locRaw?.seo?.description ?? siteRaw?.defaultSeo?.description ?? ""
     },
     hero: mapHero(locRaw?.hero, { page: true }),
     overview: {
@@ -405,15 +431,22 @@ async function buildContent(): Promise<Content> {
       imageAlt:
         propsRaw[1]?.hero?.imageDesktop?.alt ??
         propsRaw[0]?.hero?.imageDesktop?.alt ??
-        "Vourvourou"
+        "",
+      facts: (Array.isArray(locRaw?.locationFacts) ? locRaw.locationFacts : []).map((f: any) => ({
+        value: f.value,
+        label: f.label
+      }))
     },
     map: {
-      titleHtml: "Sithonia,<br />Halkidiki.",
-      body:
-        "On the middle finger of Halkidiki, about ninety minutes by road from Thessaloniki airport. The villas sit above the bays of Vourvourou, with the islets of Diaporos just offshore.",
-      title: locRaw?.map?.label ? `Map of ${locRaw.map.label}` : "Map of Vourvourou, Sithonia, Halkidiki",
+      titleHtml: brHtml(locRaw?.map?.label),
+      body: "",
+      title: locRaw?.map?.label ?? "",
       location: mapMap(locRaw?.map)
     },
+    crossLinks: (Array.isArray(locRaw?.crossLinks) ? locRaw.crossLinks : []).map((link: any) => ({
+      label: link.label ?? "",
+      href: link.href ?? ""
+    })),
     cta: homeCta
   };
 
@@ -421,8 +454,8 @@ async function buildContent(): Promise<Content> {
 
   const contactPage = {
     seo: {
-      title: contactRaw?.seo?.title ?? "Avista",
-      description: contactRaw?.seo?.description ?? ""
+      title: contactRaw?.seo?.title ?? siteRaw?.brandName ?? "",
+      description: contactRaw?.seo?.description ?? siteRaw?.defaultSeo?.description ?? ""
     },
     hero: mapHero(contactRaw?.hero, { page: true }),
     intro: {
@@ -430,12 +463,9 @@ async function buildContent(): Promise<Content> {
       body: contactInvitation[1] ?? ""
     },
     map: {
-      titleHtml: "Where we<br />are.",
-      body:
-        "The villas sit above the bays of Vourvourou on the middle finger of Halkidiki, about ninety minutes by road from Thessaloniki airport, with the islets of Diaporos just offshore.",
-      title: contactRaw?.map?.label
-        ? `Map of ${contactRaw.map.label}`
-        : "Map of Vourvourou, Sithonia, Halkidiki",
+      titleHtml: brHtml(contactRaw?.map?.label),
+      body: "",
+      title: contactRaw?.map?.label ?? "",
       location: mapMap(contactRaw?.map)
     }
   };
@@ -444,7 +474,6 @@ async function buildContent(): Promise<Content> {
     siteSettings,
     navigation,
     footer,
-    locationFacts,
     properties,
     homePage,
     locationPage,
@@ -466,10 +495,6 @@ export async function getNavigation() {
 
 export async function getFooter() {
   return (await loadContent()).footer;
-}
-
-export async function getLocationFacts() {
-  return (await loadContent()).locationFacts;
 }
 
 export async function getProperties() {

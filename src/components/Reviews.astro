@@ -6,56 +6,30 @@ interface Props {
 const { reviews } = Astro.props;
 ---
 
-<section class="section" id="reviews">
-  <div class="gallery-head">
-    <div class="reveal">
-      <span class="eyebrow no-rule">Guest reviews</span>
-      <h2 class="h-section" style="margin-top: 1.1rem">
-        Loved by the<br />people who stay.
-      </h2>
-    </div>
-    <p class="body-muted reveal d1">
-      A few words from recent guests, straight from Booking.com. Drag to read more.
-    </p>
-  </div>
-  <div class="carousel-wrap reveal d1">
-    <div class="carousel reviews" aria-label="Guest reviews">
-      {
-        reviews.map((review) => (
-          <div class="card review-card">
-            <div class="rev-head">
-              <span class="rev-logo" aria-label="Review from Booking.com">
-                <svg viewBox="0 0 122 22" aria-hidden="true" focusable="false">
-                  <text
-                    x="0"
-                    y="17"
-                    font-family="Arial, Helvetica, sans-serif"
-                    font-size="19"
-                    font-weight="700"
-                    fill="#003580"
-                    letter-spacing="-.4"
-                  >
-                    Booking.com
-                  </text>
-                </svg>
-              </span>
-              <span class="rev-score" aria-label={`Scored ${review.score} out of 10`}>
-                {review.score}
-              </span>
+{
+  reviews.length > 0 && (
+    <section class="section" id="reviews">
+      <div class="carousel-wrap reveal d1">
+        <div class="carousel reviews" aria-label="Guest reviews">
+          {reviews.map((review) => (
+            <div class="card review-card">
+              <div class="rev-head">
+                {review.source && <span class="rev-logo">{review.source}</span>}
+                <span class="rev-score" aria-label={`Scored ${review.score} out of 10`}>
+                  {review.score}
+                </span>
+              </div>
+              <p class="rev-quote">"{review.quote}"</p>
+              <div class="rev-by">
+                <span class="rev-name">{review.authorName}</span>
+                <span class="rev-meta">
+                  {[review.authorLocation, review.date].filter(Boolean).join(" · ")}
+                </span>
+              </div>
             </div>
-            <p class="rev-quote">"{review.quote}"</p>
-            <div class="rev-by">
-              <span class="rev-name">{review.authorName}</span>
-              <span class="rev-meta">
-                {review.authorLocation} · {review.date}
-              </span>
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  </div>
-  <div class="carousel-ctrl reveal">
-    <span class="car-hint">Drag to explore · Booking.com</span>
-  </div>
-</section>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,5 +1,5 @@
 ---
-import { getNavigation } from "../lib/cms";
+import { getNavigation, getSiteSettings } from "../lib/cms";
 
 interface Props {
   currentPath?: string;
@@ -7,6 +7,7 @@ interface Props {
 
 const { currentPath = "" } = Astro.props;
 const navigation = await getNavigation();
+const siteSettings = await getSiteSettings();
 const allItems = [...navigation.left, ...navigation.right];
 ---
 
@@ -24,8 +25,14 @@ const allItems = [...navigation.left, ...navigation.right];
       ))
     }
   </nav>
-  <a class="brand" href="/" aria-label="Avista — home">
-    <img class="brand-logo" src="/assets/logo/logo.svg" alt="Avista" width="3188" height="2298" />
+  <a class="brand" href="/" aria-label={`${siteSettings.brand} home`}>
+    <img
+      class="brand-logo"
+      src="/assets/logo/logo.svg"
+      alt={siteSettings.brand}
+      width="3188"
+      height="2298"
+    />
   </a>
   <nav class="nav-links right" aria-label="Secondary navigation">
     {

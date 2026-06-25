@@ -28,67 +28,70 @@ const poster = resolveImage(hero.poster ?? hero.imageDesktop, hero.imageAlt ?? "
 const alt = desktop?.alt || hero.imageAlt || "";
 const hasVideo = !!(hero.videoDesktop || hero.videoMobile);
 const priority = hero.priority !== false;
+const hasContent = !!(desktop || hasVideo || hero.kicker || hero.titleHtml || hero.sub);
 ---
 
-<section class={heroClass} id="top" data-layout={hero.layout ?? "bottom"}>
-  <div class="hero-media">
-    {
-      hasVideo && (
-        <video
-          data-hero-video
-          data-video-desktop={hero.videoDesktop ?? ""}
-          data-video-mobile={hero.videoMobile ?? hero.videoDesktop ?? ""}
-          data-play-mobile={hero.playOnMobile ? "1" : "0"}
-          muted
-          loop
-          playsinline
-          preload="none"
-          poster={poster?.src}
-          aria-hidden="true"
-        />
-      )
-    }
-    {
-      desktop && (
-        <picture>
-          {mobile && mobile.src !== desktop.src && (
-            <source media="(max-width: 767px)" srcset={mobile.srcset ?? mobile.src} />
-          )}
-          <img
-            src={desktop.src}
-            srcset={desktop.srcset}
-            sizes={desktop.srcset ? SIZES.hero : undefined}
-            alt={alt}
-            width={desktop.width}
-            height={desktop.height}
-            fetchpriority={priority ? "high" : undefined}
-            loading={priority ? "eager" : "lazy"}
-            decoding="async"
+{
+  hasContent && (
+    <section class={heroClass} id="top" data-layout={hero.layout ?? "bottom"}>
+      <div class="hero-media">
+        {hasVideo && (
+          <video
+            data-hero-video
+            data-video-desktop={hero.videoDesktop ?? ""}
+            data-video-mobile={hero.videoMobile ?? hero.videoDesktop ?? ""}
+            data-play-mobile={hero.playOnMobile ? "1" : "0"}
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster={poster?.src}
+            aria-hidden="true"
           />
-        </picture>
-      )
-    }
-  </div>
-  <div class="hero-meta">
-    <span
-      class="nav-weather hero-weather"
-      data-weather
-      hidden
-      aria-label="Current weather in Vourvourou"
-      ><span class="nav-weather-ic" aria-hidden="true"></span><span
-        class="nav-weather-temp"></span></span
-    >
-  </div>
-  <div class="hero-inner">
-    <div>
-      <p class="hero-kicker">{hero.kicker}</p>
-      <h1 class="hero-title" set:html={hero.titleHtml} />
-    </div>
-    <div>
-      <p class="hero-sub">{hero.sub}</p>
-    </div>
-  </div>
-  <div class="hero-scroll">
-    <span>Scroll</span><span class="bar"></span>
-  </div>
-</section>
+        )}
+        {desktop && (
+          <picture>
+            {mobile && mobile.src !== desktop.src && (
+              <source media="(max-width: 767px)" srcset={mobile.srcset ?? mobile.src} />
+            )}
+            <img
+              src={desktop.src}
+              srcset={desktop.srcset}
+              sizes={desktop.srcset ? SIZES.hero : undefined}
+              alt={alt}
+              width={desktop.width}
+              height={desktop.height}
+              fetchpriority={priority ? "high" : undefined}
+              loading={priority ? "eager" : "lazy"}
+              decoding="async"
+            />
+          </picture>
+        )}
+      </div>
+      <div class="hero-meta">
+        <span
+          class="nav-weather hero-weather"
+          data-weather
+          hidden
+          aria-label="Current weather"
+          ><span class="nav-weather-ic" aria-hidden="true"></span><span
+            class="nav-weather-temp"></span></span
+        >
+      </div>
+      <div class="hero-inner">
+        <div>
+          {hero.kicker && <p class="hero-kicker">{hero.kicker}</p>}
+          {hero.titleHtml && <h1 class="hero-title" set:html={hero.titleHtml} />}
+        </div>
+        {hero.sub && (
+          <div>
+            <p class="hero-sub">{hero.sub}</p>
+          </div>
+        )}
+      </div>
+      <div class="hero-scroll">
+        <span>Scroll</span><span class="bar"></span>
+      </div>
+    </section>
+  )
+}

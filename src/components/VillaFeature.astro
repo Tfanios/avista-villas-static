@@ -7,32 +7,44 @@ interface Props {
 const { property, flip = false } = Astro.props;
 ---
 
-<div class={`villa${flip ? " flip" : ""} reveal`}>
-  <div class="villa-media">
-    <div class="villa-figure">
-      <img src={property.comparison.image} alt={property.comparison.imageAlt} />
-    </div>
-    <div class="villa-inset">
-      <img src={property.comparison.inset} alt={property.comparison.insetAlt} />
-    </div>
-  </div>
-  <div class="villa-body">
-    <span class="villa-num">{property.numeral}</span>
-    <span class="villa-tag">{property.tag}</span>
-    <h2 class="h-villa">{property.name}</h2>
-    <p class="villa-desc">{property.comparison.description}</p>
-    <div class="villa-stats">
-      {
-        property.stats.map((stat: any) => (
-          <div class="stat">
-            <div class="n">{stat.value}</div>
-            <div class="l">{stat.label}</div>
+{
+  property && (
+    <div class={`villa${flip ? " flip" : ""} reveal`}>
+      <div class="villa-media">
+        {property.comparison.image && (
+          <div class="villa-figure">
+            <img src={property.comparison.image} alt={property.comparison.imageAlt} />
           </div>
-        ))
-      }
+        )}
+        {property.comparison.inset && (
+          <div class="villa-inset">
+            <img src={property.comparison.inset} alt={property.comparison.insetAlt} />
+          </div>
+        )}
+      </div>
+      <div class="villa-body">
+        {property.numeral && <span class="villa-num">{property.numeral}</span>}
+        {property.tag && <span class="villa-tag">{property.tag}</span>}
+        {property.name && <h2 class="h-villa">{property.name}</h2>}
+        {property.comparison.description && (
+          <p class="villa-desc">{property.comparison.description}</p>
+        )}
+        {property.stats.length > 0 && (
+          <div class="villa-stats">
+            {property.stats.map((stat: any) => (
+              <div class="stat">
+                <div class="n">{stat.value}</div>
+                <div class="l">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        {property.comparison.buttonLabel && (
+          <a class="btn" href={property.route}>
+            {property.comparison.buttonLabel} <span class="ln"></span>
+          </a>
+        )}
+      </div>
     </div>
-    <a class="btn" href={property.route}>
-      {property.comparison.buttonLabel} <span class="ln"></span>
-    </a>
-  </div>
-</div>
+  )
+}

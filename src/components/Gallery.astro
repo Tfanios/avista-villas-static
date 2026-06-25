@@ -21,41 +21,50 @@ const { titleHtml, note, hint, items } = Astro.props;
 const resolved = items
   .map((item) => ({ item, img: resolveImage(item.image ?? item.src, item.alt) }))
   .filter((r) => r.img);
+const hasHeader = !!(titleHtml || note);
 ---
 
-<section class="section deep" id="gallery">
-  <div class="gallery-head">
-    <div class="reveal">
-      <h2 class="h-section" set:html={titleHtml} />
-    </div>
-    <p class="body-muted reveal d1">{note}</p>
-  </div>
-  <div class="carousel-wrap reveal d1">
-    <div class="carousel" id="carousel">
-      {
-        resolved.map(({ item, img }) => (
-          <button
-            class={`card ${item.layout ?? item.size ?? "l"} ${item.height ?? "h2"}`}
-            type="button"
-            data-full={img!.src}
-            data-thumb={img!.thumbnail}
-          >
-            <img
-              src={img!.thumbnail}
-              srcset={img!.srcset}
-              sizes={img!.srcset ? SIZES.galleryGrid : undefined}
-              alt={item.alt}
-              width={img!.width}
-              height={img!.height}
-              loading="lazy"
-              decoding="async"
-            />
-          </button>
-        ))
-      }
-    </div>
-  </div>
-  <div class="carousel-ctrl reveal">
-    <span class="car-hint">{hint}</span>
-  </div>
-</section>
+{
+  resolved.length > 0 && (
+    <section class="section deep" id="gallery">
+      {hasHeader && (
+        <div class="gallery-head">
+          {titleHtml && (
+            <div class="reveal">
+              <h2 class="h-section" set:html={titleHtml} />
+            </div>
+          )}
+          {note && <p class="body-muted reveal d1">{note}</p>}
+        </div>
+      )}
+      <div class="carousel-wrap reveal d1">
+        <div class="carousel" id="carousel">
+          {resolved.map(({ item, img }) => (
+            <button
+              class={`card ${item.layout ?? item.size ?? "l"} ${item.height ?? "h2"}`}
+              type="button"
+              data-full={img!.src}
+              data-thumb={img!.thumbnail}
+            >
+              <img
+                src={img!.thumbnail}
+                srcset={img!.srcset}
+                sizes={img!.srcset ? SIZES.galleryGrid : undefined}
+                alt={item.alt}
+                width={img!.width}
+                height={img!.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+      {hint && (
+        <div class="carousel-ctrl reveal">
+          <span class="car-hint">{hint}</span>
+        </div>
+      )}
+    </section>
+  )
+}

@@ -20,31 +20,49 @@ const siteSettings = await getSiteSettings();
   <section class="section wrap">
     <div class="loc enquiry">
       <div class="reveal">
-        <h2 class="h-section" set:html={contactPage.intro.titleHtml} />
-        <p class="body-muted" style="margin-top: 1.6rem">
-          {contactPage.intro.body}
-        </p>
+        {contactPage.intro.titleHtml && (
+          <h2 class="h-section" set:html={contactPage.intro.titleHtml} />
+        )}
+        {contactPage.intro.body && (
+          <p class="body-muted" style="margin-top: 1.6rem">
+            {contactPage.intro.body}
+          </p>
+        )}
 
-        <dl class="enquiry-contacts">
-          <div class="enquiry-contact">
-            <dt>Email</dt>
-            <dd>
-              <a href={`mailto:${siteSettings.contactEmail}`}>{siteSettings.contactEmail}</a>
-            </dd>
-          </div>
-          <div class="enquiry-contact">
-            <dt>Phone</dt>
-            <dd>
-              <a href={`tel:${siteSettings.contactPhone.replace(/\s/g, "")}`}>
-                {siteSettings.contactPhone}
-              </a>
-            </dd>
-          </div>
-          <div class="enquiry-contact">
-            <dt>Estate</dt>
-            <dd set:html={siteSettings.addressHtml.replace("<br />", "<br />Sithonia · ")} />
-          </div>
-        </dl>
+        {
+          (siteSettings.contactEmail ||
+            siteSettings.contactPhone ||
+            siteSettings.addressHtml) && (
+            <dl class="enquiry-contacts">
+              {siteSettings.contactEmail && (
+                <div class="enquiry-contact">
+                  <dt>Email</dt>
+                  <dd>
+                    <a href={`mailto:${siteSettings.contactEmail}`}>
+                      {siteSettings.contactEmail}
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {siteSettings.contactPhone && (
+                <div class="enquiry-contact">
+                  <dt>Phone</dt>
+                  <dd>
+                    <a href={`tel:${siteSettings.contactPhone.replace(/\s/g, "")}`}>
+                      {siteSettings.contactPhone}
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {siteSettings.addressHtml && (
+                <div class="enquiry-contact">
+                  <dt>Estate</dt>
+                  <dd set:html={siteSettings.addressHtml} />
+                </div>
+              )}
+            </dl>
+          )
+        }
       </div>
 
       <div class="reveal d1">

@@ -12,6 +12,21 @@ import { getHomePage, getProperties, getSiteSettings } from "../lib/cms";
 const homePage = await getHomePage();
 const properties = await getProperties();
 const siteSettings = await getSiteSettings();
+const hasIntro = !!(homePage.intro.lead || homePage.intro.statement);
+
+// The villas section is framed by the `home` global's `villas` group. When it
+// names featured villas, honor that selection/order; otherwise show them all.
+const villaList =
+  homePage.villas.featuredSlugs.length > 0
+    ? homePage.villas.featuredSlugs
+        .map((slug: string) => properties.find((property: any) => property.slug === slug))
+        .filter(Boolean)
+    : properties;
+const hasVillasHeader = !!(
+  homePage.villas.kicker ||
+  homePage.villas.titleHtml ||
+  homePage.villas.body
+);
 ---
 
 <BaseLayout
@@ -22,20 +37,50 @@ const siteSettings = await getSiteSettings();
 >
   <Hero hero={homePage.hero} />
 
-  <section class="section intro wrap">
-    <p class="lead reveal d1">{homePage.intro.lead}</p>
-    <div class="rule reveal d1"></div>
-    <p class="statement reveal d2">{homePage.intro.statement}</p>
-  </section>
+  {
+    hasIntro && (
+      <section class="section intro wrap">
+        {homePage.intro.lead && <p class="lead reveal d1">{homePage.intro.lead}</p>}
+        {homePage.intro.lead && homePage.intro.statement && <div class="rule reveal d1" />}
+        {homePage.intro.statement && (
+          <p class="statement reveal d2">{homePage.intro.statement}</p>
+        )}
+      </section>
+    )
+  }
 
-  <section class="section bg-2" id="villas">
-    <div class="wrap">
-      <VillaFeature property={properties[0]} />
-      <div class="rule h reveal" style="margin-block: clamp(56px, 8vw, 120px)">
-      </div>
-      <VillaFeature property={properties[1]} flip />
-    </div>
-  </section>
+  {
+    villaList.length > 0 && (
+      <section class="section bg-2" id="villas">
+        <div class="wrap">
+          {hasVillasHeader && (
+            <header class="villas-head reveal">
+              {homePage.villas.kicker && <p class="section-note">{homePage.villas.kicker}</p>}
+              {homePage.villas.titleHtml && (
+                <h2 class="h-section" set:html={homePage.villas.titleHtml} />
+              )}
+              {homePage.villas.body && (
+                <p class="body-muted" style="margin-top: 1.6rem">
+                  {homePage.villas.body}
+                </p>
+              )}
+            </header>
+          )}
+          {villaList.map((property: any, index: number) => (
+            <>
+              {index > 0 && (
+                <div
+                  class="rule h reveal"
+                  style="margin-block: clamp(56px, 8vw, 120px)"
+                />
+              )}
+              <VillaFeature property={property} flip={index % 2 === 1} />
+            </>
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <Gallery
     titleHtml={homePage.galleryTitleHtml}
@@ -74,13 +119,16 @@ const siteSettings = await getSiteSettings();
     body={homePage.location.body}
     image={homePage.location.image}
     imageAlt={homePage.location.imageAlt}
+    facts={homePage.location.facts}
     deep
   />
 
   <Cta cta={homePage.cta} />
 
   <Fragment slot="overlays">
-    <Lightbox label="Avista photo gallery" />
-    <VideoModal src={siteSettings.estateFilmUrl} label="Avista estate film" />
+    {homePage.gallery.length > 0 && <Lightbox label={siteSettings.brand} />}
+    {siteSettings.estateFilmUrl && (
+      <VideoModal src={siteSettings.estateFilmUrl} label={siteSettings.brand} />
+    )}
   </Fragment>
 </BaseLayout>

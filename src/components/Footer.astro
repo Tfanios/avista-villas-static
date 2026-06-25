@@ -10,28 +10,34 @@ const siteSettings = await getSiteSettings();
     <div class="foot-grid">
       <div>
         <div class="brand-lg">
-          <img src="/assets/logo/logo.svg" alt="Avista" width="3188" height="2298" />
+          <img
+            src="/assets/logo/logo.svg"
+            alt={siteSettings.brand}
+            width="3188"
+            height="2298"
+          />
         </div>
-        <p class="foot-col" style="margin-top: 1.2rem; max-width: 34ch">
-          {footer.text}
-        </p>
+        {footer.text && (
+          <p class="foot-col" style="margin-top: 1.2rem; max-width: 34ch">
+            {footer.text}
+          </p>
+        )}
       </div>
-      <div class="foot-col">
-        <h4>Explore</h4>
-        {footer.explore.map((item: any) => <a href={item.href}>{item.label}</a>)}
-      </div>
-      <div class="foot-col">
-        <h4>Contact</h4>
-        <a href={`mailto:${siteSettings.contactEmail}`}>{siteSettings.contactEmail}</a>
-        <a href={`tel:${siteSettings.contactPhone.replace(/\s/g, "")}`}>
-          {siteSettings.contactPhone}
-        </a>
-        <p set:html={siteSettings.addressHtml} />
-      </div>
+      {
+        footer.columns.map((column: any) => (
+          <div class="foot-col">
+            {column.heading && <h4>{column.heading}</h4>}
+            {column.links.map((item: any) => (
+              <a href={item.href}>{item.label}</a>
+            ))}
+            {column.addressHtml && <p set:html={column.addressHtml} />}
+          </div>
+        ))
+      }
     </div>
     <div class="foot-bottom">
-      <span>&copy; {footer.bottomLeft}</span>
-      <span>{footer.bottomRight}</span>
+      {footer.bottomLeft && <span>&copy; {footer.bottomLeft}</span>}
+      {footer.bottomRight && <span>{footer.bottomRight}</span>}
     </div>
   </div>
 </footer>

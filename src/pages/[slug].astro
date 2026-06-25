@@ -30,22 +30,38 @@ const { property } = Astro.props;
 >
   <Hero hero={property.hero} />
 
-  <section class="section bg-2" id="spaces">
-    <div class="wrap">
-      <div class="loc">
-        <div class="reveal">
-          <span class="eyebrow no-rule">{property.detail.eyebrow}</span>
-          <h2 class="h-section" style="margin-top: 1.1rem" set:html={property.detail.titleHtml} />
-          <p class="body-muted" style="margin-top: 1.6rem">{property.detail.body}</p>
-        </div>
-        <div class="loc-figure reveal d1">
-          <img src={property.detail.image} alt={property.detail.imageAlt} />
-        </div>
-      </div>
+  {
+    (property.detail.titleHtml ||
+      property.detail.body ||
+      property.detail.image ||
+      property.amenities.length > 0) && (
+      <section class="section bg-2" id="spaces">
+        <div class="wrap">
+          {(property.detail.titleHtml || property.detail.body || property.detail.image) && (
+            <div class="loc">
+              <div class="reveal">
+                {property.detail.titleHtml && (
+                  <h2 class="h-section" set:html={property.detail.titleHtml} />
+                )}
+                {property.detail.body && (
+                  <p class="body-muted" style="margin-top: 1.6rem">
+                    {property.detail.body}
+                  </p>
+                )}
+              </div>
+              {property.detail.image && (
+                <div class="loc-figure reveal d1">
+                  <img src={property.detail.image} alt={property.detail.imageAlt} />
+                </div>
+              )}
+            </div>
+          )}
 
-      <AmenityGrid amenities={property.amenities} />
-    </div>
-  </section>
+          {property.amenities.length > 0 && <AmenityGrid amenities={property.amenities} />}
+        </div>
+      </section>
+    )
+  }
 
   <Gallery
     titleHtml={property.galleryTitleHtml}
@@ -61,17 +77,22 @@ const { property } = Astro.props;
     body={property.location.body}
     image={property.location.image}
     imageAlt={property.location.imageAlt}
+    facts={property.location.facts}
     deep
   />
 
-  <section class="section wrap">
-    <CrossLink link={property.crossLink} flip={property.slug === "avista-private-resort"} />
-  </section>
+  {
+    property.crossLink && (
+      <section class="section wrap">
+        <CrossLink link={property.crossLink} flip={property.order % 2 === 0} />
+      </section>
+    )
+  }
 
   <Cta cta={property.cta} />
 
   <Fragment slot="overlays">
-    <Lightbox label={`${property.name} photo gallery`} />
-    <VideoModal src={property.filmUrl} label={`${property.name} film`} />
+    {property.gallery.length > 0 && <Lightbox label={property.name} />}
+    {property.filmUrl && <VideoModal src={property.filmUrl} label={property.name} />}
   </Fragment>
 </BaseLayout>

@@ -134,7 +134,11 @@ Current columns: **Explore** (Avista Villa / Private Resort / Location / Enquire
 (email, phone, address).
 
 #### Page singletons: `home`, `locationPage`, `contactPage`
-- `home`: hero `{ ...heroMedia, kicker, title, sub }`, intro `lead`/`statement`, gallery selection,
+- `home`: hero `{ ...heroMedia, kicker, title, sub }`, intro `lead`/`statement`,
+  `villas` group `{ kicker: text, title: text, body: textarea, featured: relationship → properties (hasMany) }`
+  — owns the home page's `#villas` comparison section: optional section copy plus which villas to show and in
+  what order. Leave `featured` empty to fall back to **all** `properties` sorted by their `order`. The cards
+  themselves still come from the `properties` collection (this group only frames the section), gallery selection,
   `services` array `{ iconKey: select, title: text, description: textarea }` ("What can be arranged",
   4 items), location summary, `locationFacts` array `{ value, label }`, CTA `{ title, body, buttonLabel }`.
 - `locationPage`: `{ ...heroMedia }` hero, overview copy, `locationFacts`, `map` (**`mapLocation`**), the two cross-links.
@@ -513,6 +517,22 @@ export const Media: CollectionConfig = {
 `CollectionConfig` / `GlobalConfig` shape using the fields listed in §3 — one file each. `Home`,
 `LocationPage`, and `ContactPage` spread `...heroMedia` / `...mapLocation` the same way `Properties`
 does.
+
+The one field worth spelling out is the `home` global's **`villas`** section group (it frames the
+home page's `#villas` comparison block — see §3):
+
+```ts
+// inside globals/Home.ts → fields: [ ... ]
+{
+  name: 'villas', type: 'group', fields: [
+    { name: 'kicker', type: 'text' },
+    { name: 'title',  type: 'text' },
+    { name: 'body',   type: 'textarea' },
+    { name: 'featured', type: 'relationship', relationTo: 'properties', hasMany: true,
+      admin: { description: 'Villas shown on the home page, in this order. Leave empty to show all by their `order`.' } },
+  ],
+},
+```
 
 ## 6. Build order
 
