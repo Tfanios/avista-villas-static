@@ -410,9 +410,10 @@
     });
     initCarousel(gallery, function(card){
       var i = Number(card.dataset.idx) || 0;
-      // Desktop: open the all-photos grid first (Airbnb style). Narrow screens
-      // jump straight into the scrollable viewer.
-      if(gm && window.matchMedia("(min-width: 768px)").matches) openGallery();
+      // Open the all-photos grid first (Airbnb style) on every screen size, so
+      // mobile behaves like desktop. Falls back to the scroll viewer only if the
+      // grid modal isn't on the page.
+      if(gm) openGallery();
       else openLb(i);
     });
   }
