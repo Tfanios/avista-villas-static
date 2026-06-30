@@ -12,11 +12,19 @@ interface Category {
   places: Place[];
 }
 
-interface Props {
+interface Guide {
+  titleHtml: string;
+  intro: string;
+  note?: string;
   categories: Category[];
 }
 
-const { categories } = Astro.props;
+interface Props {
+  guide?: Guide | null;
+}
+
+const { guide } = Astro.props;
+const categories = guide?.categories ?? [];
 ---
 
 {
@@ -24,16 +32,13 @@ const { categories } = Astro.props;
     <section class="section local-guide" id="local-guide">
       <div class="wrap">
         <header class="local-guide-head">
-          <h2 class="h-section reveal">
-            A few places<br /><em>to begin.</em>
-          </h2>
-          <div class="reveal d1">
-            <p class="body-muted">
-              A short local list for swimming, lunch and an easy drink by the water.
-              Ask us for more recommendations during your stay.
-            </p>
-            <p class="local-guide-note">Each name opens in Google Maps.</p>
-          </div>
+          {guide?.titleHtml && <h2 class="h-section reveal" set:html={guide.titleHtml} />}
+          {(guide?.intro || guide?.note) && (
+            <div class="reveal d1">
+              {guide.intro && <p class="body-muted">{guide.intro}</p>}
+              {guide.note && <p class="local-guide-note">{guide.note}</p>}
+            </div>
+          )}
         </header>
 
         <div class="local-guide-groups">

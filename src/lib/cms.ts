@@ -177,6 +177,38 @@ function mapMap(map: any) {
   };
 }
 
+function mapLocalGuide(guide: any) {
+  if (!guide || guide.enabled === false) return null;
+
+  const categories = (Array.isArray(guide.categories) ? guide.categories : [])
+    .map((category: any) => {
+      const places = (Array.isArray(category?.places) ? category.places : [])
+        .map((place: any) => ({
+          name: place?.name ?? "",
+          description: place?.description ?? "",
+          area: place?.area ?? "",
+          href: place?.href ?? ""
+        }))
+        .filter((place: any) => place.name && place.href);
+
+      return {
+        title: category?.title ?? "",
+        description: category?.description ?? "",
+        places
+      };
+    })
+    .filter((category: any) => category.places.length > 0);
+
+  if (categories.length === 0) return null;
+
+  return {
+    titleHtml: brHtml(guide.title),
+    intro: guide.intro ?? "",
+    note: guide.note ?? "",
+    categories
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Content assembly — fetched once per build and memoized.
 // ---------------------------------------------------------------------------
@@ -447,6 +479,7 @@ async function buildContent(): Promise<Content> {
       label: link.label ?? "",
       href: link.href ?? ""
     })),
+    localGuide: mapLocalGuide(locRaw?.localGuide),
     cta: homeCta
   };
 

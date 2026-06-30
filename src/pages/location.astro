@@ -10,81 +10,6 @@ import { getLocationPage, getSiteSettings } from "../lib/cms";
 
 const locationPage = await getLocationPage();
 const siteSettings = await getSiteSettings();
-
-const localGuide = [
-  {
-    title: "Beaches",
-    description: "Sheltered bays and clear, shallow water close to Vourvourou.",
-    places: [
-      {
-        name: "Karidi Beach",
-        description: "Pale sand, pines and calm shallows",
-        area: "Vourvourou",
-        href: "https://www.google.com/maps/search/?api=1&query=Karidi+Beach+Vourvourou"
-      },
-      {
-        name: "Fava Beach",
-        description: "A quieter string of small coves",
-        area: "Vourvourou",
-        href: "https://www.google.com/maps/search/?api=1&query=Fava+Beach+Vourvourou"
-      },
-      {
-        name: "Livari Beach",
-        description: "Long shallows facing Diaporos",
-        area: "Vourvourou",
-        href: "https://www.google.com/maps/search/?api=1&query=Livari+Beach+Vourvourou"
-      }
-    ]
-  },
-  {
-    title: "Restaurants",
-    description: "Local cooking, fresh fish and tables worth lingering over.",
-    places: [
-      {
-        name: "Paris Restaurant",
-        description: "Greek cooking and grilled seafood",
-        area: "Vourvourou",
-        href: "https://www.google.com/maps/search/?api=1&query=Paris+Restaurant+Vourvourou"
-      },
-      {
-        name: "Melia",
-        description: "Dinner beneath the trees",
-        area: "Vourvourou",
-        href: "https://www.google.com/maps/search/?api=1&query=Melia+Restaurant+Vourvourou"
-      },
-      {
-        name: "Aristos Fish Restaurant",
-        description: "Seafood beside the harbour",
-        area: "Ormos Panagias",
-        href: "https://www.google.com/maps/search/?api=1&query=Aristos+Fish+Restaurant+Ormos+Panagias"
-      }
-    ]
-  },
-  {
-    title: "Bars by the water",
-    description: "For a slower afternoon or a drink after the last swim.",
-    places: [
-      {
-        name: "Talgo Beach Bar",
-        description: "Sunbeds and a long sandy bay",
-        area: "Trani Ammouda",
-        href: "https://www.google.com/maps/search/?api=1&query=Talgo+Beach+Bar+Halkidiki"
-      },
-      {
-        name: "Manassu Beach Bar",
-        description: "All-day drinks beneath the pines",
-        area: "Akti Oneirou",
-        href: "https://www.google.com/maps/search/?api=1&query=Manassu+Beach+Bar+Sithonia"
-      },
-      {
-        name: "Ethnik Beach Bar",
-        description: "A relaxed stop on the western coast",
-        area: "Tristinika",
-        href: "https://www.google.com/maps/search/?api=1&query=Ethnik+Beach+Bar+Tristinika"
-      }
-    ]
-  }
-];
 ---
 
 <BaseLayout
@@ -110,7 +35,7 @@ const localGuide = [
     title={locationPage.map.title}
   />
 
-  <LocalGuide categories={localGuide} />
+  <LocalGuide guide={locationPage.localGuide} />
 
   <Cta cta={locationPage.cta} />
 
