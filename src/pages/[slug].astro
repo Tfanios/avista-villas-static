@@ -72,22 +72,22 @@ const { property } = Astro.props;
 
   <Reviews reviews={property.reviews} />
 
-  <LocationBlock
+  <!-- <LocationBlock
     titleHtml={property.location.titleHtml}
     body={property.location.body}
     image={property.location.image}
     imageAlt={property.location.imageAlt}
     facts={property.location.facts}
     deep
-  />
+  /> -->
 
-  {
+  <!-- {
     property.crossLink && (
       <section class="section wrap">
         <CrossLink link={property.crossLink} flip={property.order % 2 === 0} />
       </section>
     )
-  }
+  } -->
 
   <Cta cta={property.cta} />
 
