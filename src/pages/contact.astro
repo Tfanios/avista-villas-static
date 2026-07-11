@@ -31,7 +31,7 @@ const siteSettings = await getSiteSettings();
 
         {
           (siteSettings.contactEmail ||
-            siteSettings.contactPhone ||
+            siteSettings.contactPhones.length > 0 ||
             siteSettings.addressHtml) && (
             <dl class="enquiry-contacts">
               {siteSettings.contactEmail && (
@@ -44,13 +44,13 @@ const siteSettings = await getSiteSettings();
                   </dd>
                 </div>
               )}
-              {siteSettings.contactPhone && (
+              {siteSettings.contactPhones.length > 0 && (
                 <div class="enquiry-contact">
-                  <dt>Phone</dt>
+                  <dt>Telephone</dt>
                   <dd>
-                    <a href={`tel:${siteSettings.contactPhone.replace(/\s/g, "")}`}>
-                      {siteSettings.contactPhone}
-                    </a>
+                    {siteSettings.contactPhones.map((phone: string) => (
+                      <a href={`tel:${phone.replace(/[^+\d]/g, "")}`}>{phone}</a>
+                    ))}
                   </dd>
                 </div>
               )}

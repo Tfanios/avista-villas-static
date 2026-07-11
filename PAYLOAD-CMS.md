@@ -117,7 +117,7 @@ the responsive sizes and the 100-score is much harder. Recommended: use the coll
 | `brandName` | text | "Avista" |
 | `tagline` | text | "Two private villas by the Aegean" |
 | `contactEmail` | email | `stay@avista.gr` |
-| `phone` | text | `+30 000 000 000` (**placeholder — confirm real number**) |
+| `phone` | text | Legacy single-number field; the site currently displays `(+30) 694 494 2300` and `(+30) 697 714 8903`. |
 | `address` | textarea | "Vourvourou 630 78, Halkidiki, Greece" |
 | `copyright` | text | "© 2026 Avista Villas" |
 | `locationSlogan` | text | "Vourvourou · Sithonia · Halkidiki" |
@@ -552,7 +552,7 @@ home page's `#villas` comparison block — see §3):
 ## 7. Open decisions
 
 1. **Email provider — undecided:** Resend / Postmark / SendGrid (HTTP; no SMTP). Non-blocking.
-2. **Real contact phone number** (current `+30 000 000 000` is a placeholder).
+2. **Phone CMS model:** migrate the legacy single `phone` field to an array if editors need to manage both contact numbers.
 3. **Reviews source of truth:** manual entries (current) vs. a future Booking.com/Google import.
 4. **Image transform strategy:** Payload `imageSizes` (portable) vs. Cloudflare Image Resizing at the
    edge (`format=auto`, no extra storage). Either works with this schema; pick one before wiring §8.

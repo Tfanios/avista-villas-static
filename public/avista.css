@@ -650,6 +650,8 @@ em,.it{font-style:italic}
 .enquiry-contact dd{margin:0;font-family:var(--font-display);font-size:1.32rem;
   font-weight:360;line-height:1.32;color:var(--ink)}
 .enquiry-contact a{transition:color .3s var(--ease)}
+.enquiry-contact dd a{display:block;width:fit-content}
+.enquiry-contact dd a + a{margin-top:.2rem}
 .enquiry-contact a:hover,.enquiry-contact a:focus-visible{color:var(--accent)}
 
 .enquiry-form{display:grid;gap:1.15rem;background:var(--bg-2);

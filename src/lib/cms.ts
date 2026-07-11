@@ -359,7 +359,7 @@ async function buildContent(): Promise<Content> {
   const siteSettings = {
     brand: siteRaw?.brandName ?? "",
     contactEmail: siteRaw?.contactEmail ?? "",
-    contactPhone: siteRaw?.phone ?? "",
+    contactPhones: ["(+30) 694 494 2300", "(+30) 697 714 8903"],
     addressHtml: brHtml(siteRaw?.address),
     weather: {
       latitude: siteRaw?.weather?.latitude,
