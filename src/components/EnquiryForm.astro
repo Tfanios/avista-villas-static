@@ -1,19 +1,25 @@
 ---
-import { getProperties, getSiteSettings } from "../lib/cms";
+import { getProperties } from "../lib/cms";
 
 const properties = await getProperties();
-const siteSettings = await getSiteSettings();
 ---
 
-<form class="enquiry-form" action="/api/enquiry" method="post" data-enquiry-form novalidate>
+<form class="enquiry-form" data-enquiry-form novalidate>
   <div class="hp" aria-hidden="true">
-    <label for="company">Company</label>
-    <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+    <label for="bot_field">Leave this field empty</label>
+    <input type="text" id="bot_field" name="bot_field" tabindex="-1" autocomplete="off" />
   </div>
 
   <div class="field">
     <label for="name">Full name</label>
-    <input class="control" type="text" id="name" name="name" autocomplete="name" required />
+    <input
+      class="control"
+      type="text"
+      id="name"
+      name="fullName"
+      autocomplete="name"
+      required
+    />
   </div>
 
   <div class="field-row">
@@ -83,7 +89,72 @@ const siteSettings = await getSiteSettings();
   </p>
 </form>
 
-<script define:vars={{ contactEmail: siteSettings.contactEmail }}>
+<script>
+  import emailjs from "@emailjs/browser";
+
+  const form = document.querySelector<HTMLFormElement>("[data-enquiry-form]");
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>(".form-status");
+    const button = form.querySelector<HTMLButtonElement>("[type='submit']");
+
+    const setStatus = (message: string) => {
+      if (!status) return;
+      status.textContent = message;
+      status.hidden = false;
+      status.focus();
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      if (data.get("bot_field")) return;
+      if (!form.reportValidity()) return;
+
+      const values = {
+        fullName: String(data.get("fullName") || ""),
+        email: String(data.get("email") || ""),
+        message: String(data.get("message") || ""),
+        bot_field: String(data.get("bot_field") || "")
+      };
+
+      const templateParams = {
+        name: values.fullName,
+        message: values.message,
+        email: values.email
+      };
+
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Sending…";
+      }
+
+      try {
+        await emailjs.send(
+          "service_zoi63wc",
+          "template_x9zscxf",
+          {
+            message: templateParams.message,
+            user_name: templateParams.name,
+            user_email: templateParams.email
+          },
+          "user_CXLxkqNSVUkCA2DfAu57B"
+        );
+
+        window.location.assign("/thank-you");
+      } catch (error) {
+        console.error(error);
+        setStatus("We could not send your enquiry. Please try again.");
+        if (button) {
+          button.disabled = false;
+          button.textContent = "Send enquiry";
+        }
+      }
+    });
+  }
+
+  /* Previous /api/enquiry submission retained temporarily for easy rollback.
   (function () {
     var form = document.querySelector("[data-enquiry-form]");
     if (!form) return;
@@ -124,4 +195,5 @@ const siteSettings = await getSiteSettings();
         });
     });
   })();
+  */
 </script>
