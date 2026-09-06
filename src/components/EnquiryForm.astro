@@ -112,17 +112,29 @@ const properties = await getProperties();
       if (data.get("bot_field")) return;
       if (!form.reportValidity()) return;
 
+      const propertySelect = form.elements.namedItem("property") as HTMLSelectElement | null;
       const values = {
         fullName: String(data.get("fullName") || ""),
         email: String(data.get("email") || ""),
+        phone: String(data.get("phone") || "Not provided"),
+        property:
+          propertySelect?.selectedOptions[0]?.textContent?.trim() || "Either villa / not sure yet",
+        arrival: String(data.get("arrival") || "Not provided"),
+        departure: String(data.get("departure") || "Not provided"),
+        guests: String(data.get("guests") || "Not provided"),
         message: String(data.get("message") || ""),
         bot_field: String(data.get("bot_field") || "")
       };
 
       const templateParams = {
-        name: values.fullName,
-        message: values.message,
-        email: values.email
+        user_name: values.fullName,
+        user_email: values.email,
+        user_phone: values.phone,
+        preferred_villa: values.property,
+        arrival_date: values.arrival,
+        departure_date: values.departure,
+        guest_count: values.guests,
+        message: values.message
       };
 
       if (button) {
@@ -134,11 +146,7 @@ const properties = await getProperties();
         await emailjs.send(
           "service_zoi63wc",
           "template_x9zscxf",
-          {
-            message: templateParams.message,
-            user_name: templateParams.name,
-            user_email: templateParams.email
-          },
+          templateParams,
           "user_CXLxkqNSVUkCA2DfAu57B"
         );
 
