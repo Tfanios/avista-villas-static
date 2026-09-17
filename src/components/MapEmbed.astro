@@ -1,5 +1,5 @@
 ---
-import { resolveImage, SIZES, type MediaInput } from "../lib/media";
+import { type MediaInput } from "../lib/media";
 
 interface MapLocation {
   latitude: number;
@@ -21,14 +21,11 @@ const { titleHtml, body, title, location } = Astro.props;
 const zoom = location.zoom ?? 13;
 const hasCoordinates =
   Number.isFinite(location.latitude) && Number.isFinite(location.longitude);
-// The interactive iframe is NOT in the initial HTML — it is injected on click
-// (see avista.js), so the heavy Google Maps payload never touches first load.
 const embedSrc = `https://www.google.com/maps?q=${location.latitude},${location.longitude}&z=${zoom}&output=embed`;
 const dest = location.directionsQuery
   ? encodeURIComponent(location.directionsQuery)
   : `${location.latitude},${location.longitude}`;
 const directions = `https://www.google.com/maps/dir/?api=1&destination=${dest}`;
-const preview = resolveImage(location.staticPreview, title);
 const hasHeader = !!(titleHtml || body);
 ---
 
@@ -51,40 +48,14 @@ const hasHeader = !!(titleHtml || body);
         )}
 
         <div class="map-embed reveal d1">
-          <button
-            class="map-facade"
-            type="button"
-            data-map-facade
-            data-embed={embedSrc}
-            data-title={title}
-            aria-label="Load the interactive map"
-          >
-            {preview ? (
-              <img
-                src={preview.src}
-                srcset={preview.srcset}
-                sizes={preview.srcset ? SIZES.full : undefined}
-                alt={preview.alt || title}
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <span class="map-facade-bg" aria-hidden="true" />
-            )}
-            <span class="map-pin" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path
-                  d="M12 21s-6.5-5.6-6.5-10.2A6.5 6.5 0 0 1 12 4.3a6.5 6.5 0 0 1 6.5 6.5C18.5 15.4 12 21 12 21z"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                />
-                <circle cx="12" cy="10.6" r="2.3" fill="currentColor" />
-              </svg>
-            </span>
-            {location.label && <span class="map-label">{location.label}</span>}
-            <span class="map-cta">View interactive map</span>
-          </button>
+          <iframe
+            class="map-iframe"
+            src={embedSrc}
+            title={title || location.label || "Location map"}
+            loading="eager"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          />
           <a class="map-directions" href={directions} target="_blank" rel="noopener">
             Get directions
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">

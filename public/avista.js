@@ -30,23 +30,6 @@
     if(p && p.catch) p.catch(function(){ video.hidden = true; });
   });
 
-  // Map facade: swap the static preview for the real Google Maps iframe on click,
-  // so the heavy third-party embed never loads until the visitor asks for it.
-  document.querySelectorAll("[data-map-facade]").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      var src = btn.getAttribute("data-embed");
-      if(!src) return;
-      var iframe = document.createElement("iframe");
-      iframe.src = src;
-      iframe.title = btn.getAttribute("data-title") || "Map";
-      iframe.loading = "lazy";
-      iframe.referrerPolicy = "no-referrer-when-downgrade";
-      iframe.className = "map-iframe";
-      iframe.setAttribute("allowfullscreen", "");
-      btn.replaceWith(iframe);
-    });
-  });
-
   function lockScroll(){
     scrollLocks += 1;
     document.body.style.overflow = "hidden";

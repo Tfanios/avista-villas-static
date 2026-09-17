@@ -20,13 +20,13 @@ const siteSettings = await getSiteSettings();
 >
   <Hero hero={locationPage.hero} />
 
-  <LocationBlock
+  <!-- <LocationBlock
     titleHtml={locationPage.overview.titleHtml}
     body={locationPage.overview.body}
     image={locationPage.overview.image}
     imageAlt={locationPage.overview.imageAlt}
     facts={locationPage.overview.facts}
-  />
+  /> -->
 
   <MapEmbed
     titleHtml={locationPage.map.titleHtml}
@@ -40,8 +40,13 @@ const siteSettings = await getSiteSettings();
   <Cta cta={locationPage.cta} />
 
   <Fragment slot="overlays">
-    {siteSettings.estateFilmUrl && (
-      <VideoModal src={siteSettings.estateFilmUrl} label={siteSettings.brand} />
-    )}
+    {
+      siteSettings.estateFilmUrl && (
+        <VideoModal
+          src={siteSettings.estateFilmUrl}
+          label={siteSettings.brand}
+        />
+      )
+    }
   </Fragment>
 </BaseLayout>
