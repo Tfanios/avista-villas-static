@@ -9,12 +9,13 @@
 
   document.querySelectorAll("[data-hero-video]").forEach(function(video){
     video.addEventListener("error", function(){ video.hidden = true; }, true);
+    // Keep the responsive picture visible until playback actually starts.
+    video.addEventListener("playing", function(){ video.hidden = false; });
 
     var isMobile = window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
     var playMobile = video.getAttribute("data-play-mobile") === "1";
     var saveData = navigator.connection && navigator.connection.saveData;
-    // The poster image is already the LCP. Only load/play the video when it's worth it:
-    // never on reduced-motion or data-saver, and on phones only if playOnMobile is set.
+    // Respect reduced-motion/data-saver and each page's mobile playback setting.
     if(reduceMotion || saveData) return;
     if(isMobile && !playMobile) return;
 
@@ -23,9 +24,10 @@
       : (video.getAttribute("data-video-desktop") || video.getAttribute("data-video-mobile"));
     if(!src) return;
     video.preload = "auto";
+    video.muted = true;
     video.src = src;
     var p = video.play();
-    if(p && p.catch) p.catch(function(){ /* autoplay blocked: poster stays */ });
+    if(p && p.catch) p.catch(function(){ video.hidden = true; });
   });
 
   // Map facade: swap the static preview for the real Google Maps iframe on click,

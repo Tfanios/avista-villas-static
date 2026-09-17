@@ -28,7 +28,7 @@ const { property } = Astro.props;
   currentPath={property.slug}
   preloadImage={property.hero.imageDesktop}
 >
-  <Hero hero={property.hero} />
+  <Hero hero={{ ...property.hero, playOnMobile: true }} />
 
   {
     (property.detail.titleHtml ||
