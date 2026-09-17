@@ -7,9 +7,11 @@ import Gallery from "../components/Gallery.astro";
 import Hero from "../components/Hero.astro";
 import Lightbox from "../components/Lightbox.astro";
 import LocationBlock from "../components/LocationBlock.astro";
+import MapEmbed from "../components/MapEmbed.astro";
 import Reviews from "../components/Reviews.astro";
 import VideoModal from "../components/VideoModal.astro";
 import { getProperties } from "../lib/cms";
+import { propertyLocations } from "../lib/property-locations";
 
 export async function getStaticPaths() {
   const properties = await getProperties();
@@ -20,6 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { property } = Astro.props;
+const mapLocation = propertyLocations[property.slug];
 ---
 
 <BaseLayout
@@ -71,6 +74,15 @@ const { property } = Astro.props;
   />
 
   <Reviews reviews={property.reviews} />
+
+  {mapLocation && (
+    <MapEmbed
+      titleHtml={`Find ${mapLocation.label}`}
+      body=""
+      title={`${mapLocation.label} location`}
+      location={mapLocation}
+    />
+  )}
 
   <!-- <LocationBlock
     titleHtml={property.location.titleHtml}

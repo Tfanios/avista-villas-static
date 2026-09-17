@@ -4,7 +4,6 @@ import Cta from "../components/Cta.astro";
 import Hero from "../components/Hero.astro";
 import LocalGuide from "../components/LocalGuide.astro";
 import LocationBlock from "../components/LocationBlock.astro";
-import MapEmbed from "../components/MapEmbed.astro";
 import VideoModal from "../components/VideoModal.astro";
 import { getLocationPage, getSiteSettings } from "../lib/cms";
 
@@ -27,13 +26,6 @@ const siteSettings = await getSiteSettings();
     imageAlt={locationPage.overview.imageAlt}
     facts={locationPage.overview.facts}
   /> -->
-
-  <MapEmbed
-    titleHtml={locationPage.map.titleHtml}
-    body={locationPage.map.body}
-    location={locationPage.map.location}
-    title={locationPage.map.title}
-  />
 
   <LocalGuide guide={locationPage.localGuide} />
 
