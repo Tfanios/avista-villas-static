@@ -79,6 +79,6 @@ export function resolveImage(input: MediaInput, fallbackAlt = ""): ResolvedImage
 export const SIZES = {
   hero: "100vw",
   full: "100vw",
-  galleryGrid: "(max-width: 640px) 100vw, (max-width: 1040px) 50vw, 520px",
-  card: "(max-width: 860px) 100vw, 33vw",
+  galleryGrid: "(max-width: 860px) clamp(235px, 72.75vw, 610px), clamp(493px, 75.1vh, 798px)",
+  card: "(max-width: 860px) 90vw, 50vw",
 } as const;

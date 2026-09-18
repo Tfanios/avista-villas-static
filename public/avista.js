@@ -184,6 +184,10 @@
       fig.dataset.idx = i;
       var im = document.createElement("img");
       im.src = item.src;
+      im.srcset = item.srcset || "";
+      im.sizes = "100vw";
+      im.width = item.width;
+      im.height = item.height;
       im.alt = item.alt;
       im.loading = i < 2 ? "eager" : "lazy";
       im.decoding = "async";
@@ -262,6 +266,10 @@
       b.setAttribute("aria-label", "Open photo " + (i + 1) + (item.alt ? ": " + item.alt : ""));
       var im = document.createElement("img");
       im.src = item.thumb || item.src;
+      im.srcset = item.srcset || "";
+      im.sizes = "(max-width: 640px) 100vw, 50vw";
+      im.width = item.width;
+      im.height = item.height;
       im.alt = item.alt;
       im.loading = "lazy";
       im.decoding = "async";
@@ -391,7 +399,7 @@
       var alt = img && img.alt ? img.alt : "";
       c.dataset.idx = i;
       c.setAttribute("aria-label", "Open gallery image: " + alt);
-      return {src:c.getAttribute("data-full") || (img ? img.src : ""), thumb: c.getAttribute("data-thumb") || (img ? img.src : ""), alt:alt};
+      return {srcset:c.getAttribute("data-srcset"), width:Number(c.getAttribute("data-width")), height:Number(c.getAttribute("data-height")), src:c.getAttribute("data-full") || (img ? img.src : ""), thumb: c.getAttribute("data-thumb") || (img ? img.src : ""), alt:alt};
     });
     initCarousel(gallery, function(card){
       var i = Number(card.dataset.idx) || 0;

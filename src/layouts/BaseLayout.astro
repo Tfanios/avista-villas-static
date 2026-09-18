@@ -2,7 +2,8 @@
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
 import { getSiteSettings } from "../lib/cms";
-import { resolveImage, type MediaInput } from "../lib/media";
+import { type MediaInput } from "../lib/media";
+import { optimizeImage } from "../lib/optimized-image";
 
 interface Props {
   title: string;
@@ -10,10 +11,12 @@ interface Props {
   currentPath?: string;
   // The above-the-fold hero image (LCP) — preloaded so it paints sooner.
   preloadImage?: MediaInput;
+  preloadMobileImage?: MediaInput;
 }
 
-const { title, description, currentPath = "", preloadImage } = Astro.props;
-const preload = resolveImage(preloadImage);
+const { title, description, currentPath = "", preloadImage, preloadMobileImage } = Astro.props;
+const preload = await optimizeImage(preloadImage);
+const mobilePreload = await optimizeImage(preloadMobileImage);
 const siteSettings = await getSiteSettings();
 ---
 
@@ -31,6 +34,7 @@ const siteSettings = await getSiteSettings();
         <link
           rel="preload"
           as="image"
+          media={mobilePreload ? "(min-width: 768px)" : undefined}
           href={preload.src}
           imagesrcset={preload.srcset}
           imagesizes={preload.srcset ? "100vw" : undefined}
@@ -38,6 +42,11 @@ const siteSettings = await getSiteSettings();
         />
       )
     }
+    {mobilePreload && (
+      <link rel="preload" as="image" media="(max-width: 767px)"
+        href={mobilePreload.src} imagesrcset={mobilePreload.srcset}
+        imagesizes="100vw" fetchpriority="high" />
+    )}
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Marcellus&family=Mulish:wght@300;400;500&family=Tenor+Sans&display=swap"
       rel="stylesheet"

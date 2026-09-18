@@ -1,0 +1,15 @@
+---
+import { optimizeImage } from "../lib/optimized-image";
+import { SIZES, type MediaInput } from "../lib/media";
+
+interface Props {
+  src: MediaInput;
+  alt: string;
+  sizes?: string;
+}
+const { src, alt, sizes = SIZES.card } = Astro.props;
+const image = await optimizeImage(src, alt);
+---
+{image && <img src={image.src} srcset={image.srcset} sizes={sizes}
+  width={image.width} height={image.height} alt={image.alt}
+  loading="lazy" decoding="async" />}

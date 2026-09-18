@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from "../components/OptimizedImage.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Cta from "../components/Cta.astro";
 import Gallery from "../components/Gallery.astro";
@@ -34,6 +35,7 @@ const hasVillasHeader = !!(
   description={homePage.seo.description}
   currentPath="home"
   preloadImage={homePage.hero.imageDesktop}
+  preloadMobileImage={homePage.hero.imageMobile}
 >
   <Hero hero={homePage.hero} />
 
@@ -92,7 +94,7 @@ const hasVillasHeader = !!(
   <!-- <section class="section bg-2" id="experience">
     <div class="wrap exp">
       <div class="exp-figure reveal">
-        <img src={homePage.services.image} alt={homePage.services.imageAlt} />
+        <OptimizedImage src={homePage.services.image} alt={homePage.services.imageAlt} />
       </div>
       <div class="reveal d1">
         <p class="section-note">{homePage.services.note}</p>

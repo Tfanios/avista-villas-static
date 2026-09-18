@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from "./OptimizedImage.astro";
 interface Props {
   property: any;
   flip?: boolean;
@@ -13,12 +14,12 @@ const { property, flip = false } = Astro.props;
       <div class="villa-media">
         {property.comparison.image && (
           <div class="villa-figure">
-            <img src={property.comparison.image} alt={property.comparison.imageAlt} />
+            <OptimizedImage src={property.comparison.image} alt={property.comparison.imageAlt} />
           </div>
         )}
         {property.comparison.inset && (
           <div class="villa-inset">
-            <img src={property.comparison.inset} alt={property.comparison.insetAlt} />
+            <OptimizedImage src={property.comparison.inset} alt={property.comparison.insetAlt} />
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from "./OptimizedImage.astro";
 interface Props {
   link: any;
   flip?: boolean;
@@ -12,7 +13,7 @@ const { link, flip = false } = Astro.props;
     <a class={`crosslink${flip ? " flip" : ""} reveal`} href={link.href}>
       {link.image && (
         <div class="crosslink-figure">
-          <img src={link.image} alt={link.imageAlt} />
+          <OptimizedImage src={link.image} alt={link.imageAlt} />
         </div>
       )}
       <div>

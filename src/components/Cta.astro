@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from "./OptimizedImage.astro";
 interface Props {
   cta: any;
 }
@@ -11,7 +12,7 @@ const hasContent = !!(cta?.image && (cta?.titleHtml || cta?.text || cta?.buttonL
   hasContent && (
     <section class="cta" id="enquire">
       <div class="cta-media">
-        <img src={cta.image} alt={cta.imageAlt} />
+        <OptimizedImage sizes="100vw" src={cta.image} alt={cta.imageAlt} />
       </div>
       <div class="cta-inner reveal">
         {cta.titleHtml && (

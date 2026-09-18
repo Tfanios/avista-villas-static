@@ -1,5 +1,7 @@
 ---
-import { resolveImage, SIZES, type MediaInput } from "../lib/media";
+import { SIZES, type MediaInput } from "../lib/media";
+
+import { optimizeImage } from "../lib/optimized-image";
 
 interface GalleryItem {
   image?: MediaInput; // CMS upload object
@@ -18,9 +20,9 @@ interface Props {
 }
 
 const { titleHtml, note, hint, items } = Astro.props;
-const resolved = items
-  .map((item) => ({ item, img: resolveImage(item.image ?? item.src, item.alt) }))
-  .filter((r) => r.img);
+const resolved = (await Promise.all(items.map(async (item) => ({
+  item, img: await optimizeImage(item.image ?? item.src, item.alt)
+})))).filter((r) => r.img);
 const hasHeader = !!(titleHtml || note);
 ---
 
@@ -43,7 +45,10 @@ const hasHeader = !!(titleHtml || note);
             <button
               class="card gallery-slide"
               type="button"
-              data-full={img!.src}
+              data-full={img!.full}
+              data-srcset={img!.srcset}
+              data-width={img!.width}
+              data-height={img!.height}
               data-thumb={img!.thumbnail}
             >
               <img
