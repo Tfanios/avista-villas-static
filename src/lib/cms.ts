@@ -358,8 +358,8 @@ async function buildContent(): Promise<Content> {
 
   const siteSettings = {
     brand: siteRaw?.brandName ?? "",
-    contactEmail: siteRaw?.contactEmail ?? "",
-    contactPhones: ["(+30) 694 494 2300", "(+30) 697 714 8903"],
+    contactEmail: "info@avistavillas.com",
+    contactPhones: ["+30 697 714 8903"],
     addressHtml: brHtml(siteRaw?.address),
     weather: {
       latitude: siteRaw?.weather?.latitude,
@@ -389,7 +389,19 @@ async function buildContent(): Promise<Content> {
       links: (Array.isArray(column.links) ? column.links : []).map((link: any) => ({
         label: link.label ?? "",
         href: link.href ?? ""
-      })),
+      })).flatMap((link: { label: string; href: string }, index: number, links: { href: string }[]) => {
+        if (/^mailto:|^tel:/.test(link.href)) {
+          if (links.slice(0, index).some((item) => /^mailto:|^tel:/.test(item.href))) return [];
+          return [
+            { label: siteSettings.contactEmail, href: `mailto:${siteSettings.contactEmail}` },
+            ...siteSettings.contactPhones.map((phone) => ({
+              label: phone,
+              href: `tel:${phone.replace(/[^+\d]/g, "")}`
+            }))
+          ];
+        }
+        return [link];
+      }),
       addressHtml: (Array.isArray(column.links) ? column.links : []).some(
         (link: any) => /^mailto:|^tel:/.test(link?.href ?? "")
       )

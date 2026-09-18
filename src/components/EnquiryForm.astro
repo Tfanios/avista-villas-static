@@ -1,10 +1,11 @@
 ---
-import { getProperties } from "../lib/cms";
+import { getProperties, getSiteSettings } from "../lib/cms";
 
 const properties = await getProperties();
+const { contactEmail } = await getSiteSettings();
 ---
 
-<form class="enquiry-form" data-enquiry-form novalidate>
+<form class="enquiry-form" data-enquiry-form data-contact-email={contactEmail} novalidate>
   <div class="hp" aria-hidden="true">
     <label for="bot_field">Leave this field empty</label>
     <input type="text" id="bot_field" name="bot_field" tabindex="-1" autocomplete="off" />
@@ -95,6 +96,7 @@ const properties = await getProperties();
   const form = document.querySelector<HTMLFormElement>("[data-enquiry-form]");
 
   if (form) {
+    const contactEmail = form.dataset.contactEmail;
     const status = form.querySelector<HTMLElement>(".form-status");
     const button = form.querySelector<HTMLButtonElement>("[type='submit']");
 

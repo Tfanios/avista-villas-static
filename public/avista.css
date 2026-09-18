@@ -322,6 +322,10 @@ em,.it{font-style:italic}
 .card::after{content:"";position:absolute;inset:0;background:rgba(12,16,14,0);transition:background .5s}
 .card:hover::after,.card:focus-visible::after{background:rgba(12,16,14,.08)}
 .card.clone{pointer-events:none}
+@media(hover:hover) and (pointer:fine){
+  #gallery .card{cursor:url("/assets/gallery-cursor.svg") 44 44,pointer}
+  #gallery .carousel.dragging,#gallery .carousel.dragging .card{cursor:grabbing}
+}
 /* orientation */
 .card.p{aspect-ratio:3/4}
 .card.l{aspect-ratio:4/3}
