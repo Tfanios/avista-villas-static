@@ -41,7 +41,7 @@ const hasHeader = !!(titleHtml || note);
         <div class="carousel" id="carousel">
           {resolved.map(({ item, img }) => (
             <button
-              class={`card ${item.layout ?? item.size ?? "l"} ${item.height ?? "h2"}`}
+              class="card gallery-slide"
               type="button"
               data-full={img!.src}
               data-thumb={img!.thumbnail}
