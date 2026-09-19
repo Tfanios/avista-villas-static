@@ -29,7 +29,7 @@ const mobile = await optimizeImage(hero.imageMobile, hero.imageAlt ?? "");
 const alt = desktop?.alt || hero.imageAlt || "";
 const hasVideo = !!(hero.videoDesktop || hero.videoMobile);
 const priority = hero.priority !== false;
-const hasContent = !!(desktop || hasVideo || hero.kicker || hero.titleHtml || hero.sub);
+const hasContent = !!(desktop || hasVideo || hero.titleHtml || hero.sub);
 ---
 
 {
@@ -81,7 +81,6 @@ const hasContent = !!(desktop || hasVideo || hero.kicker || hero.titleHtml || he
       </div>
       <div class="hero-inner">
         <div>
-          {hero.kicker && <p class="hero-kicker">{hero.kicker}</p>}
           {hero.titleHtml && <h1 class="hero-title" set:html={hero.titleHtml} />}
         </div>
         {hero.sub && (
