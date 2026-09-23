@@ -37,7 +37,7 @@ const hasVillasHeader = !!(
   preloadImage={homePage.hero.imageDesktop}
   preloadMobileImage={homePage.hero.imageMobile}
 >
-  <Hero hero={homePage.hero} />
+  <Hero hero={{ ...homePage.hero, playOnMobile: true }} />
 
   {
     hasIntro && (
