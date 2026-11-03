@@ -3,7 +3,8 @@ import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
 import { getFooter, getSiteSettings } from "../lib/cms";
 import { type MediaInput } from "../lib/media";
-import { optimizeImage } from "../lib/optimized-image";
+import { optimizeImage, socialImage } from "../lib/optimized-image";
+import { serializeSchema, siteSchema } from "../lib/seo";
 
 interface Props {
   title: string;
@@ -12,13 +13,35 @@ interface Props {
   // The above-the-fold hero image (LCP) — preloaded so it paints sooner.
   preloadImage?: MediaInput;
   preloadMobileImage?: MediaInput;
+  // Link-preview image; falls back to the site default.
+  image?: MediaInput;
+  noindex?: boolean;
+  // Page-level schema.org nodes, added to the sitewide ones.
+  schema?: unknown[];
 }
 
-const { title, description, currentPath = "", preloadImage, preloadMobileImage } = Astro.props;
+const {
+  title,
+  description,
+  currentPath = "",
+  preloadImage,
+  preloadMobileImage,
+  image,
+  noindex = false,
+  schema = []
+} = Astro.props;
 const preload = await optimizeImage(preloadImage);
 const mobilePreload = await optimizeImage(preloadMobileImage);
 const siteSettings = await getSiteSettings();
 const footer = await getFooter();
+
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site).href;
+// Staging and workers.dev copies must not compete with the real site in search.
+const isProductionHost = Astro.url.hostname === site.hostname;
+const shareImage = await socialImage(image ?? siteSettings.socialImage);
+const shareImageUrl = shareImage ? new URL(shareImage.src, site).href : undefined;
+const schemaJson = serializeSchema([...siteSchema(site, siteSettings), ...schema]);
 ---
 
 <!doctype html>
@@ -28,6 +51,27 @@ const footer = await getFooter();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex || !isProductionHost
+      ? <meta name="robots" content="noindex" />
+      : <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Avista Villas" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {shareImageUrl && (
+      <>
+        <meta property="og:image" content={shareImageUrl} />
+        <meta property="og:image:width" content={shareImage?.width} />
+        <meta property="og:image:height" content={shareImage?.height} />
+      </>
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2B362F" />
+    <script type="application/ld+json" set:html={schemaJson} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     {

@@ -7,7 +7,8 @@ function isPublicPageWithoutSlash(pathname: string) {
 
 export const onRequest = defineMiddleware((context, next) => {
   const { url, request } = context;
-  if (request.method === "GET" && isPublicPageWithoutSlash(url.pathname)) {
+  const isRead = request.method === "GET" || request.method === "HEAD";
+  if (isRead && isPublicPageWithoutSlash(url.pathname)) {
     return context.redirect(`${url.pathname}/${url.search}`, 301);
   }
 

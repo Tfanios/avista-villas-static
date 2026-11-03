@@ -6,6 +6,7 @@ import LocalGuide from "../components/LocalGuide.astro";
 import LocationBlock from "../components/LocationBlock.astro";
 import VideoModal from "../components/VideoModal.astro";
 import { getLocationPage, getSiteSettings } from "../lib/cms";
+import { breadcrumbSchema } from "../lib/seo";
 
 const locationPage = await getLocationPage();
 const siteSettings = await getSiteSettings();
@@ -15,6 +16,8 @@ const { sections } = locationPage;
 <BaseLayout
   title={locationPage.seo.title}
   description={locationPage.seo.description}
+  image={locationPage.seo.image}
+  schema={[breadcrumbSchema(Astro.site!, "Location", "/location/")]}
   currentPath="location"
   preloadImage={sections.hero ? locationPage.hero.imageDesktop : undefined}
   preloadMobileImage={sections.hero ? locationPage.hero.imageMobile : undefined}

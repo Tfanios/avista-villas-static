@@ -11,7 +11,8 @@ import LocationBlock from "../components/LocationBlock.astro";
 import MapEmbed from "../components/MapEmbed.astro";
 import Reviews from "../components/Reviews.astro";
 import VideoModal from "../components/VideoModal.astro";
-import { getProperties, getPropertyReviews } from "../lib/cms";
+import { getProperties, getPropertyReviews, getSiteSettings } from "../lib/cms";
+import { breadcrumbSchema, villaSchema } from "../lib/seo";
 import { propertyLocations } from "../lib/property-locations";
 
 const { slug } = Astro.params;
@@ -25,11 +26,17 @@ const showDetail =
   !!(property.detail.titleHtml || property.detail.body || property.detail.image);
 const showAmenities = sections.amenities && property.amenities.length > 0;
 const mapLocation = propertyLocations[property.slug];
+const schema = [
+  await villaSchema(Astro.site!, property, mapLocation, await getSiteSettings()),
+  breadcrumbSchema(Astro.site!, property.name, property.route)
+];
 ---
 
 <BaseLayout
   title={property.seo.title}
   description={property.seo.description}
+  image={property.seo.image}
+  schema={schema}
   currentPath={property.slug}
   preloadImage={sections.hero ? property.hero.imageDesktop : undefined}
   preloadMobileImage={sections.hero ? property.hero.imageMobile : undefined}

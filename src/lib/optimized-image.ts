@@ -34,6 +34,17 @@ async function generate({ src, width, height }: ResolvedImage) {
   };
 }
 
+// Link previews need JPEG, as many apps ignore WebP. EmDash's image endpoint does
+// not crop, so keep the photo's own ratio and let each app crop it.
+export async function socialImage(input: MediaInput) {
+  const image = resolveImage(input);
+  if (!image?.width || !image.height) return image ? { src: image.src } : null;
+  const width = Math.min(image.width, 1200);
+  const height = Math.round(width * image.height / image.width);
+  const { src } = await getImage({ src: image.src, width, height, format: "jpeg", quality: 80 });
+  return { src, width, height };
+}
+
 // Share transformations between page components and matching hero preloads.
 const images = new Map<string, ReturnType<typeof generate>>();
 export async function optimizeImage(input: MediaInput, fallbackAlt = "") {

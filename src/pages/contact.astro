@@ -4,6 +4,7 @@ import EnquiryForm from "../components/EnquiryForm.astro";
 import Hero from "../components/Hero.astro";
 import MapEmbed from "../components/MapEmbed.astro";
 import { getContactPage, getSiteSettings } from "../lib/cms";
+import { breadcrumbSchema } from "../lib/seo";
 
 const contactPage = await getContactPage();
 const siteSettings = await getSiteSettings();
@@ -13,6 +14,8 @@ const { sections } = contactPage;
 <BaseLayout
   title={contactPage.seo.title}
   description={contactPage.seo.description}
+  image={contactPage.seo.image}
+  schema={[breadcrumbSchema(Astro.site!, "Enquire", "/contact/")]}
   currentPath="contact"
   preloadImage={sections.hero ? contactPage.hero.imageDesktop : undefined}
   preloadMobileImage={sections.hero ? contactPage.hero.imageMobile : undefined}

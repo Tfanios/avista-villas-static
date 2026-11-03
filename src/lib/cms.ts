@@ -188,6 +188,7 @@ interface Content {
   homePage: any;
   locationPage: any;
   contactPage: any;
+  sitemapPages: { path: string; lastmod?: Date | string | null }[];
 }
 
 function loadContent(): Promise<Content> {
@@ -258,7 +259,8 @@ async function buildContent(): Promise<Content> {
       route,
       seo: {
         title: raw.seo_title ?? raw.name,
-        description: raw.seo_description ?? ""
+        description: raw.seo_description ?? "",
+        image: mediaObject(raw.seo_og_image ?? raw.hero_image_desktop)
       },
       hero: mapHero(raw, { page: true }),
       comparison: {
@@ -334,6 +336,7 @@ async function buildContent(): Promise<Content> {
       label: siteRaw?.tagline ?? ""
     },
     estateFilmUrl,
+    socialImage: mediaObject(siteRaw?.default_seo_og_image ?? propsRaw[0]?.hero_image_desktop),
     mapQuery: locRaw?.map_directions_query ?? contactRaw?.map_directions_query ?? ""
   };
 
@@ -392,7 +395,8 @@ async function buildContent(): Promise<Content> {
     ),
     seo: {
       title: homeRaw?.seo_title ?? siteRaw?.brand_name ?? "",
-      description: homeRaw?.seo_description ?? siteRaw?.default_seo_description ?? ""
+      description: homeRaw?.seo_description ?? siteRaw?.default_seo_description ?? "",
+      image: mediaObject(homeRaw?.seo_og_image ?? homeRaw?.hero_image_desktop)
     },
     hero: mapHero(homeRaw, { page: false }),
     intro: {
@@ -435,7 +439,8 @@ async function buildContent(): Promise<Content> {
     sections: sections(locRaw, ["hero", "cta"], ["overview"]),
     seo: {
       title: locRaw?.seo_title ?? siteRaw?.brand_name ?? "",
-      description: locRaw?.seo_description ?? siteRaw?.default_seo_description ?? ""
+      description: locRaw?.seo_description ?? siteRaw?.default_seo_description ?? "",
+      image: mediaObject(locRaw?.seo_og_image ?? locRaw?.hero_image_desktop)
     },
     hero: mapHero(locRaw, { page: true }),
     overview: {
@@ -471,7 +476,8 @@ async function buildContent(): Promise<Content> {
     sections: sections(contactRaw, ["hero", "enquiry", "map"]),
     seo: {
       title: contactRaw?.seo_title ?? siteRaw?.brand_name ?? "",
-      description: contactRaw?.seo_description ?? siteRaw?.default_seo_description ?? ""
+      description: contactRaw?.seo_description ?? siteRaw?.default_seo_description ?? "",
+      image: mediaObject(contactRaw?.seo_og_image ?? contactRaw?.hero_image_desktop)
     },
     hero: mapHero(contactRaw, { page: true }),
     intro: {
@@ -493,7 +499,13 @@ async function buildContent(): Promise<Content> {
     properties,
     homePage,
     locationPage,
-    contactPage
+    contactPage,
+    sitemapPages: [
+      { path: "/", lastmod: homeRaw?.updatedAt },
+      ...propsRaw.map((raw) => ({ path: `/${raw.slug}/`, lastmod: raw.updatedAt })),
+      { path: "/location/", lastmod: locRaw?.updatedAt },
+      { path: "/contact/", lastmod: contactRaw?.updatedAt }
+    ]
   };
 }
 
@@ -543,6 +555,10 @@ export async function getHomePage() {
 
 export async function getLocationPage() {
   return (await loadContent()).locationPage;
+}
+
+export async function getSitemapPages() {
+  return (await loadContent()).sitemapPages;
 }
 
 export async function getContactPage() {
