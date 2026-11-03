@@ -15,6 +15,7 @@
 dist/
 node_modules/
 seed/
+exports/
 
 # local media
 AVR.mp4
