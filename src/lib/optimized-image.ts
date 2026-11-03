@@ -1,21 +1,25 @@
-import { getImage, inferRemoteSize } from "astro:assets";
+import { getImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import { resolveImage, type MediaInput } from "./media";
+import { resolveImage, type MediaInput, type ResolvedImage } from "./media";
 
 const localImages = import.meta.glob<{ default: ImageMetadata }>(
   "../../assets/**/*.{jpg,jpeg,png,webp,avif}"
 );
 
-async function generate(src: string) {
+async function generate({ src, width, height }: ResolvedImage) {
   const local = localImages[`../..${src}`];
   const input = local ? (await local()).default : src;
-  const dimensions = typeof input === "string" ? await inferRemoteSize(input) : input;
-  const largest = Math.min(dimensions.width, 2400);
+  const { width: sourceWidth, height: sourceHeight } =
+    typeof input === "string" ? { width, height } : input;
+  if (!sourceWidth || !sourceHeight) {
+    return { src, full: src, thumbnail: src, srcset: undefined, width, height };
+  }
+  const largest = Math.min(sourceWidth, 2400);
   const widths = [...new Set([480, 800, 1200, 1600, 2400].filter(w => w < largest).concat(largest))];
   const variants = await Promise.all(widths.map(width => getImage({
     src: input,
     width,
-    height: Math.round(width * dimensions.height / dimensions.width),
+    height: Math.round(width * sourceHeight / sourceWidth),
     format: "webp",
     quality: 80
   })));
@@ -25,8 +29,8 @@ async function generate(src: string) {
     full: atWidth(2400),
     thumbnail: atWidth(800),
     srcset: variants.map((image, i) => `${image.src} ${widths[i]}w`).join(", "),
-    width: dimensions.width,
-    height: dimensions.height
+    width: sourceWidth,
+    height: sourceHeight
   };
 }
 
@@ -35,6 +39,11 @@ const images = new Map<string, ReturnType<typeof generate>>();
 export async function optimizeImage(input: MediaInput, fallbackAlt = "") {
   const image = resolveImage(input, fallbackAlt);
   if (!image) return null;
-  if (!images.has(image.src)) images.set(image.src, generate(image.src));
+  if (!images.has(image.src)) {
+    const generated = generate(image);
+    images.set(image.src, generated);
+    // This cache outlives the request on a Worker, so never keep a failure.
+    generated.catch(() => images.delete(image.src));
+  }
   return { ...await images.get(image.src)!, alt: image.alt };
 }

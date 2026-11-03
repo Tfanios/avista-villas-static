@@ -11,18 +11,19 @@ import LocationBlock from "../components/LocationBlock.astro";
 import MapEmbed from "../components/MapEmbed.astro";
 import Reviews from "../components/Reviews.astro";
 import VideoModal from "../components/VideoModal.astro";
-import { getProperties } from "../lib/cms";
+import { getProperties, getPropertyReviews } from "../lib/cms";
 import { propertyLocations } from "../lib/property-locations";
 
-export async function getStaticPaths() {
-  const properties = await getProperties();
-  return properties.map((property) => ({
-    params: { slug: property.slug },
-    props: { property }
-  }));
-}
+const { slug } = Astro.params;
+const property = (await getProperties()).find((item) => item.slug === slug);
+if (!property) return new Response(null, { status: 404 });
 
-const { property } = Astro.props;
+const { sections } = property;
+const reviews = sections.reviews ? await getPropertyReviews(property.slug) : [];
+const showDetail =
+  sections.spaces &&
+  !!(property.detail.titleHtml || property.detail.body || property.detail.image);
+const showAmenities = sections.amenities && property.amenities.length > 0;
 const mapLocation = propertyLocations[property.slug];
 ---
 
@@ -30,19 +31,16 @@ const mapLocation = propertyLocations[property.slug];
   title={property.seo.title}
   description={property.seo.description}
   currentPath={property.slug}
-  preloadImage={property.hero.imageDesktop}
-  preloadMobileImage={property.hero.imageMobile}
+  preloadImage={sections.hero ? property.hero.imageDesktop : undefined}
+  preloadMobileImage={sections.hero ? property.hero.imageMobile : undefined}
 >
-  <Hero hero={{ ...property.hero, playOnMobile: true }} />
+  {sections.hero && <Hero hero={{ ...property.hero, playOnMobile: true }} />}
 
   {
-    (property.detail.titleHtml ||
-      property.detail.body ||
-      property.detail.image ||
-      property.amenities.length > 0) && (
+    (showDetail || showAmenities) && (
       <section class="section bg-2" id="spaces">
         <div class="wrap">
-          {(property.detail.titleHtml || property.detail.body || property.detail.image) && (
+          {showDetail && (
             <div class="loc">
               <div class="reveal">
                 {property.detail.titleHtml && (
@@ -62,22 +60,24 @@ const mapLocation = propertyLocations[property.slug];
             </div>
           )}
 
-          {property.amenities.length > 0 && <AmenityGrid amenities={property.amenities} />}
+          {showAmenities && <AmenityGrid amenities={property.amenities} />}
         </div>
       </section>
     )
   }
 
-  <Gallery
-    titleHtml={property.galleryTitleHtml}
-    note={property.galleryNote}
-    hint={property.galleryHint}
-    items={property.gallery}
-  />
+  {sections.gallery && (
+    <Gallery
+      titleHtml={property.galleryTitleHtml}
+      note={property.galleryNote}
+      hint={property.galleryHint}
+      items={property.gallery}
+    />
+  )}
 
-  <Reviews reviews={property.reviews} />
+  {sections.reviews && <Reviews reviews={reviews} />}
 
-  {mapLocation && (
+  {sections.map && mapLocation && (
     <MapEmbed
       titleHtml={`Find ${mapLocation.label}`}
       body=""
@@ -86,27 +86,27 @@ const mapLocation = propertyLocations[property.slug];
     />
   )}
 
-  <!-- <LocationBlock
-    titleHtml={property.location.titleHtml}
-    body={property.location.body}
-    image={property.location.image}
-    imageAlt={property.location.imageAlt}
-    facts={property.location.facts}
-    deep
-  /> -->
+  {sections.location && (
+    <LocationBlock
+      titleHtml={property.location.titleHtml}
+      body={property.location.body}
+      image={property.location.image}
+      imageAlt={property.location.imageAlt}
+      facts={property.location.facts}
+      deep
+    />
+  )}
 
-  <!-- {
-    property.crossLink && (
-      <section class="section wrap">
-        <CrossLink link={property.crossLink} flip={property.order % 2 === 0} />
-      </section>
-    )
-  } -->
+  {sections.cross_link && property.crossLink && (
+    <section class="section wrap">
+      <CrossLink link={property.crossLink} flip={property.order % 2 === 0} />
+    </section>
+  )}
 
-  <Cta cta={property.cta} />
+  {sections.cta && <Cta cta={property.cta} />}
 
   <Fragment slot="overlays">
-    {property.gallery.length > 0 && <Lightbox label={property.name} />}
+    {sections.gallery && property.gallery.length > 0 && <Lightbox label={property.name} />}
     {property.filmUrl && <VideoModal src={property.filmUrl} label={property.name} />}
   </Fragment>
 </BaseLayout>

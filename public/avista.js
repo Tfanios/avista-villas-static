@@ -84,7 +84,8 @@
   var hero = document.querySelector(".hero");
   function onScroll(){
     if(!nav) return;
-    var threshold = hero ? hero.offsetHeight - 90 : 120;
+    // Without a hero the nav has no dark image behind it, so keep it solid.
+    var threshold = hero ? hero.offsetHeight - 90 : -1;
     nav.classList.toggle("solid", window.scrollY > threshold);
   }
   window.addEventListener("scroll", onScroll, {passive:true});

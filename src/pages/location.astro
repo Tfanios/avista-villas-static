@@ -9,28 +9,31 @@ import { getLocationPage, getSiteSettings } from "../lib/cms";
 
 const locationPage = await getLocationPage();
 const siteSettings = await getSiteSettings();
+const { sections } = locationPage;
 ---
 
 <BaseLayout
   title={locationPage.seo.title}
   description={locationPage.seo.description}
   currentPath="location"
-  preloadImage={locationPage.hero.imageDesktop}
-  preloadMobileImage={locationPage.hero.imageMobile}
+  preloadImage={sections.hero ? locationPage.hero.imageDesktop : undefined}
+  preloadMobileImage={sections.hero ? locationPage.hero.imageMobile : undefined}
 >
-  <Hero hero={locationPage.hero} />
+  {sections.hero && <Hero hero={locationPage.hero} />}
 
-  <!-- <LocationBlock
-    titleHtml={locationPage.overview.titleHtml}
-    body={locationPage.overview.body}
-    image={locationPage.overview.image}
-    imageAlt={locationPage.overview.imageAlt}
-    facts={locationPage.overview.facts}
-  /> -->
+  {sections.overview && (
+    <LocationBlock
+      titleHtml={locationPage.overview.titleHtml}
+      body={locationPage.overview.body}
+      image={locationPage.overview.image}
+      imageAlt={locationPage.overview.imageAlt}
+      facts={locationPage.overview.facts}
+    />
+  )}
 
   <LocalGuide guide={locationPage.localGuide} />
 
-  <Cta cta={locationPage.cta} />
+  {sections.cta && <Cta cta={locationPage.cta} />}
 
   <Fragment slot="overlays">
     {

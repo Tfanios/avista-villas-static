@@ -14,8 +14,8 @@
 .astro/
 dist/
 node_modules/
-seed/
 exports/
+.emdash/
 
 # local media
 AVR.mp4

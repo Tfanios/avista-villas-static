@@ -1,0 +1,5113 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "en",
+  "meta": {
+    "name": "Avista Villas",
+    "description": "Avista content migrated from Payload CMS"
+  },
+  "collections": [
+    {
+      "slug": "properties",
+      "label": "Villas",
+      "routable": true,
+      "urlPattern": "/{slug}",
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "show_hero",
+          "label": "Show hero section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_spaces",
+          "label": "Show spaces section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_amenities",
+          "label": "Show amenities section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_gallery",
+          "label": "Show gallery section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_reviews",
+          "label": "Show reviews section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_map",
+          "label": "Show map section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_location",
+          "label": "Show location section",
+          "type": "boolean",
+          "defaultValue": false
+        },
+        {
+          "slug": "show_cross_link",
+          "label": "Show cross link section",
+          "type": "boolean",
+          "defaultValue": false
+        },
+        {
+          "slug": "show_cta",
+          "label": "Show cta section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "name",
+          "label": "name",
+          "type": "string"
+        },
+        {
+          "slug": "order",
+          "label": "order",
+          "type": "number"
+        },
+        {
+          "slug": "tag",
+          "label": "tag",
+          "type": "string"
+        },
+        {
+          "slug": "numeral",
+          "label": "numeral",
+          "type": "string"
+        },
+        {
+          "slug": "hero_image_desktop",
+          "label": "hero / imageDesktop",
+          "type": "image"
+        },
+        {
+          "slug": "hero_image_mobile",
+          "label": "hero / imageMobile",
+          "type": "image"
+        },
+        {
+          "slug": "hero_video_desktop",
+          "label": "hero / videoDesktop",
+          "type": "string"
+        },
+        {
+          "slug": "hero_video_mobile",
+          "label": "hero / videoMobile",
+          "type": "string"
+        },
+        {
+          "slug": "hero_play_on_mobile",
+          "label": "hero / playOnMobile",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_priority",
+          "label": "hero / priority",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_kicker",
+          "label": "hero / kicker",
+          "type": "string"
+        },
+        {
+          "slug": "hero_title",
+          "label": "hero / title",
+          "type": "string"
+        },
+        {
+          "slug": "hero_sub",
+          "label": "Subtitle",
+          "type": "text"
+        },
+        {
+          "slug": "summary",
+          "label": "summary",
+          "type": "text"
+        },
+        {
+          "slug": "overview",
+          "label": "overview",
+          "type": "portableText"
+        },
+        {
+          "slug": "stats",
+          "label": "stats",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "value",
+                "label": "value",
+                "type": "string"
+              },
+              {
+                "slug": "label",
+                "label": "label",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "amenities",
+          "label": "amenities",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "icon_key",
+                "label": "iconKey",
+                "type": "select",
+                "options": [
+                  "bed",
+                  "bath",
+                  "pool",
+                  "view",
+                  "kitchen",
+                  "garden",
+                  "wifi",
+                  "parking",
+                  "accessible",
+                  "bbq",
+                  "concierge",
+                  "chef"
+                ]
+              },
+              {
+                "slug": "title",
+                "label": "title",
+                "type": "string"
+              },
+              {
+                "slug": "description",
+                "label": "description",
+                "type": "text"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "gallery",
+          "label": "gallery",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "image",
+                "label": "image",
+                "type": "image"
+              },
+              {
+                "slug": "alt",
+                "label": "Alt text",
+                "type": "string"
+              },
+              {
+                "slug": "layout",
+                "label": "layout",
+                "type": "select",
+                "options": [
+                  "l",
+                  "p",
+                  "s"
+                ]
+              },
+              {
+                "slug": "height",
+                "label": "height",
+                "type": "select",
+                "options": [
+                  "h1",
+                  "h2",
+                  "h3",
+                  "h4",
+                  "h5"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "slug": "map_latitude",
+          "label": "map / latitude",
+          "type": "number"
+        },
+        {
+          "slug": "map_longitude",
+          "label": "map / longitude",
+          "type": "number"
+        },
+        {
+          "slug": "map_zoom",
+          "label": "map / zoom",
+          "type": "number"
+        },
+        {
+          "slug": "map_label",
+          "label": "map / label",
+          "type": "string"
+        },
+        {
+          "slug": "map_directions_query",
+          "label": "map / directionsQuery",
+          "type": "string"
+        },
+        {
+          "slug": "map_static_preview",
+          "label": "map / staticPreview",
+          "type": "image"
+        },
+        {
+          "slug": "seo_title",
+          "label": "Meta title",
+          "type": "string"
+        },
+        {
+          "slug": "seo_description",
+          "label": "Meta description",
+          "type": "text"
+        },
+        {
+          "slug": "seo_og_image",
+          "label": "Social share image",
+          "type": "image"
+        }
+      ],
+      "labelSingular": "Villa",
+      "titleField": "name"
+    },
+    {
+      "slug": "reviews",
+      "label": "Reviews",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "property",
+          "label": "property",
+          "type": "reference",
+          "validation": {
+            "targetCollection": "properties",
+            "multiple": false
+          }
+        },
+        {
+          "slug": "author_name",
+          "label": "authorName",
+          "type": "string"
+        },
+        {
+          "slug": "author_location",
+          "label": "authorLocation",
+          "type": "string"
+        },
+        {
+          "slug": "source",
+          "label": "source",
+          "type": "select",
+          "validation": {
+            "options": [
+              "booking",
+              "google",
+              "airbnb",
+              "direct"
+            ]
+          }
+        },
+        {
+          "slug": "score",
+          "label": "score",
+          "type": "number"
+        },
+        {
+          "slug": "quote",
+          "label": "quote",
+          "type": "text"
+        },
+        {
+          "slug": "date",
+          "label": "date",
+          "type": "string"
+        },
+        {
+          "slug": "featured",
+          "label": "featured",
+          "type": "boolean"
+        }
+      ],
+      "labelSingular": "Review",
+      "titleField": "author_name"
+    },
+    {
+      "slug": "site_settings",
+      "label": "Site settings",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "brand_name",
+          "label": "brandName",
+          "type": "string"
+        },
+        {
+          "slug": "tagline",
+          "label": "tagline",
+          "type": "string"
+        },
+        {
+          "slug": "contact_email",
+          "label": "contactEmail",
+          "type": "string"
+        },
+        {
+          "slug": "phone",
+          "label": "phone",
+          "type": "string"
+        },
+        {
+          "slug": "address",
+          "label": "address",
+          "type": "text"
+        },
+        {
+          "slug": "copyright",
+          "label": "copyright",
+          "type": "string"
+        },
+        {
+          "slug": "location_slogan",
+          "label": "locationSlogan",
+          "type": "string"
+        },
+        {
+          "slug": "weather_latitude",
+          "label": "weather / latitude",
+          "type": "number"
+        },
+        {
+          "slug": "weather_longitude",
+          "label": "weather / longitude",
+          "type": "number"
+        },
+        {
+          "slug": "default_seo_title_template",
+          "label": "defaultSeo / titleTemplate",
+          "type": "string"
+        },
+        {
+          "slug": "default_seo_description",
+          "label": "defaultSeo / description",
+          "type": "text"
+        },
+        {
+          "slug": "default_seo_og_image",
+          "label": "defaultSeo / ogImage",
+          "type": "image"
+        }
+      ],
+      "labelSingular": "Site settings",
+      "titleField": "brand_name"
+    },
+    {
+      "slug": "navigation",
+      "label": "Navigation",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "left_links",
+          "label": "leftLinks",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "label",
+                "label": "label",
+                "type": "string"
+              },
+              {
+                "slug": "href",
+                "label": "href",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "right_links",
+          "label": "rightLinks",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "label",
+                "label": "label",
+                "type": "string"
+              },
+              {
+                "slug": "href",
+                "label": "href",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ],
+      "labelSingular": "Navigation"
+    },
+    {
+      "slug": "footer",
+      "label": "Footer",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "show_footer",
+          "label": "Show footer section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "brand_blurb",
+          "label": "brandBlurb",
+          "type": "text"
+        },
+        {
+          "slug": "columns",
+          "label": "columns",
+          "type": "json"
+        }
+      ],
+      "labelSingular": "Footer"
+    },
+    {
+      "slug": "home",
+      "label": "Home page",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "show_hero",
+          "label": "Show hero section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_intro",
+          "label": "Show intro section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_villas",
+          "label": "Show villas section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_gallery",
+          "label": "Show gallery section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_services",
+          "label": "Show services section",
+          "type": "boolean",
+          "defaultValue": false
+        },
+        {
+          "slug": "show_location",
+          "label": "Show location section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_cta",
+          "label": "Show cta section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "hero_image_desktop",
+          "label": "hero / imageDesktop",
+          "type": "image"
+        },
+        {
+          "slug": "hero_image_mobile",
+          "label": "hero / imageMobile",
+          "type": "image"
+        },
+        {
+          "slug": "hero_video_desktop",
+          "label": "hero / videoDesktop",
+          "type": "string"
+        },
+        {
+          "slug": "hero_video_mobile",
+          "label": "hero / videoMobile",
+          "type": "string"
+        },
+        {
+          "slug": "hero_play_on_mobile",
+          "label": "hero / playOnMobile",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_priority",
+          "label": "hero / priority",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_kicker",
+          "label": "hero / kicker",
+          "type": "string"
+        },
+        {
+          "slug": "hero_title",
+          "label": "hero / title",
+          "type": "string"
+        },
+        {
+          "slug": "hero_sub",
+          "label": "Subtitle",
+          "type": "text"
+        },
+        {
+          "slug": "intro_lead",
+          "label": "intro / lead",
+          "type": "text"
+        },
+        {
+          "slug": "intro_statement",
+          "label": "intro / statement",
+          "type": "portableText"
+        },
+        {
+          "slug": "villas_kicker",
+          "label": "villas / kicker",
+          "type": "string"
+        },
+        {
+          "slug": "villas_title",
+          "label": "villas / title",
+          "type": "string"
+        },
+        {
+          "slug": "villas_body",
+          "label": "villas / body",
+          "type": "text"
+        },
+        {
+          "slug": "villas_featured",
+          "label": "Featured villas",
+          "type": "reference",
+          "validation": {
+            "targetCollection": "properties",
+            "multiple": true
+          }
+        },
+        {
+          "slug": "gallery",
+          "label": "gallery",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "image",
+                "label": "image",
+                "type": "image"
+              },
+              {
+                "slug": "alt",
+                "label": "Alt text",
+                "type": "string"
+              },
+              {
+                "slug": "layout",
+                "label": "layout",
+                "type": "select",
+                "options": [
+                  "l",
+                  "p",
+                  "s"
+                ]
+              },
+              {
+                "slug": "height",
+                "label": "height",
+                "type": "select",
+                "options": [
+                  "h1",
+                  "h2",
+                  "h3",
+                  "h4",
+                  "h5"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "slug": "services",
+          "label": "services",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "icon_key",
+                "label": "Icon",
+                "type": "select",
+                "options": [
+                  "bed",
+                  "bath",
+                  "pool",
+                  "view",
+                  "kitchen",
+                  "garden",
+                  "wifi",
+                  "parking",
+                  "accessible",
+                  "bbq",
+                  "concierge",
+                  "chef"
+                ]
+              },
+              {
+                "slug": "title",
+                "label": "title",
+                "type": "string"
+              },
+              {
+                "slug": "description",
+                "label": "description",
+                "type": "text"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "location_summary",
+          "label": "Location summary",
+          "type": "text"
+        },
+        {
+          "slug": "location_facts",
+          "label": "locationFacts",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "value",
+                "label": "value",
+                "type": "string"
+              },
+              {
+                "slug": "label",
+                "label": "label",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "cta_title",
+          "label": "cta / title",
+          "type": "string"
+        },
+        {
+          "slug": "cta_body",
+          "label": "cta / body",
+          "type": "text"
+        },
+        {
+          "slug": "cta_button_label",
+          "label": "Button label",
+          "type": "string"
+        },
+        {
+          "slug": "seo_title",
+          "label": "Meta title",
+          "type": "string"
+        },
+        {
+          "slug": "seo_description",
+          "label": "Meta description",
+          "type": "text"
+        },
+        {
+          "slug": "seo_og_image",
+          "label": "Social share image",
+          "type": "image"
+        }
+      ],
+      "labelSingular": "Home page",
+      "titleField": "hero_title"
+    },
+    {
+      "slug": "location_page",
+      "label": "Location page",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "show_hero",
+          "label": "Show hero section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_overview",
+          "label": "Show overview section",
+          "type": "boolean",
+          "defaultValue": false
+        },
+        {
+          "slug": "show_cta",
+          "label": "Show cta section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "hero_image_desktop",
+          "label": "hero / imageDesktop",
+          "type": "image"
+        },
+        {
+          "slug": "hero_image_mobile",
+          "label": "hero / imageMobile",
+          "type": "image"
+        },
+        {
+          "slug": "hero_video_desktop",
+          "label": "hero / videoDesktop",
+          "type": "string"
+        },
+        {
+          "slug": "hero_video_mobile",
+          "label": "hero / videoMobile",
+          "type": "string"
+        },
+        {
+          "slug": "hero_play_on_mobile",
+          "label": "hero / playOnMobile",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_priority",
+          "label": "hero / priority",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_kicker",
+          "label": "hero / kicker",
+          "type": "string"
+        },
+        {
+          "slug": "hero_title",
+          "label": "hero / title",
+          "type": "string"
+        },
+        {
+          "slug": "hero_sub",
+          "label": "Subtitle",
+          "type": "text"
+        },
+        {
+          "slug": "overview",
+          "label": "overview",
+          "type": "portableText"
+        },
+        {
+          "slug": "location_facts",
+          "label": "locationFacts",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "value",
+                "label": "value",
+                "type": "string"
+              },
+              {
+                "slug": "label",
+                "label": "label",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "map_latitude",
+          "label": "map / latitude",
+          "type": "number"
+        },
+        {
+          "slug": "map_longitude",
+          "label": "map / longitude",
+          "type": "number"
+        },
+        {
+          "slug": "map_zoom",
+          "label": "map / zoom",
+          "type": "number"
+        },
+        {
+          "slug": "map_label",
+          "label": "map / label",
+          "type": "string"
+        },
+        {
+          "slug": "map_directions_query",
+          "label": "map / directionsQuery",
+          "type": "string"
+        },
+        {
+          "slug": "map_static_preview",
+          "label": "map / staticPreview",
+          "type": "image"
+        },
+        {
+          "slug": "local_guide_enabled",
+          "label": "localGuide / enabled",
+          "type": "boolean"
+        },
+        {
+          "slug": "local_guide_title",
+          "label": "localGuide / title",
+          "type": "string"
+        },
+        {
+          "slug": "local_guide_intro",
+          "label": "localGuide / intro",
+          "type": "text"
+        },
+        {
+          "slug": "local_guide_note",
+          "label": "localGuide / note",
+          "type": "string"
+        },
+        {
+          "slug": "local_guide_categories",
+          "label": "localGuide / categories",
+          "type": "json"
+        },
+        {
+          "slug": "cross_links",
+          "label": "crossLinks",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "label",
+                "label": "label",
+                "type": "string"
+              },
+              {
+                "slug": "href",
+                "label": "href",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "slug": "seo_title",
+          "label": "Meta title",
+          "type": "string"
+        },
+        {
+          "slug": "seo_description",
+          "label": "Meta description",
+          "type": "text"
+        },
+        {
+          "slug": "seo_og_image",
+          "label": "Social share image",
+          "type": "image"
+        }
+      ],
+      "labelSingular": "Location page",
+      "titleField": "hero_title"
+    },
+    {
+      "slug": "contact_page",
+      "label": "Contact page",
+      "routable": false,
+      "supports": [
+        "drafts",
+        "revisions"
+      ],
+      "fields": [
+        {
+          "slug": "show_hero",
+          "label": "Show hero section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_enquiry",
+          "label": "Show enquiry section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "show_map",
+          "label": "Show map section",
+          "type": "boolean",
+          "defaultValue": true
+        },
+        {
+          "slug": "hero_image_desktop",
+          "label": "hero / imageDesktop",
+          "type": "image"
+        },
+        {
+          "slug": "hero_image_mobile",
+          "label": "hero / imageMobile",
+          "type": "image"
+        },
+        {
+          "slug": "hero_video_desktop",
+          "label": "hero / videoDesktop",
+          "type": "string"
+        },
+        {
+          "slug": "hero_video_mobile",
+          "label": "hero / videoMobile",
+          "type": "string"
+        },
+        {
+          "slug": "hero_play_on_mobile",
+          "label": "hero / playOnMobile",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_priority",
+          "label": "hero / priority",
+          "type": "boolean"
+        },
+        {
+          "slug": "hero_kicker",
+          "label": "hero / kicker",
+          "type": "string"
+        },
+        {
+          "slug": "hero_title",
+          "label": "hero / title",
+          "type": "string"
+        },
+        {
+          "slug": "hero_sub",
+          "label": "Subtitle",
+          "type": "text"
+        },
+        {
+          "slug": "invitation",
+          "label": "invitation",
+          "type": "portableText"
+        },
+        {
+          "slug": "map_latitude",
+          "label": "map / latitude",
+          "type": "number"
+        },
+        {
+          "slug": "map_longitude",
+          "label": "map / longitude",
+          "type": "number"
+        },
+        {
+          "slug": "map_zoom",
+          "label": "map / zoom",
+          "type": "number"
+        },
+        {
+          "slug": "map_label",
+          "label": "map / label",
+          "type": "string"
+        },
+        {
+          "slug": "map_directions_query",
+          "label": "map / directionsQuery",
+          "type": "string"
+        },
+        {
+          "slug": "map_static_preview",
+          "label": "map / staticPreview",
+          "type": "image"
+        },
+        {
+          "slug": "seo_title",
+          "label": "Meta title",
+          "type": "string"
+        },
+        {
+          "slug": "seo_description",
+          "label": "Meta description",
+          "type": "text"
+        },
+        {
+          "slug": "seo_og_image",
+          "label": "Social share image",
+          "type": "image"
+        }
+      ],
+      "labelSingular": "Contact page",
+      "titleField": "hero_title"
+    },
+    {
+      "slug": "payload_media_archive",
+      "label": "Payload media archive",
+      "routable": false,
+      "hidden": true,
+      "fields": [
+        {
+          "slug": "file",
+          "label": "File",
+          "type": "file"
+        },
+        {
+          "slug": "metadata",
+          "label": "Original metadata",
+          "type": "json"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "properties": [
+      {
+        "id": "payload-properties-1",
+        "slug": "avista-villa",
+        "status": "published",
+        "data": {
+          "name": "Avista Villa",
+          "order": 1,
+          "tag": "Sea-facing architectural villa",
+          "numeral": "I",
+          "hero_image_desktop": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pexels-ivan-petrov-1713097877-32996880.jpg",
+              "filename": "pexels-ivan-petrov-1713097877-32996880.jpg",
+              "alt": "Vourvourou from the air"
+            }
+          },
+          "hero_video_desktop": "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/avista-villa.mp4",
+          "hero_play_on_mobile": false,
+          "hero_priority": true,
+          "hero_kicker": "The architect's villa",
+          "hero_title": "Avista Villa",
+          "hero_sub": "Clean lines, walls of glass, and a private horizon-edge pool - a contemporary house built entirely around the light.",
+          "summary": "For groups who want a contemporary layout, wide sea views and a pool that sits level with the horizon. Living, kitchen and terraces stay open to the water throughout the day.",
+          "overview": [
+            {
+              "_type": "block",
+              "_key": "k2",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k1",
+                  "text": "A three bedroom villa with private pool",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            },
+            {
+              "_type": "block",
+              "_key": "k4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k3",
+                  "text": "Located just 120 meters from Vourvourou's main beach, Villa Avista is a cozy two - floor residence, fully equipped, set in one of the area's most desirable locations. Surrounded by olive and fruit trees, it offers panoramic views of Vourvourou's five small islands and the surrounding green hills.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            }
+          ],
+          "stats": [
+            {
+              "value": "3",
+              "label": "Bedrooms"
+            },
+            {
+              "value": "7",
+              "label": "Guests"
+            },
+            {
+              "value": "∞",
+              "label": "Private pool"
+            },
+            {
+              "value": "Wide",
+              "label": "Sea views"
+            }
+          ],
+          "amenities": [
+            {
+              "icon_key": "bed",
+              "title": "3 bedrooms",
+              "description": "Two bedrooms with king sized beds and private balconies and one bedroom with two single beds and living room."
+            },
+            {
+              "icon_key": "bed",
+              "title": "Sleeps 7 adults",
+              "description": "Comfortable for a family or group of 7 adults (+1 small kid)."
+            },
+            {
+              "icon_key": "pool",
+              "title": "Private pool",
+              "description": "A newly built private pool attached with the Villa."
+            },
+            {
+              "icon_key": "view",
+              "title": "Fully equipped kitchen ",
+              "description": "Fully equipped kitchen with washing machine (also there is an extra washing machine for clothes)."
+            },
+            {
+              "icon_key": "view",
+              "title": "Full housekeeping services ",
+              "description": "Complimentary housekeeping is being provided for all interior and exterior areas every two days."
+            },
+            {
+              "icon_key": "kitchen",
+              "title": "5 bicycles & 2 sea canoes",
+              "description": "During your stay, you will have access to 5 bicycles and 2 sea canoes, making it easy to explore the surrounding area."
+            },
+            {
+              "title": "Air-conditioned",
+              "description": "Full Aircontined in both floors. "
+            },
+            {
+              "icon_key": "wifi",
+              "title": "Fast Speed Wi-Fi",
+              "description": "Starlinkink fast speed Wi-Fi. Reliable connection across the house and the garden."
+            }
+          ],
+          "gallery": [
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/terrace-sunset.jpg",
+                  "filename": "terrace-sunset.jpg",
+                  "alt": "Sunset"
+                }
+              },
+              "alt": "Sunset",
+              "layout": "l",
+              "height": "h1"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/living-room-2.jpg",
+                  "filename": "living-room-2.jpg",
+                  "alt": "Living room"
+                }
+              },
+              "alt": "Living room",
+              "layout": "p",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pool.jpg",
+                  "filename": "pool.jpg",
+                  "alt": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "s",
+              "height": "h3"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bedroom-2.jpg",
+                  "filename": "bedroom-2.jpg",
+                  "alt": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "p",
+              "height": "h4"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/kitchen-2.jpg",
+                  "filename": "kitchen-2.jpg",
+                  "alt": "Kitchen"
+                }
+              },
+              "alt": "Kitchen",
+              "layout": "l",
+              "height": "h1"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bathroom.jpg",
+                  "filename": "bathroom.jpg",
+                  "alt": "Bathroom"
+                }
+              },
+              "alt": "Bathroom",
+              "layout": "p",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/villa-night.jpg",
+                  "filename": "villa-night.jpg",
+                  "alt": "Villa at night"
+                }
+              },
+              "alt": "Villa at night",
+              "layout": "s",
+              "height": "h3"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/hallway.jpg",
+                  "filename": "hallway.jpg",
+                  "alt": "Hallway"
+                }
+              },
+              "alt": "Hallway",
+              "layout": "p",
+              "height": "h4"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%201.jpg",
+                  "filename": "Aerial 1.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%203.jpg",
+                  "filename": "Aerial 3.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%205.jpg",
+                  "filename": "Aerial 5.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Back%20Garden%201.jpg",
+                  "filename": "Back Garden 1.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%201.%20Back%20Balcony.jpg",
+                  "filename": "Bedroom 1. Back Balcony.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%201-1.jpg",
+                  "filename": "Bedroom 1-1.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202.Back%20Balcony.jpg",
+                  "filename": "Bedroom 2.Back Balcony.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom ",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%203.jpg",
+                  "filename": "Bedroom 3.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Balcony%20of%20Bedroom%201.jpg",
+                  "filename": "Front Balcony of Bedroom 1.jpg",
+                  "alt": "Balcony",
+                  "caption": "Balcony"
+                }
+              },
+              "alt": "Balcony",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Balcony%20of%20Bedroom%202.jpg",
+                  "filename": "Front Balcony of Bedroom 2.jpg",
+                  "alt": "Balcony",
+                  "caption": "Balcony"
+                }
+              },
+              "alt": "Balcony",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden%202.jpg",
+                  "filename": "Front Garden 2.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden%204.jpg",
+                  "filename": "Front Garden 4.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden%205.png",
+                  "filename": "Front Garden 5.png",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden.jpg",
+                  "filename": "Front Garden.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Hero%201.jpg",
+                  "filename": "Hero 1.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Hero%20Night.jpg",
+                  "filename": "Hero Night.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room%201.png",
+                  "filename": "Living Room 1.png",
+                  "alt": "Living Room",
+                  "caption": "Living Room"
+                }
+              },
+              "alt": "Living Room",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room%202.jpg",
+                  "filename": "Living Room 2.jpg",
+                  "alt": "Living Room",
+                  "caption": "Living Room"
+                }
+              },
+              "alt": "Living Room",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room%203.jpg",
+                  "filename": "Living Room 3.jpg",
+                  "alt": "Living Room",
+                  "caption": "Living Room"
+                }
+              },
+              "alt": "Living Room",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room.jpg",
+                  "filename": "Living Room.jpg",
+                  "alt": "Living Room",
+                  "caption": "Living Room"
+                }
+              },
+              "alt": "Living Room",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%202-1.jpg",
+                  "filename": "Pool Area 2-1.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%205.jpg",
+                  "filename": "Pool Area 5.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%206.jpg",
+                  "filename": "Pool Area 6.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%207.jpg",
+                  "filename": "Pool Area 7.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Second%20Living%20Room.jpg",
+                  "filename": "Second Living Room.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Villa%20Avista%20Kitchen%20View01.jpg",
+                  "filename": "Villa Avista Kitchen View01.jpg",
+                  "alt": "Kitchen ",
+                  "caption": "Kitchen "
+                }
+              },
+              "alt": "Kitchen ",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/%20Villa%20Avista%20Pool%20Area%20317.jpg",
+                  "filename": " Villa Avista Pool Area 317.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            }
+          ],
+          "map_latitude": 40.1969,
+          "map_longitude": 23.7761,
+          "map_zoom": 14,
+          "map_label": "Avista Villa",
+          "map_directions_query": "Vourvourou, Sithonia, Halkidiki, Greece",
+          "seo_title": "Avista Villa, The architect's house · Vourvourou",
+          "seo_description": "Avista Villa: a contemporary, light-filled house with a horizon-edge pool above the bay of Vourvourou.",
+          "show_hero": true,
+          "show_spaces": true,
+          "show_amenities": true,
+          "show_gallery": true,
+          "show_reviews": true,
+          "show_map": true,
+          "show_location": false,
+          "show_cross_link": false,
+          "show_cta": true
+        }
+      },
+      {
+        "id": "payload-properties-2",
+        "slug": "avista-private-resort",
+        "status": "published",
+        "data": {
+          "name": "Avista Private Resort",
+          "order": 2,
+          "tag": "Garden estate for larger groups",
+          "numeral": "II",
+          "hero_image_desktop": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/hero-aerial-1.jpg",
+              "filename": "hero-aerial-1.jpg",
+              "alt": "Avista Private Resort from the air"
+            }
+          },
+          "hero_video_desktop": "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/private-resort.mp4",
+          "hero_play_on_mobile": false,
+          "hero_priority": true,
+          "hero_kicker": "The private garden estate",
+          "hero_title": "Avista Private Resort",
+          "hero_sub": "Check out from reality and absorb the enchanting vourvourou's nature beauty. For long family summers under the olive trees.",
+          "summary": "For larger families or two-household stays that need more bedrooms, garden space and shaded places to gather. The pool, BBQ terrace and walled garden keep the day centered outside.",
+          "overview": [
+            {
+              "_type": "block",
+              "_key": "k2",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k1",
+                  "text": "Recharge & Reconnect ",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            },
+            {
+              "_type": "block",
+              "_key": "k4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k3",
+                  "text": "A three-bedroom/three-bathrooms villa that combines privacy, with no neighboring houses nearby, and is located in Vourvourou's most beautiful area, the \"Professors'\" area, just 600 meters from the famous Fava Beach.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            }
+          ],
+          "stats": [
+            {
+              "value": "3",
+              "label": "Bedrooms"
+            },
+            {
+              "value": "8",
+              "label": "Guests"
+            },
+            {
+              "value": "1,200",
+              "label": "m² garden"
+            },
+            {
+              "value": "BBQ",
+              "label": "Terrace"
+            }
+          ],
+          "amenities": [
+            {
+              "icon_key": "bed",
+              "title": "3 bedrooms",
+              "description": "Spread across the estate (3 bathrooms as well)."
+            },
+            {
+              "icon_key": "bed",
+              "title": "Sleeps 8",
+              "description": "Comfortable for larger families and groups. Capacity 7 adults + 1 kid."
+            },
+            {
+              "icon_key": "pool",
+              "title": "Garden pool",
+              "description": "Included with pool waterfall and an outdoor shower."
+            },
+            {
+              "icon_key": "garden",
+              "title": "Fully equipped kitchen ",
+              "description": "Fully equipped kitchen with washing machine (also there is an extra washing machine for clothes)."
+            },
+            {
+              "icon_key": "bbq",
+              "title": "Built-in BBQ",
+              "description": "An outdoor BBQ dining area, made for slow Greek evenings."
+            },
+            {
+              "icon_key": "kitchen",
+              "title": "Full housekeeping services",
+              "description": "Complimentary housekeeping is being provided for all interior and exterior areas every two days."
+            },
+            {
+              "title": "Air-conditioned",
+              "description": "Full Aircontined in all the rooms of the Villa."
+            },
+            {
+              "icon_key": "wifi",
+              "title": "Fast Wi-Fi",
+              "description": "Starlinkink fast speed Wi-Fi. Reliable connection across the house and the garden."
+            }
+          ],
+          "gallery": [
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-3.jpg",
+                  "filename": "garden-3.jpg",
+                  "alt": "Garden"
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h1"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bedroom.jpg",
+                  "filename": "bedroom.jpg",
+                  "alt": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "p",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pool-1.jpg",
+                  "filename": "pool-1.jpg",
+                  "alt": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "s",
+              "height": "h3"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-path.jpg",
+                  "filename": "garden-path.jpg",
+                  "alt": "Garden path"
+                }
+              },
+              "alt": "Garden path",
+              "layout": "p",
+              "height": "h4"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/gardens.jpg",
+                  "filename": "gardens.jpg",
+                  "alt": "Gardens"
+                }
+              },
+              "alt": "Gardens",
+              "layout": "l",
+              "height": "h1"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/living-room.jpg",
+                  "filename": "living-room.jpg",
+                  "alt": "Living room"
+                }
+              },
+              "alt": "Living room",
+              "layout": "p",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/patio-bbq.jpg",
+                  "filename": "patio-bbq.jpg",
+                  "alt": "Patio"
+                }
+              },
+              "alt": "Patio",
+              "layout": "s",
+              "height": "h3"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden.jpg",
+                  "filename": "garden.jpg",
+                  "alt": "Garden"
+                }
+              },
+              "alt": "Garden",
+              "layout": "p",
+              "height": "h4"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-2.jpg",
+                  "filename": "garden-2.jpg",
+                  "alt": "Garden"
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h5"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK4860%20green.jpg",
+                  "filename": "_NIK4860 green.jpg",
+                  "alt": "Terrace",
+                  "caption": "Terrace "
+                }
+              },
+              "alt": "Terrace",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK4916.jpg",
+                  "filename": "_NIK4916.jpg",
+                  "alt": "Terrace",
+                  "caption": "Terrace "
+                }
+              },
+              "alt": "Terrace",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK5029...%20-%20Copy%20-%20Copy%20(1).jpg",
+                  "filename": "_NIK5029... - Copy - Copy (1).jpg",
+                  "alt": "Night Garden",
+                  "caption": "Night Garden"
+                }
+              },
+              "alt": "Night Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK5048insta%20(1).jpg",
+                  "filename": "_NIK5048insta (1).jpg",
+                  "alt": "Terrace",
+                  "caption": "Terrace "
+                }
+              },
+              "alt": "Terrace",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK5065.jpg",
+                  "filename": "_NIK5065.jpg",
+                  "alt": "Night Garden",
+                  "caption": "Night Garden"
+                }
+              },
+              "alt": "Night Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%20Hero.png",
+                  "filename": "Aerial Hero.png",
+                  "alt": "Aerial",
+                  "caption": "Aerial "
+                }
+              },
+              "alt": "Aerial",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Avista%20Resort%20Garden%20371.jpg",
+                  "filename": "Avista Resort Garden 371.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Avista%20Resort%20Garden%20381.jpg",
+                  "filename": "Avista Resort Garden 381.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Avista%20Resort%20Garden%20401.jpg",
+                  "filename": "Avista Resort Garden 401.jpg",
+                  "alt": "BBQ",
+                  "caption": "BBQ"
+                }
+              },
+              "alt": "BBQ",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bahtroom%20-%20Copy%20-%20Copy.jpg",
+                  "filename": "Bahtroom - Copy - Copy.jpg",
+                  "alt": "Bathroom",
+                  "caption": "Bathroom"
+                }
+              },
+              "alt": "Bathroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bathroom.jpg",
+                  "filename": "Bathroom.jpg",
+                  "alt": "Bathroom",
+                  "caption": "Bathroom"
+                }
+              },
+              "alt": "Bathroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%201.jpg",
+                  "filename": "Bedroom 1.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202%20(1).jpg",
+                  "filename": "Bedroom 2 (1).jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202%20(2).jpg",
+                  "filename": "Bedroom 2 (2).jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202.jpg",
+                  "filename": "Bedroom 2.jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%203%20(1).jpg",
+                  "filename": "Bedroom 3 (1).jpg",
+                  "alt": "Bedroom ",
+                  "caption": "Bedroom"
+                }
+              },
+              "alt": "Bedroom",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20-%20Copy.jpg",
+                  "filename": "Garden - Copy.jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20(2).jpg",
+                  "filename": "Garden (2).jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20(3).jpg",
+                  "filename": "Garden (3).jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20(6)%20(1).jpg",
+                  "filename": "Garden (6) (1).jpg",
+                  "alt": "Garden",
+                  "caption": "Garden "
+                }
+              },
+              "alt": "Garden",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Kicthen%20(1).jpg",
+                  "filename": "Kicthen (1).jpg",
+                  "alt": "Kitchen ",
+                  "caption": "Kitchen"
+                }
+              },
+              "alt": "Kitchen",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pattio%20(2).jpg",
+                  "filename": "Pattio (2).jpg",
+                  "alt": "Terrace",
+                  "caption": "Terrace "
+                }
+              },
+              "alt": "Terrace ",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%20(2).jpg",
+                  "filename": "Pool Area (2).jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%20(3).jpg",
+                  "filename": "Pool Area (3).jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%202.jpg",
+                  "filename": "Pool Area 2.jpg",
+                  "alt": "Pool",
+                  "caption": "Pool"
+                }
+              },
+              "alt": "Pool",
+              "layout": "l",
+              "height": "h2"
+            }
+          ],
+          "map_latitude": 40.1969,
+          "map_longitude": 23.7761,
+          "map_zoom": 14,
+          "map_label": "Avista Private Resort",
+          "map_directions_query": "Vourvourou, Sithonia, Halkidiki, Greece",
+          "seo_title": "Avista Private Resort, The garden estate · Vourvourou",
+          "seo_description": "Avista Private Resort: a walled garden estate with a generous pool, shaded patios and BBQ, made for long family summers in Vourvourou.",
+          "show_hero": true,
+          "show_spaces": true,
+          "show_amenities": true,
+          "show_gallery": true,
+          "show_reviews": true,
+          "show_map": true,
+          "show_location": false,
+          "show_cross_link": false,
+          "show_cta": true
+        }
+      }
+    ],
+    "reviews": [
+      {
+        "id": "payload-reviews-25",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-1",
+          "author_name": "Dima",
+          "author_location": "Luxembourg",
+          "source": "booking",
+          "score": 10,
+          "quote": "The private villa is amazing and very spacious. The garden is just stunning — full of greenery with olive trees all around. A must-stay experience!",
+          "date": "October 2024",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-26",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-1",
+          "author_name": "Yasmine",
+          "author_location": "Australia",
+          "source": "booking",
+          "score": 10,
+          "quote": "The hosts display the best customer service and hospitality I have ever experienced. The facilities are amazing and the grounds beautifully kept — a home away from home.",
+          "date": "August 2023",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-27",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-1",
+          "author_name": "Yani",
+          "author_location": "Bulgaria",
+          "source": "booking",
+          "score": 10,
+          "quote": "The hosts were extremely helpful and communication was flawless. The real gem is the big green garden with olive trees and the pool beside it. Highly recommend.",
+          "date": "September 2024",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-28",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-1",
+          "author_name": "Boban",
+          "author_location": "North Macedonia",
+          "source": "booking",
+          "score": 10,
+          "quote": "The rooms were nicely decorated and spotless, and the swimming pool is a great spot to relax at the end of the day. Atanasis is a great host — highly recommended!",
+          "date": "July 2023",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-29",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-1",
+          "author_name": "Frances",
+          "author_location": "Ireland",
+          "source": "booking",
+          "score": 10,
+          "quote": "Wonderful family-run property whose hosts were extremely helpful. Peaceful, beautiful pool, close to the beach and very clean. Would recommend to family and friends.",
+          "date": "September 2023",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-30",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-1",
+          "author_name": "Lupascu",
+          "author_location": "Romania",
+          "source": "booking",
+          "score": 10,
+          "quote": "The host, Dimitri, was very kind and welcoming, with great recommendations. The view was excellent and the house very clean and cozy. Thank you for the beautiful experience!",
+          "date": "October 2023",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-31",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-2",
+          "author_name": "Alexandros",
+          "author_location": "United States",
+          "source": "booking",
+          "score": 10,
+          "quote": "If I could, I would rate 11/10! One of the best villas we have ever stayed in Chalkidiki. We loved the privacy — no neighbouring houses close by and a real connection with nature.",
+          "date": "September 2023",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-32",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-2",
+          "author_name": "Agnese",
+          "author_location": "Latvia",
+          "source": "booking",
+          "score": 10,
+          "quote": "The villa was perfect for a larger group — no neighbours nearby, spacious, a large pool and beds of high hotel quality. The host was very friendly. A perfect escape.",
+          "date": "May 2025",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-33",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-2",
+          "author_name": "Binka",
+          "author_location": "Bulgaria",
+          "source": "booking",
+          "score": 10,
+          "quote": "The owners are wonderful people! The service and cleanliness are at a very high level. The villa is 10/10 — everything was beyond perfect!",
+          "date": "May 2024",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-34",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-2",
+          "author_name": "Koray",
+          "author_location": "Turkey",
+          "source": "booking",
+          "score": 10,
+          "quote": "The facilities are superb and the location beautiful — everything has been thought of. The birthday cake gesture was lovely, and our contact was very helpful. Thank you for everything.",
+          "date": "July 2024",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-35",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-2",
+          "author_name": "Yannick",
+          "author_location": "Germany",
+          "source": "booking",
+          "score": 10,
+          "quote": "Excellent from front to back. There were eight of us — six adults and two toddlers — and it was perfect.",
+          "date": "May 2026",
+          "featured": true
+        }
+      },
+      {
+        "id": "payload-reviews-36",
+        "status": "published",
+        "data": {
+          "property": "$ref:payload-properties-2",
+          "author_name": "Simone",
+          "author_location": "Germany",
+          "source": "booking",
+          "score": 10,
+          "quote": "Wonderful house and super friendly hosts.",
+          "date": "June 2024",
+          "featured": true
+        }
+      }
+    ],
+    "site_settings": [
+      {
+        "id": "payload-siteSettings-singleton",
+        "status": "published",
+        "data": {
+          "brand_name": "Avista",
+          "tagline": "Two private villas by the Aegean",
+          "contact_email": "stay@avista.gr",
+          "phone": "+30 000 000 000",
+          "address": "Vourvourou 630 78\nHalkidiki, Greece",
+          "copyright": "2026 Avista Villas",
+          "location_slogan": "Vourvourou · Sithonia · Halkidiki",
+          "weather_latitude": 40.1969,
+          "weather_longitude": 23.7761,
+          "default_seo_title_template": "Avista | %s",
+          "default_seo_description": "Compare Avista Villa and Avista Private Resort, two private villas in Vourvourou, Sithonia, with pools, sea views, garden space and personal enquiry."
+        }
+      }
+    ],
+    "navigation": [
+      {
+        "id": "payload-navigation-singleton",
+        "status": "published",
+        "data": {
+          "left_links": [
+            {
+              "label": "Avista Villa",
+              "href": "/avista-villa/"
+            },
+            {
+              "label": "Private Resort",
+              "href": "/avista-private-resort/"
+            }
+          ],
+          "right_links": [
+            {
+              "label": "Location",
+              "href": "/location/"
+            },
+            {
+              "label": "Enquire",
+              "href": "/contact/"
+            }
+          ]
+        }
+      }
+    ],
+    "footer": [
+      {
+        "id": "payload-footer-singleton",
+        "status": "published",
+        "data": {
+          "brand_blurb": "Two private villas in Vourvourou, where pine shade meets the Aegean. Sithonia, Halkidiki, Greece.",
+          "columns": [
+            {
+              "heading": "Explore",
+              "links": [
+                {
+                  "label": "Avista Villa",
+                  "href": "/avista-villa/"
+                },
+                {
+                  "label": "Private Resort",
+                  "href": "/avista-private-resort/"
+                },
+                {
+                  "label": "Location",
+                  "href": "/location/"
+                },
+                {
+                  "label": "Enquire",
+                  "href": "/contact/"
+                }
+              ]
+            },
+            {
+              "heading": "Contact",
+              "links": [
+                {
+                  "label": "stay@avista.gr",
+                  "href": "mailto:stay@avista.gr"
+                },
+                {
+                  "label": "+30 000 000 000",
+                  "href": "tel:+30000000000"
+                }
+              ]
+            }
+          ],
+          "show_footer": true
+        }
+      }
+    ],
+    "home": [
+      {
+        "id": "payload-home-singleton",
+        "status": "published",
+        "data": {
+          "hero_image_desktop": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/terrace-sunset.jpg",
+              "filename": "terrace-sunset.jpg",
+              "alt": "Sunset"
+            }
+          },
+          "hero_video_desktop": "https://pub-d6e79d28cef04ba49c2a61300dbd5552.r2.dev/Preview%20Link%20Video.mp4",
+          "hero_play_on_mobile": false,
+          "hero_priority": true,
+          "hero_kicker": "",
+          "hero_title": "Vourvourou's Tranquil Oasis",
+          "hero_sub": "Private Villas for rent in the heart of Sithonia ",
+          "intro_lead": "Inspired by the raw beauty of the landscape of Sithonia and the beautiful blend of lush greenery and crystal-blue waters that defines the Vourvourou area.",
+          "intro_statement": [
+            {
+              "_type": "block",
+              "_key": "k2",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k1",
+                  "text": "Avista Villas offers privacy and a place where you can reconnect with nature while feeling at home.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            },
+            {
+              "_type": "block",
+              "_key": "k4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k3",
+                  "text": "With the wandering spirit of our guests in mind, we have created a setting that awakens the senses through eco-friendly materials and invites you to experience unique moments of mindfulness, serenity, and complete tranquillity.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            }
+          ],
+          "villas_featured": [],
+          "gallery": [
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/villa-night.jpg",
+                  "filename": "villa-night.jpg",
+                  "alt": "Villa at night"
+                }
+              },
+              "alt": "Villa terrace lit at twilight",
+              "layout": "l",
+              "height": "h1"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/living-room-2.jpg",
+                  "filename": "living-room-2.jpg",
+                  "alt": "Living room"
+                }
+              },
+              "alt": "Living room with sea-facing glass doors",
+              "layout": "p",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pool.jpg",
+                  "filename": "pool.jpg",
+                  "alt": "Pool"
+                }
+              },
+              "alt": "Pool terrace with loungers",
+              "layout": "s",
+              "height": "h3"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-3.jpg",
+                  "filename": "garden-3.jpg",
+                  "alt": "Garden"
+                }
+              },
+              "alt": "Shaded garden beside the villa",
+              "layout": "p",
+              "height": "h4"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bedroom-2.jpg",
+                  "filename": "bedroom-2.jpg",
+                  "alt": "Bedroom"
+                }
+              },
+              "alt": "Bedroom prepared for guests",
+              "layout": "l",
+              "height": "h1"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pexels-ivan-petrov-1713097877-32996880.jpg",
+                  "filename": "pexels-ivan-petrov-1713097877-32996880.jpg",
+                  "alt": "Vourvourou from the air"
+                }
+              },
+              "alt": "Aerial view of the estate and coastline",
+              "layout": "s",
+              "height": "h2"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/kitchen-2.jpg",
+                  "filename": "kitchen-2.jpg",
+                  "alt": "Kitchen"
+                }
+              },
+              "alt": "Kitchen and dining area for private meals",
+              "layout": "p",
+              "height": "h3"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pool-1.jpg",
+                  "filename": "pool-1.jpg",
+                  "alt": "Pool"
+                }
+              },
+              "alt": "Private Resort pool and terrace",
+              "layout": "l",
+              "height": "h5"
+            },
+            {
+              "image": {
+                "$media": {
+                  "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/hallway.jpg",
+                  "filename": "hallway.jpg",
+                  "alt": "Hallway"
+                }
+              },
+              "alt": "Interior hallway leading to bedrooms",
+              "layout": "p",
+              "height": "h4"
+            }
+          ],
+          "services": [
+            {
+              "icon_key": "pool",
+              "title": "Pool setup & sun terrace",
+              "description": "Loungers, shaded daybeds and outdoor showers set for pool days."
+            },
+            {
+              "icon_key": "chef",
+              "title": "Private chef & in-villa dining",
+              "description": "Greek breakfast, casual lunches or a longer evening table, arranged by request."
+            },
+            {
+              "icon_key": "concierge",
+              "title": "Concierge & daily housekeeping",
+              "description": "Transfers, boat days to Diaporos and discreet daily care for the house."
+            },
+            {
+              "icon_key": "accessible",
+              "title": "Accessible ground-floor suite",
+              "description": "A step-free bedroom and wet room for guests who need easier access."
+            }
+          ],
+          "location_summary": "Vourvourou sits on Sithonia's eastern coast, where pine trees meet sheltered water and the islets of Diaporos sit just offshore. It is quiet, shallow and easy for families, with tavernas and small beaches close by.",
+          "location_facts": [
+            {
+              "value": "90 min",
+              "label": "From Thessaloniki airport"
+            },
+            {
+              "value": "200 m",
+              "label": "To nearest beach"
+            },
+            {
+              "value": "9",
+              "label": "Bays of Vourvourou"
+            },
+            {
+              "value": "Diaporos",
+              "label": "Island offshore"
+            }
+          ],
+          "cta_title": "Ask about availability\nat Avista.",
+          "cta_body": "Send your preferred dates, group size and which villa you are considering. We will reply with availability, rates and the details that matter for your stay.",
+          "cta_button_label": "Send an enquiry",
+          "seo_title": "Avista | Private Villas · Vourvourou, Halkidiki",
+          "seo_description": "Compare Avista Villa and Avista Private Resort, two private villas in Vourvourou, Sithonia, with pools, sea views, garden space and personal enquiry.",
+          "show_hero": true,
+          "show_intro": true,
+          "show_villas": true,
+          "show_gallery": true,
+          "show_services": false,
+          "show_location": true,
+          "show_cta": true
+        }
+      }
+    ],
+    "location_page": [
+      {
+        "id": "payload-locationPage-singleton",
+        "status": "published",
+        "data": {
+          "hero_image_desktop": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pexels-ivan-petrov-1713097877-32996880.jpg",
+              "filename": "pexels-ivan-petrov-1713097877-32996880.jpg",
+              "alt": "Vourvourou from the air"
+            }
+          },
+          "hero_play_on_mobile": false,
+          "hero_priority": true,
+          "hero_kicker": "Vourvourou",
+          "hero_title": "Discover the beautiful destinations of our area! ",
+          "hero_sub": "Vourvourou - Sithonia - Halkidiki ",
+          "overview": [
+            {
+              "_type": "block",
+              "_key": "k2",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k1",
+                  "text": "Vourvourou,\nSithonia.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            },
+            {
+              "_type": "block",
+              "_key": "k4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k3",
+                  "text": "A string of nine small bays on the middle finger of Halkidiki, edged with pine and looking out to the islets of Diaporos. Calm, shallow water and some of the clearest sea in the Aegean.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            }
+          ],
+          "location_facts": [
+            {
+              "value": "90 min",
+              "label": "From Thessaloniki airport"
+            },
+            {
+              "value": "200 m",
+              "label": "To nearest beach"
+            },
+            {
+              "value": "9",
+              "label": "Bays of Vourvourou"
+            },
+            {
+              "value": "Diaporos",
+              "label": "Island offshore"
+            }
+          ],
+          "map_latitude": 40.1969,
+          "map_longitude": 23.7761,
+          "map_zoom": 13,
+          "map_label": "Avista · Vourvourou",
+          "map_directions_query": "Vourvourou, Sithonia, Halkidiki, Greece",
+          "local_guide_enabled": true,
+          "local_guide_title": "Recommendations ",
+          "local_guide_intro": "A short local list for swimming, lunch and an easy drink by the water. Ask us for more recommendations during your stay.",
+          "local_guide_note": "Each name opens in Google Maps.",
+          "local_guide_categories": [
+            {
+              "title": "Beaches",
+              "description": "Sheltered bays and clear, shallow water close to Vourvourou.",
+              "places": [
+                {
+                  "name": "Karidi Beach",
+                  "description": "Pale sand, pines and calm shallows. Perfect for families.",
+                  "area": "Vourvourou",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Karidi+Beach+Vourvourou"
+                },
+                {
+                  "name": "Fava Beach",
+                  "description": "A quieter string of small coves.",
+                  "area": "Vourvourou",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Fava+Beach+Vourvourou"
+                },
+                {
+                  "name": "Livari Beach",
+                  "description": "Long shallows facing Diaporos",
+                  "area": "Vourvourou",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Livari+Beach+Vourvourou"
+                },
+                {
+                  "name": "Trani Ammouda ",
+                  "description": "One of the longest, widest, and most spectacular sandy beaches in Sithonia, Halkidiki.",
+                  "area": "Ormos Panagias",
+                  "href": "https://maps.app.goo.gl/TzbUzEH3EPU3K7P68"
+                }
+              ]
+            },
+            {
+              "title": "Restaurants",
+              "description": "Local cooking, fresh fish and tables worth lingering over.",
+              "places": [
+                {
+                  "name": "Bokeh Restaurant & Bar",
+                  "description": "Greek cooking and grilled seafood by the sea.",
+                  "area": "Vourvourou",
+                  "href": "https://maps.app.goo.gl/QciUVwPSoMfu8aYe9"
+                },
+                {
+                  "name": "Melia",
+                  "description": "Dinner beneath the trees",
+                  "area": "Vourvourou",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Melia+Restaurant+Vourvourou"
+                },
+                {
+                  "name": "Aristos Fish Restaurant",
+                  "description": "Seafood beside the harbour",
+                  "area": "Ormos Panagias",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Aristos+Fish+Restaurant+Ormos+Panagias"
+                },
+                {
+                  "name": "Anchor FoodBar",
+                  "description": "Ideal culinary experience. ",
+                  "area": "Vourvourou",
+                  "href": "https://maps.app.goo.gl/Nsh682VH9NhuZaUj7"
+                },
+                {
+                  "name": "Madala Tavern ",
+                  "description": "Quality food with affordable prices.",
+                  "area": "Vourvourou",
+                  "href": "https://maps.app.goo.gl/PMhXDT8oGTfaMrNfA"
+                },
+                {
+                  "name": "Klimataria Tavern",
+                  "description": "Ideal tavern for meat lovers. Located 20 min driving from Vourvourou.",
+                  "area": "Metagitsi ",
+                  "href": "https://maps.app.goo.gl/61ExyFcMtKfNuUNX8"
+                }
+              ]
+            },
+            {
+              "title": "Beach Bars",
+              "description": "For a slower afternoon or a drink after the last swim.",
+              "places": [
+                {
+                  "name": "Talgo Beach Bar",
+                  "description": "Sunbeds and a long sandy bay",
+                  "area": "Ormos Panagias",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Talgo+Beach+Bar+Halkidiki"
+                },
+                {
+                  "name": "Manassu Beach Bar",
+                  "description": "All-day drinks beneath the pines",
+                  "area": "Akti Oneirou",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Manassu+Beach+Bar+Sithonia"
+                },
+                {
+                  "name": "Ethnik Beach Bar",
+                  "description": "A relaxed stop on the western coast",
+                  "area": "Tristinika",
+                  "href": "https://www.google.com/maps/search/?api=1&query=Ethnik+Beach+Bar+Tristinika"
+                }
+              ]
+            },
+            {
+              "title": "Extra Recommendations (Boat Rentals, Tours etc)",
+              "description": "Discover the many activities Vourvourou and Sithonia have to offer.",
+              "places": [
+                {
+                  "name": "Ocean Boat Rental ",
+                  "description": "Boats rental company - no licence required options as well.",
+                  "area": "Vourvourou",
+                  "href": "https://maps.app.goo.gl/of5FkFUbSGKuiGaf7"
+                },
+                {
+                  "name": "Athos Sea Cruises",
+                  "description": "Perfect experience for the whole family. An informative ship tour along the coasts of the third peninsula of Halkidiki, Agio Oros.",
+                  "area": "Mount Athos",
+                  "href": "https://maps.app.goo.gl/9KJRJTTjM4DaYoFw6"
+                },
+                {
+                  "name": "Stagira - Aristotle's hometown ",
+                  "description": "The ruins of the great philosopher's hometown.",
+                  "area": "Aristotle's Park",
+                  "href": "https://maps.app.goo.gl/Eg7tHmarD4caRqyf6"
+                }
+              ]
+            }
+          ],
+          "cross_links": [
+            {
+              "label": "Avista Villa",
+              "href": "/avista-villa/"
+            },
+            {
+              "label": "Avista Private Resort",
+              "href": "/avista-private-resort/"
+            }
+          ],
+          "seo_title": "Avista | Location, Vourvourou, Sithonia · Halkidiki",
+          "seo_description": "Where Avista's two private villas sit: Vourvourou on the Sithonia peninsula of Halkidiki, where pine meets sheltered water and the islets of Diaporos lie just offshore.",
+          "show_hero": true,
+          "show_overview": false,
+          "show_cta": true
+        }
+      }
+    ],
+    "contact_page": [
+      {
+        "id": "payload-contactPage-singleton",
+        "status": "published",
+        "data": {
+          "hero_image_desktop": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/terrace-dusk.jpg",
+              "filename": "terrace-dusk.jpg",
+              "alt": "Avista Villa terrace and pool at dusk above Vourvourou bay"
+            }
+          },
+          "hero_play_on_mobile": false,
+          "hero_priority": true,
+          "hero_kicker": "Enquiries · Vourvourou",
+          "hero_title": "Begin the conversation.",
+          "hero_sub": "Tell us your dates, your group and which villa draws you. We reply personally with availability, rates and the details that matter for your stay.",
+          "invitation": [
+            {
+              "_type": "block",
+              "_key": "k2",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k1",
+                  "text": "Send an\nenquiry.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            },
+            {
+              "_type": "block",
+              "_key": "k4",
+              "style": "normal",
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "k3",
+                  "text": "Avista is booked one group at a time, so every stay begins with a short conversation. Share a few details below and we will come back to you by email, usually within a day.",
+                  "marks": []
+                }
+              ],
+              "markDefs": []
+            }
+          ],
+          "map_latitude": 40.1969,
+          "map_longitude": 23.7761,
+          "map_zoom": 13,
+          "map_label": "Avista · Vourvourou",
+          "map_directions_query": "Vourvourou, Sithonia, Halkidiki, Greece",
+          "seo_title": "Avista | Enquire · Vourvourou, Halkidiki",
+          "seo_description": "Enquire about a private stay at Avista — two villas above the bays of Vourvourou, Sithonia. Share your dates and group size and we will reply personally.",
+          "show_hero": true,
+          "show_enquiry": true,
+          "show_map": true
+        }
+      }
+    ],
+    "payload_media_archive": [
+      {
+        "id": "payload-media-1",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pexels-ivan-petrov-1713097877-32996880.jpg",
+              "filename": "pexels-ivan-petrov-1713097877-32996880.jpg",
+              "alt": "Vourvourou from the air"
+            }
+          },
+          "metadata": {
+            "id": 1,
+            "alt": "Vourvourou from the air",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-11T12:04:48.406Z",
+            "createdAt": "2026-06-06T18:53:16.575Z",
+            "url": "/api/media/file/pexels-ivan-petrov-1713097877-32996880.jpg",
+            "thumbnailURL": null,
+            "filename": "pexels-ivan-petrov-1713097877-32996880.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 2209427,
+            "width": 4056,
+            "height": 3040
+          }
+        }
+      },
+      {
+        "id": "payload-media-2",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/kitchen-2.jpg",
+              "filename": "kitchen-2.jpg",
+              "alt": "Kitchen"
+            }
+          },
+          "metadata": {
+            "id": 2,
+            "alt": "Kitchen",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.322Z",
+            "createdAt": "2026-06-06T18:53:17.322Z",
+            "url": "/api/media/file/kitchen-2.jpg",
+            "thumbnailURL": null,
+            "filename": "kitchen-2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 381832,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-3",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/terrace-sunset.jpg",
+              "filename": "terrace-sunset.jpg",
+              "alt": "Sunset"
+            }
+          },
+          "metadata": {
+            "id": 3,
+            "alt": "Sunset",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.328Z",
+            "createdAt": "2026-06-06T18:53:17.328Z",
+            "url": "/api/media/file/terrace-sunset.jpg",
+            "thumbnailURL": null,
+            "filename": "terrace-sunset.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 439606,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-4",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/living-room-2.jpg",
+              "filename": "living-room-2.jpg",
+              "alt": "Living room"
+            }
+          },
+          "metadata": {
+            "id": 4,
+            "alt": "Living room",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.333Z",
+            "createdAt": "2026-06-06T18:53:17.333Z",
+            "url": "/api/media/file/living-room-2.jpg",
+            "thumbnailURL": null,
+            "filename": "living-room-2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 422045,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-5",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bathroom.jpg",
+              "filename": "bathroom.jpg",
+              "alt": "Bathroom"
+            }
+          },
+          "metadata": {
+            "id": 5,
+            "alt": "Bathroom",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.339Z",
+            "createdAt": "2026-06-06T18:53:17.339Z",
+            "url": "/api/media/file/bathroom.jpg",
+            "thumbnailURL": null,
+            "filename": "bathroom.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 307656,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-6",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bedroom-2.jpg",
+              "filename": "bedroom-2.jpg",
+              "alt": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 6,
+            "alt": "Bedroom",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.365Z",
+            "createdAt": "2026-06-06T18:53:17.365Z",
+            "url": "/api/media/file/bedroom-2.jpg",
+            "thumbnailURL": null,
+            "filename": "bedroom-2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 480490,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-7",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pool.jpg",
+              "filename": "pool.jpg",
+              "alt": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 7,
+            "alt": "Pool",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.389Z",
+            "createdAt": "2026-06-06T18:53:17.389Z",
+            "url": "/api/media/file/pool.jpg",
+            "thumbnailURL": null,
+            "filename": "pool.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 614403,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-8",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/villa-night.jpg",
+              "filename": "villa-night.jpg",
+              "alt": "Villa at night"
+            }
+          },
+          "metadata": {
+            "id": 8,
+            "alt": "Villa at night",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.397Z",
+            "createdAt": "2026-06-06T18:53:17.397Z",
+            "url": "/api/media/file/villa-night.jpg",
+            "thumbnailURL": null,
+            "filename": "villa-night.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 867260,
+            "width": 2000,
+            "height": 1332
+          }
+        }
+      },
+      {
+        "id": "payload-media-9",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/hallway.jpg",
+              "filename": "hallway.jpg",
+              "alt": "Hallway"
+            }
+          },
+          "metadata": {
+            "id": 9,
+            "alt": "Hallway",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:17.435Z",
+            "createdAt": "2026-06-06T18:53:17.435Z",
+            "url": "/api/media/file/hallway.jpg",
+            "thumbnailURL": null,
+            "filename": "hallway.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 340261,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-10",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/hero-aerial-1.jpg",
+              "filename": "hero-aerial-1.jpg",
+              "alt": "Avista Private Resort from the air"
+            }
+          },
+          "metadata": {
+            "id": 10,
+            "alt": "Avista Private Resort from the air",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:22.557Z",
+            "createdAt": "2026-06-06T18:53:22.557Z",
+            "url": "/api/media/file/hero-aerial-1.jpg",
+            "thumbnailURL": null,
+            "filename": "hero-aerial-1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 903280,
+            "width": 2000,
+            "height": 1119
+          }
+        }
+      },
+      {
+        "id": "payload-media-11",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/bedroom.jpg",
+              "filename": "bedroom.jpg",
+              "alt": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 11,
+            "alt": "Bedroom",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.533Z",
+            "createdAt": "2026-06-06T18:53:23.533Z",
+            "url": "/api/media/file/bedroom.jpg",
+            "thumbnailURL": null,
+            "filename": "bedroom.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 416194,
+            "width": 1600,
+            "height": 1068
+          }
+        }
+      },
+      {
+        "id": "payload-media-12",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-path.jpg",
+              "filename": "garden-path.jpg",
+              "alt": "Garden path"
+            }
+          },
+          "metadata": {
+            "id": 12,
+            "alt": "Garden path",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.538Z",
+            "createdAt": "2026-06-06T18:53:23.538Z",
+            "url": "/api/media/file/garden-path.jpg",
+            "thumbnailURL": null,
+            "filename": "garden-path.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 690385,
+            "width": 1600,
+            "height": 1068
+          }
+        }
+      },
+      {
+        "id": "payload-media-13",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden.jpg",
+              "filename": "garden.jpg",
+              "alt": "Garden"
+            }
+          },
+          "metadata": {
+            "id": 13,
+            "alt": "Garden",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.549Z",
+            "createdAt": "2026-06-06T18:53:23.549Z",
+            "url": "/api/media/file/garden.jpg",
+            "thumbnailURL": null,
+            "filename": "garden.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 780910,
+            "width": 1600,
+            "height": 1129
+          }
+        }
+      },
+      {
+        "id": "payload-media-14",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/patio-bbq.jpg",
+              "filename": "patio-bbq.jpg",
+              "alt": "Patio"
+            }
+          },
+          "metadata": {
+            "id": 14,
+            "alt": "Patio",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.594Z",
+            "createdAt": "2026-06-06T18:53:23.594Z",
+            "url": "/api/media/file/patio-bbq.jpg",
+            "thumbnailURL": null,
+            "filename": "patio-bbq.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 503574,
+            "width": 1600,
+            "height": 1068
+          }
+        }
+      },
+      {
+        "id": "payload-media-15",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/living-room.jpg",
+              "filename": "living-room.jpg",
+              "alt": "Living room"
+            }
+          },
+          "metadata": {
+            "id": 15,
+            "alt": "Living room",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.567Z",
+            "createdAt": "2026-06-06T18:53:23.567Z",
+            "url": "/api/media/file/living-room.jpg",
+            "thumbnailURL": null,
+            "filename": "living-room.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 419064,
+            "width": 1600,
+            "height": 1068
+          }
+        }
+      },
+      {
+        "id": "payload-media-16",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/gardens.jpg",
+              "filename": "gardens.jpg",
+              "alt": "Gardens"
+            }
+          },
+          "metadata": {
+            "id": 16,
+            "alt": "Gardens",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.583Z",
+            "createdAt": "2026-06-06T18:53:23.583Z",
+            "url": "/api/media/file/gardens.jpg",
+            "thumbnailURL": null,
+            "filename": "gardens.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 573171,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-17",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-2.jpg",
+              "filename": "garden-2.jpg",
+              "alt": "Garden"
+            }
+          },
+          "metadata": {
+            "id": 17,
+            "alt": "Garden",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:23.598Z",
+            "createdAt": "2026-06-06T18:53:23.598Z",
+            "url": "/api/media/file/garden-2.jpg",
+            "thumbnailURL": null,
+            "filename": "garden-2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 724257,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-18",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/garden-3.jpg",
+              "filename": "garden-3.jpg",
+              "alt": "Garden"
+            }
+          },
+          "metadata": {
+            "id": 18,
+            "alt": "Garden",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:28.032Z",
+            "createdAt": "2026-06-06T18:53:28.032Z",
+            "url": "/api/media/file/garden-3.jpg",
+            "thumbnailURL": null,
+            "filename": "garden-3.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 771994,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-19",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/terrace-dusk.jpg",
+              "filename": "terrace-dusk.jpg",
+              "alt": "Avista Villa terrace and pool at dusk above Vourvourou bay"
+            }
+          },
+          "metadata": {
+            "id": 19,
+            "alt": "Avista Villa terrace and pool at dusk above Vourvourou bay",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T18:53:39.098Z",
+            "createdAt": "2026-06-06T18:53:39.098Z",
+            "url": "/api/media/file/terrace-dusk.jpg",
+            "thumbnailURL": null,
+            "filename": "terrace-dusk.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 487809,
+            "width": 1600,
+            "height": 1064
+          }
+        }
+      },
+      {
+        "id": "payload-media-20",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/pool-1.jpg",
+              "filename": "pool-1.jpg",
+              "alt": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 20,
+            "alt": "Pool",
+            "caption": null,
+            "blurDataURL": null,
+            "updatedAt": "2026-06-06T20:13:33.357Z",
+            "createdAt": "2026-06-06T20:13:33.357Z",
+            "url": "/api/media/file/pool-1.jpg",
+            "thumbnailURL": null,
+            "filename": "pool-1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 669150,
+            "width": 1600,
+            "height": 1159
+          }
+        }
+      },
+      {
+        "id": "payload-media-21",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK4860%20green.jpg",
+              "filename": "_NIK4860 green.jpg",
+              "alt": "Terrace",
+              "caption": "Terrace "
+            }
+          },
+          "metadata": {
+            "id": 21,
+            "alt": "Terrace",
+            "caption": "Terrace ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:52:28.207Z",
+            "createdAt": "2026-09-11T22:52:28.207Z",
+            "url": "/api/media/file/_NIK4860%20green.jpg",
+            "thumbnailURL": null,
+            "filename": "_NIK4860 green.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 2697724,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-22",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK4916.jpg",
+              "filename": "_NIK4916.jpg",
+              "alt": "Terrace",
+              "caption": "Terrace "
+            }
+          },
+          "metadata": {
+            "id": 22,
+            "alt": "Terrace",
+            "caption": "Terrace ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:53:31.672Z",
+            "createdAt": "2026-09-11T22:53:31.672Z",
+            "url": "/api/media/file/_NIK4916.jpg",
+            "thumbnailURL": null,
+            "filename": "_NIK4916.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3106159,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-23",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK5029...%20-%20Copy%20-%20Copy%20(1).jpg",
+              "filename": "_NIK5029... - Copy - Copy (1).jpg",
+              "alt": "Night Garden",
+              "caption": "Night Garden"
+            }
+          },
+          "metadata": {
+            "id": 23,
+            "alt": "Night Garden",
+            "caption": "Night Garden",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:54:11.661Z",
+            "createdAt": "2026-09-11T22:54:11.661Z",
+            "url": "/api/media/file/_NIK5029...%20-%20Copy%20-%20Copy%20(1).jpg",
+            "thumbnailURL": null,
+            "filename": "_NIK5029... - Copy - Copy (1).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3872647,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-24",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK5048insta%20(1).jpg",
+              "filename": "_NIK5048insta (1).jpg",
+              "alt": "Terrace",
+              "caption": "Terrace "
+            }
+          },
+          "metadata": {
+            "id": 24,
+            "alt": "Terrace",
+            "caption": "Terrace ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:54:43.460Z",
+            "createdAt": "2026-09-11T22:54:43.460Z",
+            "url": "/api/media/file/_NIK5048insta%20(1).jpg",
+            "thumbnailURL": null,
+            "filename": "_NIK5048insta (1).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 4237011,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-25",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/_NIK5065.jpg",
+              "filename": "_NIK5065.jpg",
+              "alt": "Night Garden",
+              "caption": "Night Garden"
+            }
+          },
+          "metadata": {
+            "id": 25,
+            "alt": "Night Garden",
+            "caption": "Night Garden",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:55:24.209Z",
+            "createdAt": "2026-09-11T22:55:24.209Z",
+            "url": "/api/media/file/_NIK5065.jpg",
+            "thumbnailURL": null,
+            "filename": "_NIK5065.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3851345,
+            "width": 6016,
+            "height": 3409
+          }
+        }
+      },
+      {
+        "id": "payload-media-26",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%20Hero.png",
+              "filename": "Aerial Hero.png",
+              "alt": "Aerial",
+              "caption": "Aerial "
+            }
+          },
+          "metadata": {
+            "id": 26,
+            "alt": "Aerial",
+            "caption": "Aerial ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:56:11.662Z",
+            "createdAt": "2026-09-11T22:56:11.662Z",
+            "url": "/api/media/file/Aerial%20Hero.png",
+            "thumbnailURL": null,
+            "filename": "Aerial Hero.png",
+            "mimeType": "image/png",
+            "filesize": 14862664,
+            "width": 3846,
+            "height": 2153
+          }
+        }
+      },
+      {
+        "id": "payload-media-27",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Avista%20Resort%20Garden%20371.jpg",
+              "filename": "Avista Resort Garden 371.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 27,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:56:50.956Z",
+            "createdAt": "2026-09-11T22:56:50.956Z",
+            "url": "/api/media/file/Avista%20Resort%20Garden%20371.jpg",
+            "thumbnailURL": null,
+            "filename": "Avista Resort Garden 371.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8835787,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-28",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Avista%20Resort%20Garden%20381.jpg",
+              "filename": "Avista Resort Garden 381.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 28,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:57:29.901Z",
+            "createdAt": "2026-09-11T22:57:29.901Z",
+            "url": "/api/media/file/Avista%20Resort%20Garden%20381.jpg",
+            "thumbnailURL": null,
+            "filename": "Avista Resort Garden 381.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 12618247,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-29",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Avista%20Resort%20Garden%20401.jpg",
+              "filename": "Avista Resort Garden 401.jpg",
+              "alt": "BBQ",
+              "caption": "BBQ"
+            }
+          },
+          "metadata": {
+            "id": 29,
+            "alt": "BBQ",
+            "caption": "BBQ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:58:04.493Z",
+            "createdAt": "2026-09-11T22:58:04.493Z",
+            "url": "/api/media/file/Avista%20Resort%20Garden%20401.jpg",
+            "thumbnailURL": null,
+            "filename": "Avista Resort Garden 401.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8772408,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-30",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bahtroom%20-%20Copy%20-%20Copy.jpg",
+              "filename": "Bahtroom - Copy - Copy.jpg",
+              "alt": "Bathroom",
+              "caption": "Bathroom"
+            }
+          },
+          "metadata": {
+            "id": 30,
+            "alt": "Bathroom",
+            "caption": "Bathroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:58:51.445Z",
+            "createdAt": "2026-09-11T22:58:51.445Z",
+            "url": "/api/media/file/Bahtroom%20-%20Copy%20-%20Copy.jpg",
+            "thumbnailURL": null,
+            "filename": "Bahtroom - Copy - Copy.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3411286,
+            "width": 5950,
+            "height": 3974
+          }
+        }
+      },
+      {
+        "id": "payload-media-31",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bathroom.jpg",
+              "filename": "Bathroom.jpg",
+              "alt": "Bathroom",
+              "caption": "Bathroom"
+            }
+          },
+          "metadata": {
+            "id": 31,
+            "alt": "Bathroom",
+            "caption": "Bathroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:59:16.844Z",
+            "createdAt": "2026-09-11T22:59:16.844Z",
+            "url": "/api/media/file/Bathroom.jpg",
+            "thumbnailURL": null,
+            "filename": "Bathroom.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 2476903,
+            "width": 6000,
+            "height": 4000
+          }
+        }
+      },
+      {
+        "id": "payload-media-32",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%201.jpg",
+              "filename": "Bedroom 1.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 32,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T22:59:51.423Z",
+            "createdAt": "2026-09-11T22:59:51.423Z",
+            "url": "/api/media/file/Bedroom%201.jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3986137,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-33",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202%20(1).jpg",
+              "filename": "Bedroom 2 (1).jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 33,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:00:40.967Z",
+            "createdAt": "2026-09-11T23:00:40.967Z",
+            "url": "/api/media/file/Bedroom%202%20(1).jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 2 (1).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3160005,
+            "width": 5890,
+            "height": 3972
+          }
+        }
+      },
+      {
+        "id": "payload-media-34",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202%20(2).jpg",
+              "filename": "Bedroom 2 (2).jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 34,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:01:08.831Z",
+            "createdAt": "2026-09-11T23:01:08.831Z",
+            "url": "/api/media/file/Bedroom%202%20(2).jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 2 (2).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10605059,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-35",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202.jpg",
+              "filename": "Bedroom 2.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 35,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:02:23.771Z",
+            "createdAt": "2026-09-11T23:02:23.771Z",
+            "url": "/api/media/file/Bedroom%202.jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 2491037,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-36",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%203%20(1).jpg",
+              "filename": "Bedroom 3 (1).jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 36,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:03:20.166Z",
+            "createdAt": "2026-09-11T23:03:20.166Z",
+            "url": "/api/media/file/Bedroom%203%20(1).jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 3 (1).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3490900,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-37",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20-%20Copy.jpg",
+              "filename": "Garden - Copy.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 37,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:05:03.316Z",
+            "createdAt": "2026-09-11T23:05:03.316Z",
+            "url": "/api/media/file/Garden%20-%20Copy.jpg",
+            "thumbnailURL": null,
+            "filename": "Garden - Copy.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 6403679,
+            "width": 5526,
+            "height": 3902
+          }
+        }
+      },
+      {
+        "id": "payload-media-38",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20(2).jpg",
+              "filename": "Garden (2).jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 38,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:05:53.723Z",
+            "createdAt": "2026-09-11T23:05:53.723Z",
+            "url": "/api/media/file/Garden%20(2).jpg",
+            "thumbnailURL": null,
+            "filename": "Garden (2).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 4549340,
+            "width": 5846,
+            "height": 3903
+          }
+        }
+      },
+      {
+        "id": "payload-media-39",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20(3).jpg",
+              "filename": "Garden (3).jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 39,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:06:18.896Z",
+            "createdAt": "2026-09-11T23:06:18.896Z",
+            "url": "/api/media/file/Garden%20(3).jpg",
+            "thumbnailURL": null,
+            "filename": "Garden (3).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 4587445,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-40",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Garden%20(6)%20(1).jpg",
+              "filename": "Garden (6) (1).jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 40,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:06:56.035Z",
+            "createdAt": "2026-09-11T23:06:56.035Z",
+            "url": "/api/media/file/Garden%20(6)%20(1).jpg",
+            "thumbnailURL": null,
+            "filename": "Garden (6) (1).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3956025,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-41",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Kicthen%20(1).jpg",
+              "filename": "Kicthen (1).jpg",
+              "alt": "Kitchen ",
+              "caption": "Kitchen"
+            }
+          },
+          "metadata": {
+            "id": 41,
+            "alt": "Kitchen ",
+            "caption": "Kitchen",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:07:35.211Z",
+            "createdAt": "2026-09-11T23:07:35.211Z",
+            "url": "/api/media/file/Kicthen%20(1).jpg",
+            "thumbnailURL": null,
+            "filename": "Kicthen (1).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3413123,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-42",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pattio%20(2).jpg",
+              "filename": "Pattio (2).jpg",
+              "alt": "Terrace",
+              "caption": "Terrace "
+            }
+          },
+          "metadata": {
+            "id": 42,
+            "alt": "Terrace",
+            "caption": "Terrace ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:08:23.228Z",
+            "createdAt": "2026-09-11T23:08:23.228Z",
+            "url": "/api/media/file/Pattio%20(2).jpg",
+            "thumbnailURL": null,
+            "filename": "Pattio (2).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 4791898,
+            "width": 6016,
+            "height": 4016
+          }
+        }
+      },
+      {
+        "id": "payload-media-43",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%20(2).jpg",
+              "filename": "Pool Area (2).jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 43,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:08:53.260Z",
+            "createdAt": "2026-09-11T23:08:53.260Z",
+            "url": "/api/media/file/Pool%20Area%20(2).jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area (2).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 3364712,
+            "width": 5236,
+            "height": 3495
+          }
+        }
+      },
+      {
+        "id": "payload-media-44",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%20(3).jpg",
+              "filename": "Pool Area (3).jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 44,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:09:26.320Z",
+            "createdAt": "2026-09-11T23:09:26.320Z",
+            "url": "/api/media/file/Pool%20Area%20(3).jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area (3).jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 4052528,
+            "width": 5847,
+            "height": 3903
+          }
+        }
+      },
+      {
+        "id": "payload-media-45",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%202.jpg",
+              "filename": "Pool Area 2.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 45,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:09:48.704Z",
+            "createdAt": "2026-09-11T23:09:48.704Z",
+            "url": "/api/media/file/Pool%20Area%202.jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area 2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 2757994,
+            "width": 4226,
+            "height": 2851
+          }
+        }
+      },
+      {
+        "id": "payload-media-46",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%201.jpg",
+              "filename": "Aerial 1.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 46,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:23:08.061Z",
+            "createdAt": "2026-09-11T23:23:08.061Z",
+            "url": "/api/media/file/Aerial%201.jpg",
+            "thumbnailURL": null,
+            "filename": "Aerial 1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10084526,
+            "width": 4500,
+            "height": 2998
+          }
+        }
+      },
+      {
+        "id": "payload-media-47",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%203.jpg",
+              "filename": "Aerial 3.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 47,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:24:02.564Z",
+            "createdAt": "2026-09-11T23:24:02.564Z",
+            "url": "/api/media/file/Aerial%203.jpg",
+            "thumbnailURL": null,
+            "filename": "Aerial 3.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 9806148,
+            "width": 4500,
+            "height": 2998
+          }
+        }
+      },
+      {
+        "id": "payload-media-48",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Aerial%205.jpg",
+              "filename": "Aerial 5.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 48,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:24:38.509Z",
+            "createdAt": "2026-09-11T23:24:38.509Z",
+            "url": "/api/media/file/Aerial%205.jpg",
+            "thumbnailURL": null,
+            "filename": "Aerial 5.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 11273157,
+            "width": 4500,
+            "height": 2998
+          }
+        }
+      },
+      {
+        "id": "payload-media-49",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Back%20Garden%201.jpg",
+              "filename": "Back Garden 1.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 49,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:25:28.039Z",
+            "createdAt": "2026-09-11T23:25:28.039Z",
+            "url": "/api/media/file/Back%20Garden%201.jpg",
+            "thumbnailURL": null,
+            "filename": "Back Garden 1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8564450,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-50",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%201.%20Back%20Balcony.jpg",
+              "filename": "Bedroom 1. Back Balcony.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 50,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:26:27.568Z",
+            "createdAt": "2026-09-11T23:26:27.568Z",
+            "url": "/api/media/file/Bedroom%201.%20Back%20Balcony.jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 1. Back Balcony.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 7831543,
+            "width": 2994,
+            "height": 4500
+          }
+        }
+      },
+      {
+        "id": "payload-media-51",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%201-1.jpg",
+              "filename": "Bedroom 1-1.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 51,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:26:57.509Z",
+            "createdAt": "2026-09-11T23:26:57.509Z",
+            "url": "/api/media/file/Bedroom%201-1.jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 1-1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 5428746,
+            "width": 3500,
+            "height": 2329
+          }
+        }
+      },
+      {
+        "id": "payload-media-52",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%202.Back%20Balcony.jpg",
+              "filename": "Bedroom 2.Back Balcony.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 52,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:27:33.526Z",
+            "createdAt": "2026-09-11T23:27:33.526Z",
+            "url": "/api/media/file/Bedroom%202.Back%20Balcony.jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 2.Back Balcony.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8643667,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-53",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Bedroom%203.jpg",
+              "filename": "Bedroom 3.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 53,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:28:17.799Z",
+            "createdAt": "2026-09-11T23:28:17.799Z",
+            "url": "/api/media/file/Bedroom%203.jpg",
+            "thumbnailURL": null,
+            "filename": "Bedroom 3.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8125411,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-54",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Balcony%20of%20Bedroom%201.jpg",
+              "filename": "Front Balcony of Bedroom 1.jpg",
+              "alt": "Balcony",
+              "caption": "Balcony"
+            }
+          },
+          "metadata": {
+            "id": 54,
+            "alt": "Balcony",
+            "caption": "Balcony",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:28:57.192Z",
+            "createdAt": "2026-09-11T23:28:57.192Z",
+            "url": "/api/media/file/Front%20Balcony%20of%20Bedroom%201.jpg",
+            "thumbnailURL": null,
+            "filename": "Front Balcony of Bedroom 1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8564568,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-55",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Balcony%20of%20Bedroom%202.jpg",
+              "filename": "Front Balcony of Bedroom 2.jpg",
+              "alt": "Balcony",
+              "caption": "Balcony"
+            }
+          },
+          "metadata": {
+            "id": 55,
+            "alt": "Balcony",
+            "caption": "Balcony",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:29:33.851Z",
+            "createdAt": "2026-09-11T23:29:33.851Z",
+            "url": "/api/media/file/Front%20Balcony%20of%20Bedroom%202.jpg",
+            "thumbnailURL": null,
+            "filename": "Front Balcony of Bedroom 2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10167987,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-56",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden%202.jpg",
+              "filename": "Front Garden 2.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 56,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:30:07.105Z",
+            "createdAt": "2026-09-11T23:30:07.105Z",
+            "url": "/api/media/file/Front%20Garden%202.jpg",
+            "thumbnailURL": null,
+            "filename": "Front Garden 2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10249209,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-57",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden%204.jpg",
+              "filename": "Front Garden 4.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 57,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:30:39.082Z",
+            "createdAt": "2026-09-11T23:30:39.082Z",
+            "url": "/api/media/file/Front%20Garden%204.jpg",
+            "thumbnailURL": null,
+            "filename": "Front Garden 4.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 9305900,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-58",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden%205.png",
+              "filename": "Front Garden 5.png",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 58,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:31:10.227Z",
+            "createdAt": "2026-09-11T23:31:10.227Z",
+            "url": "/api/media/file/Front%20Garden%205.png",
+            "thumbnailURL": null,
+            "filename": "Front Garden 5.png",
+            "mimeType": "image/png",
+            "filesize": 2671040,
+            "width": 1280,
+            "height": 854
+          }
+        }
+      },
+      {
+        "id": "payload-media-59",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Front%20Garden.jpg",
+              "filename": "Front Garden.jpg",
+              "alt": "Garden",
+              "caption": "Garden "
+            }
+          },
+          "metadata": {
+            "id": 59,
+            "alt": "Garden",
+            "caption": "Garden ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:31:42.136Z",
+            "createdAt": "2026-09-11T23:31:42.136Z",
+            "url": "/api/media/file/Front%20Garden.jpg",
+            "thumbnailURL": null,
+            "filename": "Front Garden.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 7309070,
+            "width": 3500,
+            "height": 2329
+          }
+        }
+      },
+      {
+        "id": "payload-media-60",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Hero%201.jpg",
+              "filename": "Hero 1.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 60,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:32:17.692Z",
+            "createdAt": "2026-09-11T23:32:17.692Z",
+            "url": "/api/media/file/Hero%201.jpg",
+            "thumbnailURL": null,
+            "filename": "Hero 1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 8087113,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-61",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Hero%20Night.jpg",
+              "filename": "Hero Night.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 61,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:33:05.102Z",
+            "createdAt": "2026-09-11T23:33:05.102Z",
+            "url": "/api/media/file/Hero%20Night.jpg",
+            "thumbnailURL": null,
+            "filename": "Hero Night.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10974752,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-62",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room%201.png",
+              "filename": "Living Room 1.png",
+              "alt": "Living Room",
+              "caption": "Living Room"
+            }
+          },
+          "metadata": {
+            "id": 62,
+            "alt": "Living Room",
+            "caption": "Living Room",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:33:47.035Z",
+            "createdAt": "2026-09-11T23:33:47.035Z",
+            "url": "/api/media/file/Living%20Room%201.png",
+            "thumbnailURL": null,
+            "filename": "Living Room 1.png",
+            "mimeType": "image/png",
+            "filesize": 4283686,
+            "width": 2000,
+            "height": 1335
+          }
+        }
+      },
+      {
+        "id": "payload-media-63",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room%202.jpg",
+              "filename": "Living Room 2.jpg",
+              "alt": "Living Room",
+              "caption": "Living Room"
+            }
+          },
+          "metadata": {
+            "id": 63,
+            "alt": "Living Room",
+            "caption": "Living Room",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:34:24.017Z",
+            "createdAt": "2026-09-11T23:34:24.017Z",
+            "url": "/api/media/file/Living%20Room%202.jpg",
+            "thumbnailURL": null,
+            "filename": "Living Room 2.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10797187,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-64",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room%203.jpg",
+              "filename": "Living Room 3.jpg",
+              "alt": "Living Room",
+              "caption": "Living Room"
+            }
+          },
+          "metadata": {
+            "id": 64,
+            "alt": "Living Room",
+            "caption": "Living Room",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:35:13.049Z",
+            "createdAt": "2026-09-11T23:35:13.049Z",
+            "url": "/api/media/file/Living%20Room%203.jpg",
+            "thumbnailURL": null,
+            "filename": "Living Room 3.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10213026,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-65",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Living%20Room.jpg",
+              "filename": "Living Room.jpg",
+              "alt": "Living Room",
+              "caption": "Living Room"
+            }
+          },
+          "metadata": {
+            "id": 65,
+            "alt": "Living Room",
+            "caption": "Living Room",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:35:51.840Z",
+            "createdAt": "2026-09-11T23:35:51.840Z",
+            "url": "/api/media/file/Living%20Room.jpg",
+            "thumbnailURL": null,
+            "filename": "Living Room.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 10922767,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-66",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%202-1.jpg",
+              "filename": "Pool Area 2-1.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 66,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:36:29.846Z",
+            "createdAt": "2026-09-11T23:36:29.846Z",
+            "url": "/api/media/file/Pool%20Area%202-1.jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area 2-1.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 6808807,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-67",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%205.jpg",
+              "filename": "Pool Area 5.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 67,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:37:08.157Z",
+            "createdAt": "2026-09-11T23:37:08.157Z",
+            "url": "/api/media/file/Pool%20Area%205.jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area 5.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 6620452,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-68",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%206.jpg",
+              "filename": "Pool Area 6.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 68,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:37:44.262Z",
+            "createdAt": "2026-09-11T23:37:44.262Z",
+            "url": "/api/media/file/Pool%20Area%206.jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area 6.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 7997651,
+            "width": 2994,
+            "height": 4500
+          }
+        }
+      },
+      {
+        "id": "payload-media-69",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Pool%20Area%207.jpg",
+              "filename": "Pool Area 7.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 69,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:38:28.217Z",
+            "createdAt": "2026-09-11T23:38:28.217Z",
+            "url": "/api/media/file/Pool%20Area%207.jpg",
+            "thumbnailURL": null,
+            "filename": "Pool Area 7.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 11102541,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-70",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Second%20Living%20Room.jpg",
+              "filename": "Second Living Room.jpg",
+              "alt": "Bedroom ",
+              "caption": "Bedroom"
+            }
+          },
+          "metadata": {
+            "id": 70,
+            "alt": "Bedroom ",
+            "caption": "Bedroom",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:39:04.464Z",
+            "createdAt": "2026-09-11T23:39:04.464Z",
+            "url": "/api/media/file/Second%20Living%20Room.jpg",
+            "thumbnailURL": null,
+            "filename": "Second Living Room.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 9077272,
+            "width": 4500,
+            "height": 2994
+          }
+        }
+      },
+      {
+        "id": "payload-media-71",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Villa%20Avista%20Kitchen%20View01.jpg",
+              "filename": "Villa Avista Kitchen View01.jpg",
+              "alt": "Kitchen ",
+              "caption": "Kitchen "
+            }
+          },
+          "metadata": {
+            "id": 71,
+            "alt": "Kitchen ",
+            "caption": "Kitchen ",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:40:19.745Z",
+            "createdAt": "2026-09-11T23:40:19.745Z",
+            "url": "/api/media/file/Villa%20Avista%20Kitchen%20View01.jpg",
+            "thumbnailURL": null,
+            "filename": "Villa Avista Kitchen View01.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 5634183,
+            "width": 3500,
+            "height": 2329
+          }
+        }
+      },
+      {
+        "id": "payload-media-72",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/%20Villa%20Avista%20Pool%20Area%20317.jpg",
+              "filename": " Villa Avista Pool Area 317.jpg",
+              "alt": "Pool",
+              "caption": "Pool"
+            }
+          },
+          "metadata": {
+            "id": 72,
+            "alt": "Pool",
+            "caption": "Pool",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-11T23:41:34.545Z",
+            "createdAt": "2026-09-11T23:41:34.545Z",
+            "url": "/api/media/file/%20Villa%20Avista%20Pool%20Area%20317.jpg",
+            "thumbnailURL": null,
+            "filename": " Villa Avista Pool Area 317.jpg",
+            "mimeType": "image/jpeg",
+            "filesize": 2870448,
+            "width": 3500,
+            "height": 2329
+          }
+        }
+      },
+      {
+        "id": "payload-media-73",
+        "status": "draft",
+        "data": {
+          "file": {
+            "$media": {
+              "url": "https://payload-avista-villas.fanis1337.workers.dev/api/media/file/Preview%20Link%20Video.mp4",
+              "filename": "Preview Link Video.mp4",
+              "alt": "Home video",
+              "caption": "Home video"
+            }
+          },
+          "metadata": {
+            "id": 73,
+            "alt": "Home video",
+            "caption": "Home video",
+            "blurDataURL": null,
+            "updatedAt": "2026-09-23T12:14:08.344Z",
+            "createdAt": "2026-09-23T12:14:08.344Z",
+            "url": "/api/media/file/Preview%20Link%20Video.mp4",
+            "thumbnailURL": null,
+            "filename": "Preview Link Video.mp4",
+            "mimeType": "video/mp4",
+            "filesize": 40952914,
+            "width": null,
+            "height": null
+          }
+        }
+      }
+    ]
+  }
+}

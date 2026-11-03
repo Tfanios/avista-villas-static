@@ -7,17 +7,19 @@ import { getContactPage, getSiteSettings } from "../lib/cms";
 
 const contactPage = await getContactPage();
 const siteSettings = await getSiteSettings();
+const { sections } = contactPage;
 ---
 
 <BaseLayout
   title={contactPage.seo.title}
   description={contactPage.seo.description}
   currentPath="contact"
-  preloadImage={contactPage.hero.imageDesktop}
-  preloadMobileImage={contactPage.hero.imageMobile}
+  preloadImage={sections.hero ? contactPage.hero.imageDesktop : undefined}
+  preloadMobileImage={sections.hero ? contactPage.hero.imageMobile : undefined}
 >
-  <Hero hero={contactPage.hero} />
+  {sections.hero && <Hero hero={contactPage.hero} />}
 
+  {sections.enquiry && (
   <section class="section wrap">
     <div class="loc enquiry">
       <div class="reveal">
@@ -71,11 +73,14 @@ const siteSettings = await getSiteSettings();
       </div>
     </div>
   </section>
+  )}
 
-  <MapEmbed
-    titleHtml={contactPage.map.titleHtml}
-    body={contactPage.map.body}
-    location={contactPage.map.location}
-    title={contactPage.map.title}
-  />
+  {sections.map && (
+    <MapEmbed
+      titleHtml={contactPage.map.titleHtml}
+      body={contactPage.map.body}
+      location={contactPage.map.location}
+      title={contactPage.map.title}
+    />
+  )}
 </BaseLayout>

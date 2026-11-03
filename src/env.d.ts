@@ -1,9 +1,3 @@
 /// <reference types="astro/client" />
-
-interface ImportMetaEnv {
-  readonly PAYLOAD_URL?: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
+/// <reference types="@cloudflare/workers-types" />
+/// <reference types="emdash/locals" />

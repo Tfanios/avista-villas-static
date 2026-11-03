@@ -1,113 +1,80 @@
-const configuredPayloadUrl = import.meta.env.PAYLOAD_URL?.trim();
+import { AsyncLocalStorage } from "node:async_hooks";
+import { getEmDashCollection, getEmDashReferences } from "emdash";
 
-function getPayloadUrl(): string {
-  if (!configuredPayloadUrl) {
-    throw new Error("PAYLOAD_URL is not configured");
-  }
-
-  let url: URL;
-
-  try {
-    url = new URL(configuredPayloadUrl);
-  } catch {
-    throw new Error("PAYLOAD_URL must be an absolute URL, for example https://cms.example.com");
-  }
-
-  if (url.protocol !== "https:" && url.protocol !== "http:") {
-    throw new Error("PAYLOAD_URL must use http:// or https://");
-  }
-
-  return url.toString().replace(/\/$/, "");
+// Content is read per request so published edits appear immediately. The scope
+// lets the layout, nav and page share one load during a render.
+interface ContentScope {
+  origin: string;
+  content?: Promise<Content>;
 }
 
-async function payloadFetch<T>(path: string): Promise<T> {
-  const url = `${getPayloadUrl()}${path.startsWith("/") ? path : `/${path}`}`;
-  let response: Response;
+const contentScope = new AsyncLocalStorage<ContentScope>();
 
-  try {
-    response = await fetch(url, {
-      headers: { Accept: "application/json" },
-      signal: AbortSignal.timeout(15_000)
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Unable to reach Payload CMS at ${new URL(url).origin}: ${message}`);
-  }
-
-  if (!response.ok) {
-    throw new Error(`Payload request failed: ${response.status} ${response.statusText} ${path}`);
-  }
-
-  return response.json() as Promise<T>;
+export function withContentScope<T>(origin: string, render: () => T): T {
+  return contentScope.run({ origin }, render);
 }
 
-interface PayloadCollectionResponse<T> {
-  docs: T[];
+async function fetchCollection(collection: string, options: Record<string, unknown> = {}) {
+  const { entries, error } = await getEmDashCollection(collection, options);
+  if (error) throw new Error(`Unable to load EmDash collection ${collection}: ${error.message}`);
+  return entries as any[];
 }
 
-async function fetchProperties(): Promise<any[]> {
-  const result = await payloadFetch<PayloadCollectionResponse<any>>(
-    "/api/properties?depth=2&limit=100&sort=order"
-  );
-
-  if (!Array.isArray(result.docs)) {
-    throw new Error("Payload properties response did not contain a docs array");
-  }
-
-  return result.docs;
+// EmDash has no singleton type: each global is a collection with one entry.
+async function fetchSingleton(collection: string): Promise<any> {
+  const [entry] = await fetchCollection(collection, { limit: 1, orderBy: { created_at: "asc" } });
+  return entry?.data;
 }
 
-function fetchGlobal<T>(slug: string) {
-  return payloadFetch<T>(`/api/globals/${encodeURIComponent(slug)}?depth=2`);
-}
-
-async function fetchReviews(propertyId: string | number): Promise<any[]> {
-  const query = encodeURIComponent(String(propertyId));
-
-  const result = await payloadFetch<PayloadCollectionResponse<any>>(
-    `/api/reviews?depth=2&limit=100&where[property][equals]=${query}`
-  );
-
-  return Array.isArray(result.docs) ? result.docs : [];
+async function fetchReferences(collection: string, id: string, field: string): Promise<any[]> {
+  const { entries, error } = await getEmDashReferences(collection, id, field);
+  if (error) throw new Error(`Unable to load ${collection}.${field}: ${error.message}`);
+  return entries;
 }
 
 // ---------------------------------------------------------------------------
-// Mapping helpers — turn Payload's raw shapes into what the components expect.
+// Mapping helpers — turn EmDash's flat field values into what the components expect.
 // ---------------------------------------------------------------------------
 
-// Payload media URLs come back relative (e.g. "/api/media/file/x.jpg"); make
-// them absolute against the CMS origin. R2 video URLs are already absolute.
+// Astro only optimizes absolute URLs, and EmDash media URLs are site-relative.
 function absoluteUrl(path?: string | null): string {
   if (!path) return "";
-  return /^https?:\/\//.test(path) ? path : `${getPayloadUrl()}${path}`;
+  if (/^https?:\/\//.test(path)) return path;
+  return `${contentScope.getStore()?.origin ?? ""}${path}`;
 }
 
-// Normalize a Payload upload object so its `url` is absolute. Components that go
-// through resolveImage() keep width/height (and any future srcset) this way.
+// Keep width/height with the URL: they size the responsive image variants.
 function mediaObject(media: any): any {
   if (!media || typeof media !== "object") return media ?? null;
-  return { ...media, url: absoluteUrl(media.url ?? media.src) };
+  const key = media.meta?.storageKey;
+  const stored = key ? `/_emdash/api/media/file/${encodeURIComponent(key)}` : undefined;
+  return { ...media, url: absoluteUrl(media.src ?? media.url ?? stored) };
 }
 
-// A plain absolute string src, for components that render <img src> directly.
-function mediaSrc(media: any): string {
-  if (!media) return "";
-  if (typeof media === "string") return absoluteUrl(media);
-  return absoluteUrl(media.url ?? media.src);
-}
-
-// Lexical richText → array of paragraph plain-text strings.
-function richTextParagraphs(rich: any): string[] {
-  const children = rich?.root?.children;
-  if (!Array.isArray(children)) return [];
-  return children
-    .filter((node: any) => node?.type === "paragraph")
-    .map((node: any) =>
-      Array.isArray(node.children)
-        ? node.children.map((child: any) => child?.text ?? "").join("")
+// Portable Text → array of paragraph plain-text strings.
+function richTextParagraphs(blocks: any): string[] {
+  if (!Array.isArray(blocks)) return [];
+  return blocks
+    .filter((block: any) => block?._type === "block" && block.style === "normal" && !block.listItem)
+    .map((block: any) =>
+      Array.isArray(block.children)
+        ? block.children.map((child: any) => child?.text ?? "").join("")
         : ""
     )
     .filter((text: string) => text.length > 0);
+}
+
+// Reads the show_* toggles. A section hidden by default stays hidden unless enabled,
+// so entries saved before a toggle existed keep their current appearance.
+function sections<On extends string, Off extends string = never>(
+  data: any,
+  shown: readonly On[],
+  hidden: readonly Off[] = []
+) {
+  return Object.fromEntries([
+    ...shown.map((name) => [name, data?.[`show_${name}`] !== false]),
+    ...hidden.map((name) => [name, data?.[`show_${name}`] === true])
+  ]) as Record<On | Off, boolean>;
 }
 
 // Newlines authored in the CMS become <br /> for the set:html titles.
@@ -139,21 +106,21 @@ function iconFor(key?: string | null): string {
   return (key && ICON_KEY_MAP[key]) || "frame";
 }
 
-function mapHero(hero: any, { page }: { page: boolean }) {
+function mapHero(data: any, { page }: { page: boolean }) {
   return {
     page,
     layout: "bottom",
-    kicker: hero?.kicker ?? "",
-    titleHtml: brHtml(hero?.title),
-    sub: hero?.sub ?? "",
-    imageDesktop: mediaObject(hero?.imageDesktop),
-    imageMobile: mediaObject(hero?.imageMobile),
-    imageAlt: hero?.imageDesktop?.alt ?? "",
-    poster: mediaObject(hero?.imageDesktop),
-    videoDesktop: hero?.videoDesktop ?? undefined,
-    videoMobile: hero?.videoMobile ?? undefined,
-    playOnMobile: !!hero?.playOnMobile,
-    priority: hero?.priority !== false
+    kicker: data?.hero_kicker ?? "",
+    titleHtml: brHtml(data?.hero_title),
+    sub: data?.hero_sub ?? "",
+    imageDesktop: mediaObject(data?.hero_image_desktop),
+    imageMobile: mediaObject(data?.hero_image_mobile),
+    imageAlt: data?.hero_image_desktop?.alt ?? "",
+    poster: mediaObject(data?.hero_image_desktop),
+    videoDesktop: data?.hero_video_desktop || undefined,
+    videoMobile: data?.hero_video_mobile || undefined,
+    playOnMobile: !!data?.hero_play_on_mobile,
+    priority: data?.hero_priority !== false
   };
 }
 
@@ -166,21 +133,21 @@ function mapGalleryItem(item: any) {
   };
 }
 
-function mapMap(map: any) {
+function mapMap(data: any) {
   return {
-    latitude: map?.latitude,
-    longitude: map?.longitude,
-    zoom: map?.zoom ?? 13,
-    label: map?.label ?? "",
-    directionsQuery: map?.directionsQuery ?? undefined,
-    staticPreview: mediaObject(map?.staticPreview)
+    latitude: data?.map_latitude,
+    longitude: data?.map_longitude,
+    zoom: data?.map_zoom ?? 13,
+    label: data?.map_label ?? "",
+    directionsQuery: data?.map_directions_query || undefined,
+    staticPreview: mediaObject(data?.map_static_preview)
   };
 }
 
-function mapLocalGuide(guide: any) {
-  if (!guide || guide.enabled === false) return null;
+function mapLocalGuide(data: any) {
+  if (!data || data.local_guide_enabled === false) return null;
 
-  const categories = (Array.isArray(guide.categories) ? guide.categories : [])
+  const categories = (Array.isArray(data.local_guide_categories) ? data.local_guide_categories : [])
     .map((category: any) => {
       const places = (Array.isArray(category?.places) ? category.places : [])
         .map((place: any) => ({
@@ -202,15 +169,15 @@ function mapLocalGuide(guide: any) {
   if (categories.length === 0) return null;
 
   return {
-    titleHtml: brHtml(guide.title),
-    intro: guide.intro ?? "",
-    note: guide.note ?? "",
+    titleHtml: brHtml(data.local_guide_title),
+    intro: data.local_guide_intro ?? "",
+    note: data.local_guide_note ?? "",
     categories
   };
 }
 
 // ---------------------------------------------------------------------------
-// Content assembly — fetched once per build and memoized.
+// Content assembly — loaded once per request.
 // ---------------------------------------------------------------------------
 
 interface Content {
@@ -223,47 +190,50 @@ interface Content {
   contactPage: any;
 }
 
-let cachedContent: Promise<Content> | null = null;
-
 function loadContent(): Promise<Content> {
-  return (cachedContent ??= buildContent());
+  const scope = contentScope.getStore();
+  if (!scope) return buildContent();
+  return (scope.content ??= buildContent());
 }
 
 async function buildContent(): Promise<Content> {
-  const [siteRaw, navRaw, footRaw, homeRaw, locRaw, contactRaw, propsRaw] = await Promise.all([
-    fetchGlobal<any>("siteSettings"),
-    fetchGlobal<any>("navigation"),
-    fetchGlobal<any>("footer"),
-    fetchGlobal<any>("home"),
-    fetchGlobal<any>("locationPage"),
-    fetchGlobal<any>("contactPage"),
-    fetchProperties()
+  const [siteRaw, navRaw, footRaw, homeRaw, locRaw, contactRaw, propertyEntries] = await Promise.all([
+    fetchSingleton("site_settings"),
+    fetchSingleton("navigation"),
+    fetchSingleton("footer"),
+    fetchSingleton("home"),
+    fetchSingleton("location_page"),
+    fetchSingleton("contact_page"),
+    fetchCollection("properties", { orderBy: { order: "asc" } })
   ]);
 
-  const reviewsByProperty = await Promise.all(propsRaw.map((p) => fetchReviews(p.id)));
+  const propsRaw = propertyEntries.map((entry) => entry.data);
+  const featuredVillas = homeRaw?.id
+    ? await fetchReferences("home", homeRaw.id, "villas_featured")
+    : [];
 
-  // Shared location copy (authored once on the locationPage global, reused on
+  // Shared location copy (authored once on the location page, reused on
   // the per-property location blocks the CMS doesn't model separately).
   const locOverview = richTextParagraphs(locRaw?.overview);
   const locTitleHtml = brHtml(locOverview[0] ?? "");
   const locBody = locOverview[1] ?? "";
 
-  const estateFilmUrl = propsRaw[0]?.hero?.videoDesktop ?? undefined;
+  const estateFilmUrl = propsRaw[0]?.hero_video_desktop || undefined;
 
   const navigationLinks = [
-    ...(Array.isArray(navRaw?.leftLinks) ? navRaw.leftLinks : []),
-    ...(Array.isArray(navRaw?.rightLinks) ? navRaw.rightLinks : [])
+    ...(Array.isArray(navRaw?.left_links) ? navRaw.left_links : []),
+    ...(Array.isArray(navRaw?.right_links) ? navRaw.right_links : [])
   ];
 
   const navigationLabel = (href: string, fallback = "") =>
     navigationLinks.find((link: any) => link?.href === href)?.label ?? fallback;
 
   const homeCta = {
-    image: mediaSrc(propsRaw[0]?.hero?.imageDesktop),
-    imageAlt: propsRaw[0]?.hero?.imageDesktop?.alt ?? "",
-    titleHtml: brHtml(homeRaw?.cta?.title),
-    text: homeRaw?.cta?.body ?? "",
-    buttonLabel: homeRaw?.cta?.buttonLabel ?? "",
+    image: mediaObject(propsRaw[0]?.hero_image_desktop),
+    imageAlt: propsRaw[0]?.hero_image_desktop?.alt ?? "",
+    titleHtml: brHtml(homeRaw?.cta_title),
+    text: homeRaw?.cta_body ?? "",
+    buttonLabel: homeRaw?.cta_button_label ?? "",
     href: "/contact/"
   };
 
@@ -276,20 +246,25 @@ async function buildContent(): Promise<Content> {
 
     return {
       name: raw.name,
+      sections: sections(
+        raw,
+        ["hero", "spaces", "amenities", "gallery", "reviews", "map", "cta"],
+        ["location", "cross_link"]
+      ),
       slug,
       order: raw.order,
       numeral: raw.numeral,
       tag: raw.tag,
       route,
       seo: {
-        title: raw.seo?.title ?? raw.name,
-        description: raw.seo?.description ?? ""
+        title: raw.seo_title ?? raw.name,
+        description: raw.seo_description ?? ""
       },
-      hero: mapHero(raw.hero, { page: true }),
+      hero: mapHero(raw, { page: true }),
       comparison: {
-        image: mediaSrc(raw.hero?.imageDesktop),
-        imageAlt: raw.hero?.imageDesktop?.alt ?? "",
-        inset: mediaSrc(gallery[1]?.image),
+        image: mediaObject(raw.hero_image_desktop),
+        imageAlt: raw.hero_image_desktop?.alt ?? "",
+        inset: mediaObject(gallery[1]?.image),
         insetAlt: gallery[1]?.alt ?? "",
         description: raw.summary ?? "",
         buttonLabel: navigationLabel(route, raw.name)
@@ -300,8 +275,8 @@ async function buildContent(): Promise<Content> {
       detail: {
         titleHtml: brHtml(overview[0] ?? ""),
         body: overview[1] ?? "",
-        image: mediaSrc(gallery[2]?.image ?? raw.hero?.imageDesktop),
-        imageAlt: gallery[2]?.alt ?? raw.hero?.imageDesktop?.alt ?? ""
+        image: mediaObject(gallery[2]?.image ?? raw.hero_image_desktop),
+        imageAlt: gallery[2]?.alt ?? raw.hero_image_desktop?.alt ?? ""
       },
       amenities: Array.isArray(raw.amenities)
         ? raw.amenities.map((a: any) => ({
@@ -314,20 +289,12 @@ async function buildContent(): Promise<Content> {
       galleryNote: "",
       galleryHint: "",
       gallery: gallery.map(mapGalleryItem),
-      reviews: reviewsByProperty[index].map((r: any) => ({
-        authorName: r.authorName,
-        authorLocation: r.authorLocation ?? "",
-        date: r.date ?? "",
-        score: r.score,
-        quote: r.quote ?? "",
-        source: r.source ?? ""
-      })),
       location: {
         titleHtml: locTitleHtml,
         body: locBody,
-        image: mediaSrc(raw.hero?.imageDesktop),
-        imageAlt: raw.hero?.imageDesktop?.alt ?? "",
-        facts: (Array.isArray(locRaw?.locationFacts) ? locRaw.locationFacts : []).map((f: any) => ({
+        image: mediaObject(raw.hero_image_desktop),
+        imageAlt: raw.hero_image_desktop?.alt ?? "",
+        facts: (Array.isArray(locRaw?.location_facts) ? locRaw.location_facts : []).map((f: any) => ({
           value: f.value,
           label: f.label
         }))
@@ -337,37 +304,37 @@ async function buildContent(): Promise<Content> {
           ? {
               href: `/${other.slug}/`,
               title: other.name,
-              image: mediaSrc(other.hero?.imageDesktop),
-              imageAlt: other.hero?.imageDesktop?.alt ?? "",
+              image: mediaObject(other.hero_image_desktop),
+              imageAlt: other.hero_image_desktop?.alt ?? "",
               description: other.summary ?? "",
               buttonLabel: navigationLabel(`/${other.slug}/`, other.name)
             }
           : null,
       cta: {
-        image: mediaSrc(gallery[gallery.length - 1]?.image ?? raw.hero?.imageDesktop),
+        image: mediaObject(gallery[gallery.length - 1]?.image ?? raw.hero_image_desktop),
         imageAlt:
-          gallery[gallery.length - 1]?.alt ?? raw.hero?.imageDesktop?.alt ?? "",
-        titleHtml: brHtml(homeRaw?.cta?.title),
+          gallery[gallery.length - 1]?.alt ?? raw.hero_image_desktop?.alt ?? "",
+        titleHtml: brHtml(homeRaw?.cta_title),
         text: homeCta.text,
         buttonLabel: homeCta.buttonLabel,
         href: "/contact/"
       },
-      filmUrl: raw.hero?.videoDesktop ?? undefined
+      filmUrl: raw.hero_video_desktop || undefined
     };
   });
 
   const siteSettings = {
-    brand: siteRaw?.brandName ?? "",
+    brand: siteRaw?.brand_name ?? "",
     contactEmail: "info@avistavillas.com",
     contactPhones: ["+30 697 714 8903"],
     addressHtml: brHtml(siteRaw?.address),
     weather: {
-      latitude: siteRaw?.weather?.latitude,
-      longitude: siteRaw?.weather?.longitude,
+      latitude: siteRaw?.weather_latitude,
+      longitude: siteRaw?.weather_longitude,
       label: siteRaw?.tagline ?? ""
     },
     estateFilmUrl,
-    mapQuery: locRaw?.map?.directionsQuery ?? contactRaw?.map?.directionsQuery ?? ""
+    mapQuery: locRaw?.map_directions_query ?? contactRaw?.map_directions_query ?? ""
   };
 
   const mapLinks = (links: any[]) =>
@@ -378,12 +345,13 @@ async function buildContent(): Promise<Content> {
     }));
 
   const navigation = {
-    left: mapLinks(navRaw?.leftLinks),
-    right: mapLinks(navRaw?.rightLinks)
+    left: mapLinks(navRaw?.left_links),
+    right: mapLinks(navRaw?.right_links)
   };
 
   const footer = {
-    text: footRaw?.brandBlurb ?? "",
+    show: footRaw?.show_footer !== false,
+    text: footRaw?.brand_blurb ?? "",
     columns: (Array.isArray(footRaw?.columns) ? footRaw.columns : []).map((column: any) => ({
       heading: column.heading ?? "",
       links: (Array.isArray(column.links) ? column.links : []).map((link: any) => ({
@@ -409,41 +377,42 @@ async function buildContent(): Promise<Content> {
         : ""
     })),
     bottomLeft: siteRaw?.copyright ?? "",
-    bottomRight: siteRaw?.locationSlogan ?? ""
+    bottomRight: siteRaw?.location_slogan ?? ""
   };
 
-  const locationFacts = (Array.isArray(homeRaw?.locationFacts) ? homeRaw.locationFacts : []).map(
+  const locationFacts = (Array.isArray(homeRaw?.location_facts) ? homeRaw.location_facts : []).map(
     (f: any) => ({ value: f.value, label: f.label })
   );
 
   const homePage = {
+    sections: sections(
+      homeRaw,
+      ["hero", "intro", "villas", "gallery", "location", "cta"],
+      ["services"]
+    ),
     seo: {
-      title: homeRaw?.seo?.title ?? siteRaw?.brandName ?? "",
-      description: homeRaw?.seo?.description ?? siteRaw?.defaultSeo?.description ?? ""
+      title: homeRaw?.seo_title ?? siteRaw?.brand_name ?? "",
+      description: homeRaw?.seo_description ?? siteRaw?.default_seo_description ?? ""
     },
-    hero: mapHero(homeRaw?.hero, { page: false }),
+    hero: mapHero(homeRaw, { page: false }),
     intro: {
-      lead: homeRaw?.intro?.lead ?? "",
-      statement: richTextParagraphs(homeRaw?.intro?.statement).join("\n\n")
+      lead: homeRaw?.intro_lead ?? "",
+      statement: richTextParagraphs(homeRaw?.intro_statement).join("\n\n")
     },
     villas: {
-      kicker: homeRaw?.villas?.kicker ?? "",
-      titleHtml: brHtml(homeRaw?.villas?.title),
-      body: homeRaw?.villas?.body ?? "",
-      // `featured` is a hasMany relationship; with depth=2 it resolves to property
-      // objects. Expose the slugs so the page can order/filter the rich property
-      // list it already has. Empty → the page falls back to all properties.
-      featuredSlugs: (Array.isArray(homeRaw?.villas?.featured) ? homeRaw.villas.featured : [])
-        .map((p: any) => (p && typeof p === "object" ? p.slug : null))
-        .filter((slug: any): slug is string => typeof slug === "string" && slug.length > 0)
+      kicker: homeRaw?.villas_kicker ?? "",
+      titleHtml: brHtml(homeRaw?.villas_title),
+      body: homeRaw?.villas_body ?? "",
+      // Empty → the page falls back to all properties.
+      featuredSlugs: featuredVillas.map((villa: any) => villa.data.slug)
     },
     galleryTitleHtml: "",
     galleryNote: "",
     galleryHint: "",
     gallery: (Array.isArray(homeRaw?.gallery) ? homeRaw.gallery : []).map(mapGalleryItem),
     services: {
-      image: mediaSrc(homeRaw?.hero?.imageDesktop),
-      imageAlt: homeRaw?.hero?.imageDesktop?.alt ?? "",
+      image: mediaObject(homeRaw?.hero_image_desktop),
+      imageAlt: homeRaw?.hero_image_desktop?.alt ?? "",
       note: "",
       titleHtml: "",
       items: (Array.isArray(homeRaw?.services) ? homeRaw.services : []).map((s: any) => ({
@@ -454,64 +423,66 @@ async function buildContent(): Promise<Content> {
     },
     location: {
       titleHtml: locTitleHtml,
-      body: homeRaw?.locationSummary ?? "",
-      image: mediaSrc(propsRaw[0]?.hero?.imageDesktop),
-      imageAlt: propsRaw[0]?.hero?.imageDesktop?.alt ?? "",
+      body: homeRaw?.location_summary ?? "",
+      image: mediaObject(propsRaw[0]?.hero_image_desktop),
+      imageAlt: propsRaw[0]?.hero_image_desktop?.alt ?? "",
       facts: locationFacts
     },
     cta: homeCta
   };
 
   const locationPage = {
+    sections: sections(locRaw, ["hero", "cta"], ["overview"]),
     seo: {
-      title: locRaw?.seo?.title ?? siteRaw?.brandName ?? "",
-      description: locRaw?.seo?.description ?? siteRaw?.defaultSeo?.description ?? ""
+      title: locRaw?.seo_title ?? siteRaw?.brand_name ?? "",
+      description: locRaw?.seo_description ?? siteRaw?.default_seo_description ?? ""
     },
-    hero: mapHero(locRaw?.hero, { page: true }),
+    hero: mapHero(locRaw, { page: true }),
     overview: {
       titleHtml: locTitleHtml,
       body: locBody,
-      image: mediaSrc(propsRaw[1]?.hero?.imageDesktop ?? propsRaw[0]?.hero?.imageDesktop),
+      image: mediaObject(propsRaw[1]?.hero_image_desktop ?? propsRaw[0]?.hero_image_desktop),
       imageAlt:
-        propsRaw[1]?.hero?.imageDesktop?.alt ??
-        propsRaw[0]?.hero?.imageDesktop?.alt ??
+        propsRaw[1]?.hero_image_desktop?.alt ??
+        propsRaw[0]?.hero_image_desktop?.alt ??
         "",
-      facts: (Array.isArray(locRaw?.locationFacts) ? locRaw.locationFacts : []).map((f: any) => ({
+      facts: (Array.isArray(locRaw?.location_facts) ? locRaw.location_facts : []).map((f: any) => ({
         value: f.value,
         label: f.label
       }))
     },
     map: {
-      titleHtml: brHtml(locRaw?.map?.label),
+      titleHtml: brHtml(locRaw?.map_label),
       body: "",
-      title: locRaw?.map?.label ?? "",
-      location: mapMap(locRaw?.map)
+      title: locRaw?.map_label ?? "",
+      location: mapMap(locRaw)
     },
-    crossLinks: (Array.isArray(locRaw?.crossLinks) ? locRaw.crossLinks : []).map((link: any) => ({
+    crossLinks: (Array.isArray(locRaw?.cross_links) ? locRaw.cross_links : []).map((link: any) => ({
       label: link.label ?? "",
       href: link.href ?? ""
     })),
-    localGuide: mapLocalGuide(locRaw?.localGuide),
+    localGuide: mapLocalGuide(locRaw),
     cta: homeCta
   };
 
   const contactInvitation = richTextParagraphs(contactRaw?.invitation);
 
   const contactPage = {
+    sections: sections(contactRaw, ["hero", "enquiry", "map"]),
     seo: {
-      title: contactRaw?.seo?.title ?? siteRaw?.brandName ?? "",
-      description: contactRaw?.seo?.description ?? siteRaw?.defaultSeo?.description ?? ""
+      title: contactRaw?.seo_title ?? siteRaw?.brand_name ?? "",
+      description: contactRaw?.seo_description ?? siteRaw?.default_seo_description ?? ""
     },
-    hero: mapHero(contactRaw?.hero, { page: true }),
+    hero: mapHero(contactRaw, { page: true }),
     intro: {
       titleHtml: brHtml(contactInvitation[0] ?? ""),
       body: contactInvitation[1] ?? ""
     },
     map: {
-      titleHtml: brHtml(contactRaw?.map?.label),
+      titleHtml: brHtml(contactRaw?.map_label),
       body: "",
-      title: contactRaw?.map?.label ?? "",
-      location: mapMap(contactRaw?.map)
+      title: contactRaw?.map_label ?? "",
+      location: mapMap(contactRaw)
     }
   };
 
@@ -540,6 +511,26 @@ export async function getNavigation() {
 
 export async function getFooter() {
   return (await loadContent()).footer;
+}
+
+// References live in a join table, so each review's villa is a separate lookup.
+// Only villa pages show reviews; keep that cost off every other page.
+export async function getPropertyReviews(slug: string) {
+  const entries = await fetchCollection("reviews");
+  const villas = await Promise.all(
+    entries.map((entry) => fetchReferences("reviews", entry.data.id, "property"))
+  );
+
+  return entries
+    .filter((_, index) => villas[index][0]?.data.slug === slug)
+    .map(({ data }) => ({
+      authorName: data.author_name,
+      authorLocation: data.author_location ?? "",
+      date: data.date ?? "",
+      score: data.score,
+      quote: data.quote ?? "",
+      source: data.source ?? ""
+    }));
 }
 
 export async function getProperties() {

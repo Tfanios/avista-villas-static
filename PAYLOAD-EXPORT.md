@@ -85,7 +85,7 @@ Without `--download-media`, this offline mode makes no network requests.
 
 ## Import later, after EmDash is set up
 
-Do this in a separate staging EmDash project with a new database. The export
+See `EMDASH-MIGRATION.md` for the steps this project uses. The export
 does not run any of these commands automatically.
 
 1. Review `report.json`, field mappings, and record counts.

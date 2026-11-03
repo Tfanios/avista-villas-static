@@ -1,11 +1,11 @@
 # Image delivery
 
-Photos are optimized during `npm run build` with Astro's image service. Payload
-continues to store the originals; visitors load generated WebP files from
-`/_astro/` on this site.
+EmDash stores original photos in R2. Pages request resized WebP files through
+`/_image`, which EmDash serves using the Cloudflare `IMAGES` binding.
 
 - `src/lib/optimized-image.ts` creates 480, 800, 1200, 1600 and 2400px variants
   at quality 80, capped at the source width so small images are not enlarged.
+  Sizes come from the width and height EmDash stores with each upload.
 - Use `OptimizedImage.astro` for content photos. It supplies responsive sources,
   intrinsic dimensions, asynchronous decoding and lazy loading. Set `sizes` to
   match the displayed width; full-width backgrounds use `100vw`.
@@ -15,12 +15,9 @@ continues to store the originals; visitors load generated WebP files from
 - Gallery cards use previews. The gallery modals receive responsive sources only
   when opened; the largest generated photo is capped at 2400px.
 - SVG logos and the cursor remain vectors.
-- `public/_headers` gives generated assets a one-year immutable browser cache.
-  Astro generates hashed filenames. Upload replacement photos with new filenames
-  rather than overwriting an existing image URL, so build and browser caches can
-  distinguish revisions.
 
-Publish CMS image changes with a fresh build and deployment. The first build
-downloads and transforms originals; retaining `node_modules/.astro` in CI speeds
-up subsequent builds. If the CMS moves, update the image-domain allowlist in
-`astro.config.mjs`.
+Image changes go live when published in the CMS; no rebuild is needed.
+
+Astro only optimizes media from the origin known at build time, so build with
+`EMDASH_SITE_URL` set to the public URL. If it does not match, images still load
+but as full-size originals.

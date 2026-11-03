@@ -1,12 +1,31 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "avista-villas-static",
+  // Separate from the live static Worker (avista-villas-static).
+  "name": "avista-emdash",
+  "main": "./src/worker.ts",
   "compatibility_date": "2026-05-31",
+  "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
   },
-  "assets": {
-    // Astro builds the static site here. Must point at the build output, NOT the repo root.
-    "directory": "./dist"
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "avista-emdash",
+      "database_id": "3d9c2564-f973-4cf6-bfb7-9fbd82e72490"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "avista-emdash-media"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  },
+  // Publishes scheduled entries; see the scheduled handler in src/worker.ts.
+  "triggers": {
+    "crons": ["* * * * *"]
   }
 }

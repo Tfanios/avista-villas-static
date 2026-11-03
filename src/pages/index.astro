@@ -13,7 +13,8 @@ import { getHomePage, getProperties, getSiteSettings } from "../lib/cms";
 const homePage = await getHomePage();
 const properties = await getProperties();
 const siteSettings = await getSiteSettings();
-const hasIntro = !!(homePage.intro.lead || homePage.intro.statement);
+const { sections } = homePage;
+const hasIntro = sections.intro && !!(homePage.intro.lead || homePage.intro.statement);
 
 // The villas section is framed by the `home` global's `villas` group. When it
 // names featured villas, honor that selection/order; otherwise show them all.
@@ -34,10 +35,10 @@ const hasVillasHeader = !!(
   title={homePage.seo.title}
   description={homePage.seo.description}
   currentPath="home"
-  preloadImage={homePage.hero.imageDesktop}
-  preloadMobileImage={homePage.hero.imageMobile}
+  preloadImage={sections.hero ? homePage.hero.imageDesktop : undefined}
+  preloadMobileImage={sections.hero ? homePage.hero.imageMobile : undefined}
 >
-  <Hero hero={{ ...homePage.hero, playOnMobile: true }} />
+  {sections.hero && <Hero hero={{ ...homePage.hero, playOnMobile: true }} />}
 
   {
     hasIntro && (
@@ -52,7 +53,7 @@ const hasVillasHeader = !!(
   }
 
   {
-    villaList.length > 0 && (
+    sections.villas && villaList.length > 0 && (
       <section class="section bg-2" id="villas">
         <div class="wrap">
           {hasVillasHeader && (
@@ -84,14 +85,17 @@ const hasVillasHeader = !!(
     )
   }
 
-  <Gallery
-    titleHtml={homePage.galleryTitleHtml}
-    note={homePage.galleryNote}
-    hint={homePage.galleryHint}
-    items={homePage.gallery}
-  />
+  {sections.gallery && (
+    <Gallery
+      titleHtml={homePage.galleryTitleHtml}
+      note={homePage.galleryNote}
+      hint={homePage.galleryHint}
+      items={homePage.gallery}
+    />
+  )}
 
-  <!-- <section class="section bg-2" id="experience">
+  {sections.services && (
+    <section class="section bg-2" id="experience">
     <div class="wrap exp">
       <div class="exp-figure reveal">
         <OptimizedImage src={homePage.services.image} alt={homePage.services.imageAlt} />
@@ -114,21 +118,24 @@ const hasVillasHeader = !!(
         </ol>
       </div>
     </div>
-  </section> -->
+    </section>
+  )}
 
-  <LocationBlock
-    titleHtml={homePage.location.titleHtml}
-    body={homePage.location.body}
-    image={homePage.location.image}
-    imageAlt={homePage.location.imageAlt}
-    facts={homePage.location.facts}
-    deep
-  />
+  {sections.location && (
+    <LocationBlock
+      titleHtml={homePage.location.titleHtml}
+      body={homePage.location.body}
+      image={homePage.location.image}
+      imageAlt={homePage.location.imageAlt}
+      facts={homePage.location.facts}
+      deep
+    />
+  )}
 
-  <Cta cta={homePage.cta} />
+  {sections.cta && <Cta cta={homePage.cta} />}
 
   <Fragment slot="overlays">
-    {homePage.gallery.length > 0 && <Lightbox label={siteSettings.brand} />}
+    {sections.gallery && homePage.gallery.length > 0 && <Lightbox label={siteSettings.brand} />}
     {siteSettings.estateFilmUrl && (
       <VideoModal src={siteSettings.estateFilmUrl} label={siteSettings.brand} />
     )}

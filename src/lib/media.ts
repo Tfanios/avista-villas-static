@@ -1,11 +1,8 @@
-// Media contract shared by the front end and the Payload CMS.
+// Media contract shared by the front end and EmDash.
 //
-// The data layer (src/lib/cms.ts) feeds Payload upload objects — absolute `url`,
-// intrinsic width/height and (eventually) `imageSizes`/blur placeholder — while
-// some components still pass plain string asset paths. `resolveImage` normalizes
-// BOTH into the attributes an <img>/<picture> needs: when the CMS starts sending
-// `sizes`, srcset/responsive loading light up automatically with no component
-// changes; plain strings degrade to a simple `src`.
+// The data layer (src/lib/cms.ts) feeds EmDash media objects with an absolute
+// `url` and intrinsic width/height, while some components pass plain string asset
+// paths. `resolveImage` normalizes both into the attributes an <img>/<picture> needs.
 
 export interface MediaSize {
   url?: string;
@@ -21,7 +18,7 @@ export interface MediaObject {
   width?: number;
   height?: number;
   blurDataURL?: string;
-  // Payload returns sizes keyed by name; an array is also accepted.
+  // Sizes keyed by name; an array is also accepted.
   sizes?: Record<string, MediaSize | null | undefined> | MediaSize[];
 }
 
