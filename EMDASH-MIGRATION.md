@@ -54,7 +54,8 @@ the production domain.
 3. Keep Payload online until the wizard finishes; it copies all media.
 4. Check the site. Staging serves full-size images and is marked `noindex`; both
    are expected.
-5. Move `avistavillas.com` to this Worker, then submit
+5. Move `avistavillas.com` to this Worker and purge the Cloudflare cache, because
+   the edge can keep serving the old homepage and its image paths. Then submit
    `https://avistavillas.com/sitemap.xml` in Google Search Console.
 
 The Worker is about 4.3 MB gzipped, so it needs the Workers Paid plan.
