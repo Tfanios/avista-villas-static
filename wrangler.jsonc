@@ -37,6 +37,12 @@
   "images": {
     "binding": "IMAGES"
   },
+  // Runs sandboxed EmDash plugins; sandbox() in astro.config.mjs looks for this name.
+  "worker_loaders": [
+    {
+      "binding": "LOADER"
+    }
+  ],
   // Publishes scheduled entries; see the scheduled handler in src/worker.ts.
   "triggers": {
     "crons": ["* * * * *"]
