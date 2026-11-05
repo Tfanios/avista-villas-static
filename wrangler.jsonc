@@ -8,6 +8,11 @@
   "observability": {
     "enabled": true
   },
+  // Read at runtime. The allowedOrigins option in astro.config.mjs never reaches the
+  // Worker, so passkeys from staging would be rejected without this.
+  "vars": {
+    "EMDASH_ALLOWED_ORIGINS": "https://staging.avistavillas.com"
+  },
   // workers.dev would be a second public door to the setup wizard.
   "workers_dev": false,
   "preview_urls": false,

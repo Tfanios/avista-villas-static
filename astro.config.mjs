@@ -18,9 +18,6 @@ export default defineConfig({
       database: d1({ binding: "DB" }),
       storage: r2({ binding: "MEDIA" }),
       siteUrl,
-      // Lets setup run on a subdomain while the live site still owns the apex.
-      // Only valid alongside the production siteUrl.
-      allowedOrigins: siteUrl.endsWith("avistavillas.com") ? ["https://staging.avistavillas.com"] : []
     })
   ],
   // EmDash routes have no trailing slash; src/middleware.ts keeps it on public pages.
