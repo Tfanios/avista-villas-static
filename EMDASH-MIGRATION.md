@@ -36,11 +36,17 @@ The production domain is `https://avistavillas.com`, which still serves the live
 site. Set up on the staging subdomain first; passkeys created there also work on
 the production domain.
 
-1. Add `staging.avistavillas.com` as a custom domain for this Worker, then deploy:
+1. Deploy. `wrangler.jsonc` attaches `staging.avistavillas.com` and
+   `www.avistavillas.com`; `www` redirects to the bare domain.
 
    ```sh
    npm run deploy
    ```
+
+   If staging answers 503 with "Database migrations are required", finish them with
+   `npx emdash migrate --d1 <database id>` and `CLOUDFLARE_API_TOKEN` set. A run the
+   Worker abandoned leaves a lock: `--status --json` shows its id and the target
+   fingerprint, then pass `--take-over-lock` and `--expected-target-fingerprint`.
 
 2. Open `https://staging.avistavillas.com/_emdash/admin` straight away and finish
    the setup wizard with sample content enabled. Until then, the first visitor can

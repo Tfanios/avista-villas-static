@@ -8,6 +8,14 @@
   "observability": {
     "enabled": true
   },
+  // workers.dev would be a second public door to the setup wizard.
+  "workers_dev": false,
+  "preview_urls": false,
+  // The apex stays on avista-villas-static until cutover; see EMDASH-MIGRATION.md.
+  "routes": [
+    { "pattern": "staging.avistavillas.com", "custom_domain": true },
+    { "pattern": "www.avistavillas.com", "custom_domain": true }
+  ],
   "d1_databases": [
     {
       "binding": "DB",

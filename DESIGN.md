@@ -11,30 +11,30 @@ colors:
   pine-text: "#ECE5D6"
 typography:
   hero:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
-    fontSize: "clamp(3.1rem, 9.2vw, 8.6rem)"
-    fontWeight: 330
-    lineHeight: 0.94
+    fontFamily: "Playfair Display, Georgia, serif"
+    fontSize: "clamp(2.6rem, 6.6vw, 4.6rem)"
+    fontWeight: 400
+    lineHeight: 1.06
     letterSpacing: "-0.02em"
   display:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
-    fontSize: "clamp(2.7rem, 6.4vw, 5.6rem)"
-    fontWeight: 340
-    lineHeight: 0.96
+    fontFamily: "Playfair Display, Georgia, serif"
+    fontSize: "clamp(2.4rem, 5.4vw, 4.8rem)"
+    fontWeight: 400
+    lineHeight: 1.06
     letterSpacing: "-0.012em"
   headline:
-    fontFamily: "Cormorant Garamond, Georgia, serif"
-    fontSize: "clamp(2.1rem, 4.6vw, 3.9rem)"
-    fontWeight: 340
-    lineHeight: 1.04
+    fontFamily: "Playfair Display, Georgia, serif"
+    fontSize: "clamp(1.85rem, 3.9vw, 3.3rem)"
+    fontWeight: 400
+    lineHeight: 1.12
     letterSpacing: "-0.01em"
   body:
-    fontFamily: "Jost, system-ui, sans-serif"
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
     fontSize: "1.0625rem"
-    fontWeight: 350
+    fontWeight: 400
     lineHeight: 1.65
   label:
-    fontFamily: "Jost, system-ui, sans-serif"
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
     fontSize: "0.74rem"
     fontWeight: 500
     lineHeight: 1
@@ -113,25 +113,25 @@ The palette is a restrained private-estate palette: warm neutral surfaces, dark 
 
 ## 3. Typography
 
-**Display Font:** Cormorant Garamond, with Georgia fallback.
-**Body Font:** Jost, with system-ui fallback.
-**Label/Mono Font:** No mono font. Labels use Jost with tracking.
+**Display Font:** Playfair Display, with Georgia fallback. Numerals use lining figures because its defaults are old-style.
+**Body Font:** Hanken Grotesk, with system-ui fallback.
+**Label/Mono Font:** No mono font. Labels use Hanken Grotesk with tracking.
 
 **Character:** The pairing reads like a private estate brochure: a soft serif for atmosphere and a plain sans for practical information. The serif can be expressive in hero and villa headings; the sans should stay quiet and useful.
 
 ### Hierarchy
 
-- **Hero** (330, clamp(3.1rem, 9.2vw, 8.6rem), 0.94): Used only for full-bleed hero titles. Future work should test mobile overflow and avoid increasing this scale further.
-- **Display** (340, clamp(2.7rem, 6.4vw, 5.6rem), 0.96): Used for large CTA statements and high-drama section moments.
-- **Headline** (340, clamp(2.1rem, 4.6vw, 3.9rem), 1.04): Used for section headings, location headings, and villa detail page headings.
-- **Villa Title** (340, clamp(2.3rem, 5vw, 4.2rem), 1.02): Used for the villa comparison blocks and detailed house features.
-- **Lead** (360, clamp(1.5rem, 2.5vw, 2.15rem), 1.32): Used for introductory statements and house overview copy.
-- **Body** (350, 1.0625rem, 1.65): Used for paragraphs. Keep line length near 46ch for supporting copy and below 75ch for longer text.
+- **Hero** (400, clamp(2.6rem, 6.6vw, 4.6rem), 1.06): Used only for full-bleed hero titles. Future work should test mobile overflow and avoid increasing this scale further.
+- **Display** (400, clamp(2.4rem, 5.4vw, 4.8rem), 1.06): Used for large CTA statements and high-drama section moments.
+- **Headline** (400, clamp(1.85rem, 3.9vw, 3.3rem), 1.12): Used for section headings, location headings, and villa detail page headings.
+- **Villa Title** (400, clamp(2rem, 4.3vw, 3.6rem), 1.1): Used for the villa comparison blocks and detailed house features.
+- **Lead** (400, clamp(1.3rem, 2vw, 1.75rem), 1.42): Used for introductory statements and house overview copy.
+- **Body** (400, 1.0625rem, 1.65): Used for paragraphs. Keep line length near 46ch for supporting copy and below 75ch for longer text.
 - **Label** (500, 0.72rem to 0.78rem, 0.16em to 0.32em tracking): Used for navigation, short section markers, buttons, and stat labels. Keep labels short.
 
 ### Named Rules
 
-**The One Serif Voice Rule.** Cormorant Garamond owns atmosphere. Do not add another display serif, script, or decorative face.
+**The One Serif Voice Rule.** Playfair Display owns atmosphere. Do not add another display serif, script, or decorative face.
 
 **The Label Restraint Rule.** Tracked uppercase labels are part of the current system, but they must not become the only section grammar. Use them for navigation, buttons, and key orientation; avoid repeating them above every heading by reflex.
 
