@@ -8,9 +8,12 @@
   var lastDialogFocus = null;
 
   document.querySelectorAll("[data-hero-video]").forEach(function(video){
-    video.addEventListener("error", function(){ video.hidden = true; }, true);
-    // Keep the responsive picture visible until playback actually starts.
-    video.addEventListener("playing", function(){ video.hidden = false; });
+    // Keep the responsive picture visible until playback actually starts. Fade the
+    // video in with opacity, not `hidden`: mobile Safari and Chrome never start a
+    // muted autoplay video that is display:none, so `playing` would never fire.
+    function hide(){ video.classList.remove("is-playing"); }
+    video.addEventListener("error", hide, true);
+    video.addEventListener("playing", function(){ video.classList.add("is-playing"); });
 
     var isMobile = window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
     var playMobile = video.getAttribute("data-play-mobile") === "1";
@@ -27,7 +30,7 @@
     video.muted = true;
     video.src = src;
     var p = video.play();
-    if(p && p.catch) p.catch(function(){ video.hidden = true; });
+    if(p && p.catch) p.catch(hide);
   });
 
   function lockScroll(){
