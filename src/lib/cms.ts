@@ -89,17 +89,17 @@ function hrefToKey(href: string): string {
 // CMS amenity/service `iconKey` values mapped onto the keys Icon.astro draws.
 const ICON_KEY_MAP: Record<string, string> = {
   bed: "bed",
-  bath: "frame",
+  bath: "bath",
   pool: "waves",
   view: "eye",
   kitchen: "fork",
   garden: "leaf",
   wifi: "wifi",
-  parking: "frame",
-  accessible: "frame",
+  parking: "parking",
+  accessible: "accessible",
   bbq: "flame",
-  concierge: "frame",
-  chef: "fork"
+  concierge: "concierge",
+  chef: "chef"
 };
 
 function iconFor(key?: string | null): string {
@@ -282,7 +282,7 @@ async function buildContent(): Promise<Content> {
       },
       amenities: Array.isArray(raw.amenities)
         ? raw.amenities.map((a: any) => ({
-            icon: iconFor(a.iconKey),
+            icon: iconFor(a.icon_key ?? a.iconKey),
             title: a.title,
             description: a.description ?? ""
           }))
@@ -419,8 +419,8 @@ async function buildContent(): Promise<Content> {
       imageAlt: homeRaw?.hero_image_desktop?.alt ?? "",
       note: "",
       titleHtml: "",
-      items: (Array.isArray(homeRaw?.services) ? homeRaw.services : []).map((s: any) => ({
-        label: s.iconKey ?? "",
+      items: (Array.isArray(homeRaw?.services) ? homeRaw.services : []).map((s: any, i: number) => ({
+        label: String(i + 1).padStart(2, "0"),
         title: s.title,
         description: s.description ?? ""
       }))
