@@ -483,7 +483,7 @@ em,.it{font-style:italic}
 .foot .brand-lg .dot{color:var(--accent)}
 .foot .brand-lg img{display:block;height:clamp(3rem,6vw,4.4rem);width:auto;
   filter:brightness(0) invert(1)}
-.foot-col h4{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-family:var(--font-sans);font-weight:600;
+.foot-col h2{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;font-family:var(--font-sans);font-weight:600;
   color:color-mix(in oklab,var(--on-deep) 60%,transparent);margin:0 0 1.1rem}
 .foot-col a,.foot-col p{display:block;color:color-mix(in oklab,var(--on-deep) 86%,transparent);
   font-size:.95rem;margin:.5rem 0;font-weight:400}
@@ -575,6 +575,7 @@ em,.it{font-style:italic}
 .modal{position:fixed;inset:0;z-index:130;background:rgba(12,12,10,.94);display:grid;place-items:center;
   opacity:0;pointer-events:none;transition:opacity .45s var(--ease);padding:4vw}
 .modal.open{opacity:1;pointer-events:auto}
+.modal[hidden],.lb[hidden],.gm[hidden]{display:none}
 .modal .frame{width:min(1100px,94vw);aspect-ratio:16/9;background:#000;box-shadow:0 24px 72px rgba(0,0,0,.48);overflow:hidden;border-radius:var(--radius)}
 .modal iframe{width:100%;height:100%;border:0}
 .modal .x{position:absolute;top:22px;right:26px;color:#fff;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;background:none;border:0;padding:.75rem}

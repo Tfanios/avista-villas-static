@@ -26,7 +26,7 @@ const siteSettings = await getSiteSettings();
       {
         footer.columns.map((column: any) => (
           <div class="foot-col">
-            {column.heading && <h4>{column.heading}</h4>}
+            {column.heading && <h2>{column.heading}</h2>}
             {column.links.map((item: any) => (
               <a href={item.href}>{item.label}</a>
             ))}

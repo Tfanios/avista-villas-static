@@ -24,7 +24,7 @@ const { property, flip = false } = Astro.props;
         )}
       </div>
       <div class="villa-body">
-        {property.numeral && <span class="villa-num">{property.numeral}</span>}
+        {property.numeral && <span class="villa-num" aria-hidden="true">{property.numeral}</span>}
         {property.tag && <span class="villa-tag">{property.tag}</span>}
         {property.name && <h2 class="h-villa">{property.name}</h2>}
         {property.comparison.description && (

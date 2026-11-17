@@ -47,8 +47,20 @@
     return !!(el && el.classList.contains("open"));
   }
 
+  // Closed dialogs carry the `hidden` attribute so their controls ("Close",
+  // "1 / 1") stay out of the page text; it is lifted before the fade-in and
+  // restored once the fade-out has finished.
   function setDialogState(el, open){
     if(!el) return;
+    clearTimeout(el._hideTimer);
+    if(open){
+      el.hidden = false;
+      void el.offsetWidth;
+    } else {
+      el._hideTimer = setTimeout(function(){
+        if(!isOpen(el)) el.hidden = true;
+      }, 450);
+    }
     el.classList.toggle("open", open);
     el.setAttribute("aria-hidden", open ? "false" : "true");
   }

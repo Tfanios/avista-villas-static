@@ -13,6 +13,7 @@ const { label = "Photo gallery" } = Astro.props;
   aria-modal="true"
   aria-label={`${label} — all photos`}
   aria-hidden="true"
+  hidden
   tabindex="-1"
 >
   <header class="gm-bar">
@@ -44,6 +45,7 @@ const { label = "Photo gallery" } = Astro.props;
   aria-modal="true"
   aria-label={label}
   aria-hidden="true"
+  hidden
   tabindex="-1"
 >
   <header class="lb-bar">
