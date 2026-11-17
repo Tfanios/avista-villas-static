@@ -360,6 +360,7 @@ em,.it{font-style:italic}
 .review-card:hover,.review-card:focus-visible{transform:translateY(-2px)}
 .review-card::after{content:none}
 .deep .review-card{background:color-mix(in oklab,var(--on-deep) 6%,var(--deep));border-color:color-mix(in oklab,var(--on-deep) 14%,transparent)}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .rev-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .rev-logo{display:inline-flex;align-items:center;gap:.5em;font-family:var(--font-sans);
   font-weight:500;font-size:.9rem;letter-spacing:.08em;text-transform:capitalize;color:var(--ink-soft)}

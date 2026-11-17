@@ -4,6 +4,14 @@ interface Props {
 }
 
 const { reviews } = Astro.props;
+
+// CMS `source` keys mapped to the platform names guests recognise.
+const SOURCE_NAMES: Record<string, string> = {
+  booking: "Booking.com",
+  airbnb: "Airbnb",
+  google: "Google"
+};
+const sourceName = (key?: string) => (key ? SOURCE_NAMES[key.toLowerCase()] ?? key : "");
 ---
 
 {
@@ -14,10 +22,12 @@ const { reviews } = Astro.props;
           {reviews.map((review) => (
             <div class="card review-card">
               <div class="rev-head">
-                {review.source && <span class="rev-logo">{review.source}</span>}
-                <span class="rev-score" aria-label={`Scored ${review.score} out of 10`}>
-                  {review.score}
-                </span>
+                {review.source && <span class="rev-logo">{sourceName(review.source)}</span>}
+                {review.score != null && (
+                  <span class="rev-score">
+                    <span class="vh">Rated </span>{review.score}<span class="vh"> out of 10</span>
+                  </span>
+                )}
               </div>
               <p class="rev-quote">"{review.quote}"</p>
               <div class="rev-by">
